@@ -3,28 +3,48 @@ import Link from 'next/link';
 import { GiveawayForm } from '@/components/GiveawayForm';
 import TrackSignUpButton from '@/components/TrackSignUpButton';
 import { GoogleAnalytics } from '@/components/GoogleAnalytics';
+import { FAQSchema } from '@/components/StructuredData';
 
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'KakoBuy Spreadsheet 2025 | 10,000+ Verified Finds, QC Photos & Exclusive Coupons',
-  description: 'Access the #1 KakoBuy Spreadsheet with 10,000+ verified products, live QC photos, exclusive coupons & weekly finds. Updated daily. Best replica shopping guide for KakoBuy users.',
+  title: 'KakoBuy Spreadsheet 2025 | #1 Free Price List with 10,000+ Products - USA, Germany, Poland',
+  description: 'Official KakoBuy Spreadsheet 2025: 10,000+ verified products, QC photos, exclusive coupons. Best free KakoBuy price list for USA, Germany, Poland. Updated daily. Download now!',
   metadataBase: new URL('https://kakobuy-spreadsheet.com'),
   keywords: [
+    // Exact match primary keyword
     'kakobuy spreadsheet',
+
+    // Target countries
+    'kakobuy spreadsheet usa',
+    'kakobuy spreadsheet germany',
+    'kakobuy spreadsheet deutschland',
+    'kakobuy spreadsheet poland',
+    'kakobuy spreadsheet polska',
+
+    // High-value modifiers
+    'kakobuy spreadsheet 2025',
+    'kakobuy spreadsheet free',
+    'kakobuy spreadsheet download',
+    'best kakobuy spreadsheet',
+
+    // Related searches
+    'kakobuy price list',
     'kakobuy price list 2025',
     'kakobuy finds',
     'kakobuy coupons',
     'kakobuy qc photos',
     'kakobuy verified items',
-    'best kakobuy spreadsheet',
     'kakobuy shopping guide',
-    'replica spreadsheet kakobuy',
     'kakobuy coupon codes',
     'kakobuy product list',
-    'chinese shopping spreadsheet',
     'kakobuy haul',
     'kakobuy reviews',
+
+    // Long-tail
+    'where to find kakobuy spreadsheet',
+    'kakobuy spreadsheet with prices',
+    'kakobuy verified sellers',
   ],
   openGraph: {
     title: 'KakoBuy Spreadsheet 2025 | 10,000+ Verified Products & QC Photos',
@@ -179,8 +199,34 @@ const faqs = [
 ];
 
 export default function Home() {
+  // FAQ data for schema
+  const faqData = [
+    {
+      question: "What is the KakoBuy Spreadsheet?",
+      answer: "The KakoBuy Spreadsheet is the most comprehensive database of verified KakoBuy products with 10,000+ items, including prices, QC photos, seller links, and exclusive coupon codes. It's updated daily and completely free to access."
+    },
+    {
+      question: "How often is the KakoBuy Spreadsheet updated?",
+      answer: "Our KakoBuy spreadsheet is updated daily with new products, price changes, and stock availability. We monitor over 200 verified sellers 24/7 to ensure you get the latest information."
+    },
+    {
+      question: "Is the KakoBuy Spreadsheet free?",
+      answer: "Yes! The KakoBuy Spreadsheet is completely free to access. We provide free access to all 10,000+ products, QC photos, and exclusive coupon codes without any subscription fees."
+    },
+    {
+      question: "Which countries can use the KakoBuy Spreadsheet?",
+      answer: "The KakoBuy Spreadsheet is available worldwide, with optimized shipping information for USA, Germany, Poland, UK, Canada, Australia, and other countries. All prices are shown in USD with CNY conversion."
+    },
+    {
+      question: "How do I access exclusive KakoBuy coupons?",
+      answer: "Exclusive KakoBuy coupon codes are included throughout our spreadsheet. Simply browse products and look for the coupon codes section. Our codes can save you 15-25% on your orders."
+    },
+  ];
+
   return (
     <div className="min-h-screen bg-white">
+      {/* FAQ Schema for SEO */}
+      <FAQSchema faqs={faqData} />
       
       {/* Hero Section - Enhanced */}
       <section className="relative bg-gradient-to-br from-blue-50 via-white to-purple-50 py-16 md:py-24 px-4 overflow-hidden">

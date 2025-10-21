@@ -2,6 +2,7 @@
 'use client';
 
 import { useState } from 'react';
+import { trackConversionOnly } from '@/lib/gtag-ads';
 
 export function GiveawayForm() {
   const [email, setEmail] = useState('');
@@ -24,6 +25,9 @@ export function GiveawayForm() {
       if (res.ok) {
         setStatus({ message: data.message, isError: false });
         setEmail('');
+
+        // Track Google Ads conversion on successful signup
+        trackConversionOnly();
       } else {
         setStatus({ message: data.message, isError: true });
       }

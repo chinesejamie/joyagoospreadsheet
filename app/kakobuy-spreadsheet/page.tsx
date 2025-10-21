@@ -3,12 +3,13 @@
 import Link from 'next/link';
 import ProductCard from '@/components/ProductCard';
 import ProductPageHeroProducts from '@/components/ProductPageHeroProducts';
+import { CollectionPageSchema, BreadcrumbSchema } from '@/components/StructuredData';
 import type { Metadata } from 'next';
 
 export async function generateMetadata(): Promise<Metadata> {
-  const title = 'KakoBuy Spreadsheet | Find the Best Deals';
-  const description = 'Discover thousands of Chinese products with verified pricing, boosted offers, and detailed listings. Updated daily on KakoBuy Spreadsheet.';
-  const imageUrl = 'https://orientdigfinds.com/images/seo-cover.webp';
+  const title = 'KakoBuy Spreadsheet 2025 | Browse 10,000+ Products with Prices & QC Photos';
+  const description = 'Browse the complete KakoBuy Spreadsheet: 10,000+ verified products with USD prices, QC photos, seller ratings. Free access. Best for USA, Germany, Poland. Updated daily.';
+  const imageUrl = 'https://kakobuy-spreadsheet.com/images/seo-cover.webp';
 
   return {
     title,
@@ -17,11 +18,16 @@ export async function generateMetadata(): Promise<Metadata> {
     keywords: [
       'kakobuy spreadsheet',
       'kakobuy price list',
-      'find Chinese products',
-      'product verification',
-      'boosted products',
-      'CNY to USD converter',
-      'kakobuy affiliate deals',
+      'kakobuy products',
+      'kakobuy spreadsheet 2025',
+      'kakobuy database',
+      'kakobuy product list',
+      'kakobuy prices usd',
+      'kakobuy qc photos',
+      'kakobuy verified sellers',
+      'browse kakobuy spreadsheet',
+      'kakobuy spreadsheet free',
+      'kakobuy spreadsheet download',
     ],
     openGraph: {
       title,
@@ -33,7 +39,7 @@ export async function generateMetadata(): Promise<Metadata> {
           url: imageUrl,
           width: 1200,
           height: 630,
-          alt: 'KakoBuy Spreadsheet',
+          alt: 'KakoBuy Spreadsheet - Browse 10,000+ Products',
         },
       ],
       locale: 'en_US',
@@ -47,6 +53,21 @@ export async function generateMetadata(): Promise<Metadata> {
     },
     alternates: {
       canonical: '/kakobuy-spreadsheet',
+      languages: {
+        'en-US': '/kakobuy-spreadsheet',
+        'de-DE': '/kakobuy-spreadsheet',
+        'pl-PL': '/kakobuy-spreadsheet',
+      },
+    },
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        'max-image-preview': 'large',
+        'max-snippet': -1,
+      },
     },
   };
 }
@@ -206,9 +227,22 @@ export default async function KakoBuySpreadsheetPage({
     return Array.from({ length: end - start + 1 }, (_, i) => start + i);
   };
 
+  // Breadcrumb data for schema
+  const breadcrumbs = [
+    { name: 'Home', url: 'https://kakobuy-spreadsheet.com' },
+    { name: 'KakoBuy Spreadsheet', url: 'https://kakobuy-spreadsheet.com/kakobuy-spreadsheet' },
+  ];
+
   return (
     <>
+      {/* Schema.org structured data */}
+      <CollectionPageSchema />
+      <BreadcrumbSchema items={breadcrumbs} />
+
       <ProductPageHeroProducts />
+
+      {/* H1 for SEO - visually hidden */}
+      <h1 className="sr-only">KakoBuy Spreadsheet 2025 - Complete Product Database</h1>
 
       <div className="h-full my-4">
         <div className="grid max-w-screen-xl px-4 mx-auto w-full animate-page-fade-in">

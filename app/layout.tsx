@@ -6,6 +6,7 @@ import Header from '@/components/Header';
 import TopBanner from '@/components/TopBanner';
 import PromoPopup from '@/components/PromoPopup';
 import { SpeedInsights } from "@vercel/speed-insights/next"
+import { OrganizationSchema, WebSiteSchema } from '@/components/StructuredData';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -19,6 +20,34 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
+        {/* Hreflang tags for international SEO */}
+        <link rel="alternate" hrefLang="en" href="https://kakobuy-spreadsheet.com" />
+        <link rel="alternate" hrefLang="en-us" href="https://kakobuy-spreadsheet.com" />
+        <link rel="alternate" hrefLang="en-gb" href="https://kakobuy-spreadsheet.com" />
+        <link rel="alternate" hrefLang="de" href="https://kakobuy-spreadsheet.com" />
+        <link rel="alternate" hrefLang="de-de" href="https://kakobuy-spreadsheet.com" />
+        <link rel="alternate" hrefLang="pl" href="https://kakobuy-spreadsheet.com" />
+        <link rel="alternate" hrefLang="pl-pl" href="https://kakobuy-spreadsheet.com" />
+        <link rel="alternate" hrefLang="x-default" href="https://kakobuy-spreadsheet.com" />
+
+        {/* Structured Data - Organization & Website */}
+        <OrganizationSchema />
+        <WebSiteSchema />
+
+        {/* Google Tag Manager */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+              new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+              j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+              'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+              })(window,document,'script','dataLayer','GTM-5Z56S4H7');
+            `,
+          }}
+        />
+        {/* End Google Tag Manager */}
+
         {/* TikTok Pixel Code Start */}
         <script
           dangerouslySetInnerHTML={{
@@ -58,6 +87,17 @@ export default function RootLayout({
         {/* TikTok Pixel Code End */}
       </head>
       <body className={inter.className}>
+        {/* Google Tag Manager (noscript) */}
+        <noscript>
+          <iframe
+            src="https://www.googletagmanager.com/ns.html?id=GTM-5Z56S4H7"
+            height="0"
+            width="0"
+            style={{ display: 'none', visibility: 'hidden' }}
+          />
+        </noscript>
+        {/* End Google Tag Manager (noscript) */}
+
         <PromoPopup />
         <TopBanner />
         <Header />
