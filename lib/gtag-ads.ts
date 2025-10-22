@@ -34,9 +34,6 @@ export const pushToDataLayer = (eventName: string, eventData?: Record<string, an
 export const gtagSendEvent = (url?: string, eventParameters?: Record<string, any>) => {
   if (typeof window === 'undefined') {
     console.warn('[GTM] Window not available');
-    if (url) {
-      window.location.href = url;
-    }
     return false;
   }
 

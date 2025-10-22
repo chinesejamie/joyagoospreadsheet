@@ -4,7 +4,6 @@ import { GiveawayForm } from '@/components/GiveawayForm';
 import TrackSignUpButton from '@/components/TrackSignUpButton';
 import { GoogleAnalytics } from '@/components/GoogleAnalytics';
 import { FAQSchema } from '@/components/StructuredData';
-
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -146,83 +145,72 @@ const features = [
 const faqs = [
   {
     id: 1,
-    question: `What Makes Our KakoBuy Spreadsheet Different?`,
-    answer: `Our KakoBuy spreadsheet is the most comprehensive database online with 10,000+ verified products. Unlike basic spreadsheets, we provide live QC photos, exclusive coupon codes, detailed size charts, and expert reviews. Every product is tested by our team before being added to ensure quality and authenticity.`,
+    question: "What Makes Our KakoBuy Spreadsheet Different?",
+    answer: "Our KakoBuy spreadsheet is the most comprehensive database online with 10,000+ verified products. Unlike basic spreadsheets, we provide live QC photos, exclusive coupon codes, detailed size charts, and expert reviews. Every product is tested by our team before being added to ensure quality and authenticity.",
     open: false,
   },
   {
     id: 2,
-    question: `How Often Is the KakoBuy Spreadsheet Updated?`,
-    answer: `Our KakoBuy spreadsheet is updated daily with new finds, stock levels, and price changes. We monitor over 200 trusted sellers 24/7 to ensure you never miss a restock or price drop. Premium members get instant notifications for new additions and exclusive deals.`,
+    question: "How Often Is the KakoBuy Spreadsheet Updated?",
+    answer: "Our KakoBuy spreadsheet is updated daily with new finds, stock levels, and price changes. We monitor over 200 trusted sellers 24/7 to ensure you never miss a restock or price drop. Premium members get instant notifications for new additions and exclusive deals.",
     open: false,
   },
   {
     id: 3,
     question: "Are the KakoBuy Coupon Codes Really Exclusive?",
-    answer: `Yes! We negotiate special discount codes directly with KakoBuy sellers that aren't available anywhere else. Our members save an average of $150+ per order using our exclusive coupon codes. New codes are added weekly and sent directly to your email.`,
+    answer: "Yes! We negotiate special discount codes directly with KakoBuy sellers that aren't available anywhere else. Our members save an average of $150+ per order using our exclusive coupon codes. New codes are added weekly and sent directly to your email.",
     open: false,
   },
   {
     id: 4,
     question: "Can I Request Specific Products for the KakoBuy Spreadsheet?",
-    answer: `Absolutely! Join our Discord community and request any product with an image. Our expert team will find the best version available on KakoBuy within 24-48 hours. We've successfully sourced over 5,000 custom requests from our community members.`,
+    answer: "Absolutely! Join our Discord community and request any product with an image. Our expert team will find the best version available on KakoBuy within 24-48 hours. We've successfully sourced over 5,000 custom requests from our community members.",
     open: false,
   },
   {
     id: 5,
-    question: `Complete KakoBuy Shopping Guide - Step by Step`,
-    answer: `<ol class="space-y-3">
-      <li><strong>1. Browse Our KakoBuy Spreadsheet:</strong> Use filters to find your desired category, brand, or price range. Every item includes detailed photos and sizing information.</li>
-      <li><strong>2. Check QC Photos:</strong> View real customer photos and our expert quality assessments. Look for our quality rating (A+ to C grade) for each product.</li>
-      <li><strong>3. Apply Exclusive Coupons:</strong> Use our member-only coupon codes for instant savings. Codes are updated weekly and can save you up to 25%.</li>
-      <li><strong>4. Calculate Total Costs:</strong> Use KakoBuy's shipping estimator. Factor in product cost + shipping + any taxes. Our spreadsheet shows estimated total costs.</li>
-      <li><strong>5. Place Your Order:</strong> Click the direct link from our spreadsheet to the KakoBuy product page. Add to cart and complete payment via PayPal or card.</li>
-      <li><strong>6. Track Your Order:</strong> Monitor status from "Processing" to "Warehouse" to "Shipped". We provide tracking guides for each shipping method.</li>
-      <li><strong>7. QC Photo Review:</strong> Once at KakoBuy warehouse, you'll receive QC photos. Compare with our database photos to ensure quality matches expectations.</li>
-      <li><strong>8. Approve Shipment:</strong> Once satisfied with QC photos, approve international shipping. Choose from 5+ shipping options based on speed vs. cost preference.</li>
-    </ol>
-    <p class="mt-4 p-4 bg-blue-50 rounded-lg"><strong>💡 Pro Tip:</strong> Join our Discord for live support during your first order. Our community helps 500+ new buyers monthly navigate their first KakoBuy purchase successfully.</p>`,
+    question: "Complete KakoBuy Shopping Guide - Step by Step",
+    answer: '<ol class="space-y-3"><li><strong>1. Browse Our KakoBuy Spreadsheet:</strong> Use filters to find your desired category, brand, or price range. Every item includes detailed photos and sizing information.</li><li><strong>2. Check QC Photos:</strong> View real customer photos and our expert quality assessments. Look for our quality rating (A+ to C grade) for each product.</li><li><strong>3. Apply Exclusive Coupons:</strong> Use our member-only coupon codes for instant savings. Codes are updated weekly and can save you up to 25%.</li><li><strong>4. Calculate Total Costs:</strong> Use KakoBuy shipping estimator. Factor in product cost + shipping + any taxes. Our spreadsheet shows estimated total costs.</li><li><strong>5. Place Your Order:</strong> Click the direct link from our spreadsheet to the KakoBuy product page. Add to cart and complete payment via PayPal or card.</li><li><strong>6. Track Your Order:</strong> Monitor status from Processing to Warehouse to Shipped. We provide tracking guides for each shipping method.</li><li><strong>7. QC Photo Review:</strong> Once at KakoBuy warehouse, you will receive QC photos. Compare with our database photos to ensure quality matches expectations.</li><li><strong>8. Approve Shipment:</strong> Once satisfied with QC photos, approve international shipping. Choose from 5+ shipping options based on speed vs. cost preference.</li></ol><p class="mt-4 p-4 bg-blue-50 rounded-lg"><strong>Pro Tip:</strong> Join our Discord for live support during your first order. Our community helps 500+ new buyers monthly navigate their first KakoBuy purchase successfully.</p>',
     open: false,
   },
   {
     id: 6,
     question: "What's Included in KakoBuy Spreadsheet Premium Access?",
-    answer: `Premium KakoBuy Spreadsheet access includes: Unlimited downloads of our complete product database, early access to weekly finds (24h before public release), exclusive VIP coupon codes (save 15-25% extra), priority customer support via Discord, detailed seller reliability scores, advanced filtering and search tools, and mobile app access for shopping on-the-go.`,
+    answer: "Premium KakoBuy Spreadsheet access includes: Unlimited downloads of our complete product database, early access to weekly finds (24h before public release), exclusive VIP coupon codes (save 15-25% extra), priority customer support via Discord, detailed seller reliability scores, advanced filtering and search tools, and mobile app access for shopping on-the-go.",
     open: false,
   },
   {
     id: 7,
-    question: `Why Choose KakoBuy Over Alternatives Like CNFans?`,
-    answer: `KakoBuy offers superior reliability with 99.9% uptime compared to competitors like CNFans that experience frequent downtime. Our KakoBuy spreadsheet users report 40% fewer shipping delays and better customer service response times. Plus, KakoBuy's QC photo quality is consistently higher, and they offer more payment options including PayPal buyer protection.`,
+    question: "Why Choose KakoBuy Over Alternatives Like CNFans?",
+    answer: "KakoBuy offers superior reliability with 99.9% uptime compared to competitors like CNFans that experience frequent downtime. Our KakoBuy spreadsheet users report 40% fewer shipping delays and better customer service response times. Plus, KakoBuy QC photo quality is consistently higher, and they offer more payment options including PayPal buyer protection.",
     open: false,
   },
 ];
 
-export default function Home() {
-  // FAQ data for schema
-  const faqData = [
-    {
-      question: "What is the KakoBuy Spreadsheet?",
-      answer: "The KakoBuy Spreadsheet is the most comprehensive database of verified KakoBuy products with 10,000+ items, including prices, QC photos, seller links, and exclusive coupon codes. It's updated daily and completely free to access."
-    },
-    {
-      question: "How often is the KakoBuy Spreadsheet updated?",
-      answer: "Our KakoBuy spreadsheet is updated daily with new products, price changes, and stock availability. We monitor over 200 verified sellers 24/7 to ensure you get the latest information."
-    },
-    {
-      question: "Is the KakoBuy Spreadsheet free?",
-      answer: "Yes! The KakoBuy Spreadsheet is completely free to access. We provide free access to all 10,000+ products, QC photos, and exclusive coupon codes without any subscription fees."
-    },
-    {
-      question: "Which countries can use the KakoBuy Spreadsheet?",
-      answer: "The KakoBuy Spreadsheet is available worldwide, with optimized shipping information for USA, Germany, Poland, UK, Canada, Australia, and other countries. All prices are shown in USD with CNY conversion."
-    },
-    {
-      question: "How do I access exclusive KakoBuy coupons?",
-      answer: "Exclusive KakoBuy coupon codes are included throughout our spreadsheet. Simply browse products and look for the coupon codes section. Our codes can save you 15-25% on your orders."
-    },
-  ];
+const faqData = [
+  {
+    question: "What is the KakoBuy Spreadsheet?",
+    answer: "The KakoBuy Spreadsheet is the most comprehensive database of verified KakoBuy products with 10,000+ items, including prices, QC photos, seller links, and exclusive coupon codes",
+  },
+  {
+    question: "How often is the KakoBuy Spreadsheet updated?",
+    answer: "Our KakoBuy spreadsheet is updated daily with new products, price changes, and stock availability",
+  },
+  {
+    question: "Is the KakoBuy Spreadsheet free?",
+    answer: "Yes, the KakoBuy Spreadsheet is completely free to access",
+  },
+  {
+    question: "Which countries can use the KakoBuy Spreadsheet?",
+    answer: "The KakoBuy Spreadsheet is available worldwide with optimized shipping for USA, Germany, Poland, UK, Canada and Australia",
+  },
+  {
+    question: "How do I access exclusive KakoBuy coupons?",
+    answer: "Exclusive KakoBuy coupon codes are included throughout our spreadsheet and can save you 15-25% on orders",
+  },
+];
 
+export default function Home() {
   return (
     <div className="min-h-screen bg-white">
       {/* FAQ Schema for SEO */}
@@ -230,11 +218,6 @@ export default function Home() {
       
       {/* Hero Section - Enhanced */}
       <section className="relative bg-gradient-to-br from-blue-50 via-white to-purple-50 py-16 md:py-24 px-4 overflow-hidden">
-        {/* Background Pattern */}
-        <div className="absolute inset-0 opacity-5">
-          <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width=\"60\" height=\"60\" viewBox=\"0 0 60 60\" xmlns=\"http://www.w3.org/2000/svg\"%3E%3Cg fill=\"none\" fill-rule=\"evenodd\"%3E%3Cg fill=\"%239C92AC\" fill-opacity=\"0.1\"%3E%3Ccircle cx=\"30\" cy=\"30\" r=\"2\"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')]"></div>
-        </div>
-        
         <div className="max-w-4xl mx-auto text-center relative">
           <div className="inline-block mb-4 px-4 py-2 bg-green-100 text-green-700 rounded-full text-sm font-medium">
             ✅ Updated Daily • 10,000+ Verified Products
@@ -717,11 +700,6 @@ export default function Home() {
 
       {/* CTA Section - Enhanced */}
       <section className="py-20 bg-gradient-to-br from-blue-900 via-purple-900 to-blue-800 px-4 text-white relative overflow-hidden">
-        {/* Background Pattern */}
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width=\"80\" height=\"80\" viewBox=\"0 0 80 80\" xmlns=\"http://www.w3.org/2000/svg\"%3E%3Cg fill=\"none\" fill-rule=\"evenodd\"%3E%3Cg fill=\"%23ffffff\" fill-opacity=\"0.1\"%3E%3Ccircle cx=\"40\" cy=\"40\" r=\"2\"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')]"></div>
-        </div>
-        
         <div className="container mx-auto max-w-4xl text-center relative">
           <div className="mb-8">
             <div className="inline-block px-6 py-3 bg-white/20 rounded-full text-lg font-medium mb-4">
@@ -770,33 +748,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-
-      {/* Schema.org JSON-LD for SEO */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "WebSite",
-            "name": "KakoBuy Spreadsheet",
-            "description": "The most comprehensive KakoBuy product database with 10,000+ verified items, QC photos, and exclusive coupon codes.",
-            "url": "https://kakobuy-spreadsheet.com",
-            "potentialAction": {
-              "@type": "SearchAction",
-              "target": "https://kakobuy-spreadsheet.com/search?q={search_term_string}",
-              "query-input": "required name=search_term_string"
-            },
-            "publisher": {
-              "@type": "Organization",
-              "name": "KakoBuy Spreadsheet",
-              "logo": {
-                "@type": "ImageObject",
-                "url": "https://kakobuy-spreadsheet.com/logo.png"
-              }
-            }
-          })
-        }}
-      />
     </div>
   );
 }

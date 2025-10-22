@@ -109,7 +109,6 @@ export function generateMainMetadata(): Metadata {
       // Add your verification codes here when you have them
       google: '',
       yandex: '',
-      bing: '',
     },
     category: 'Shopping',
   };

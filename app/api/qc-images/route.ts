@@ -38,6 +38,7 @@ export async function POST(request: NextRequest) {
     try {
       data = JSON.parse(rawData); // Danach sicher in JSON parsen
     } catch (e) {
+      console.log(e)
       console.error('❌ Failed to parse JSON from KakoBuy API:', e);
     }
 

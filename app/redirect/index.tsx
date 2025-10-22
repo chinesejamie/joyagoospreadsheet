@@ -13,30 +13,11 @@ interface GTMEvent {
   event_action: string;
 }
 
-declare global {
-  interface Window {
-    gtag?: (
-      command: string,
-      targetId: string | Date,
-      config?: Record<string, any>
-    ) => void;
-    ga?: (
-      command: string,
-      hitType: string,
-      eventCategory: string,
-      eventAction?: string,
-      eventLabel?: string,
-      fieldsObject?: Record<string, any>
-    ) => void;
-    dataLayer?: GTMEvent[];
-  }
-}
-
 // Google Analytics Tracking Function
 const trackRedirect = (url: string): void => {
   // Google Analytics 4 (gtag)
-  if (typeof window !== 'undefined' && window.gtag) {
-    window.gtag('event', 'click', {
+  if (typeof window !== 'undefined' && (window as any).gtag) {
+    (window as any).gtag('event', 'click', {
       event_category: 'outbound',
       event_label: url,
       transport_type: 'beacon'
@@ -44,15 +25,15 @@ const trackRedirect = (url: string): void => {
   }
 
   // Alternative: Google Analytics Universal Analytics (ga)
-  if (typeof window !== 'undefined' && window.ga) {
-    window.ga('send', 'event', 'outbound', 'click', url, {
+  if (typeof window !== 'undefined' && (window as any).ga) {
+    (window as any).ga('send', 'event', 'outbound', 'click', url, {
       transport: 'beacon'
     });
   }
 
   // Google Tag Manager Event (optional)
-  if (typeof window !== 'undefined' && window.dataLayer) {
-    window.dataLayer.push({
+  if (typeof window !== 'undefined' && (window as any).dataLayer) {
+    (window as any).dataLayer.push({
       event: 'redirect_click',
       redirect_url: url,
       event_category: 'outbound',
