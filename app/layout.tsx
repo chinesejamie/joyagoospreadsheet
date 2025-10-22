@@ -61,6 +61,7 @@ export default function RootLayout({
               gtag('js', new Date());
               gtag('config', 'G-WB49KRXQFM', {
                 page_path: window.location.pathname,
+                debug_mode: true, // Enable debug mode for local testing
               });
             `,
           }}

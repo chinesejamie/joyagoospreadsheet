@@ -26,16 +26,17 @@ export function GiveawayForm() {
         setStatus({ message: data.message, isError: false });
         setEmail('');
 
-        // Track Google Analytics 4 event
+        // Track Google Analytics 4 event - using sign_up for consistency
         if (typeof window !== 'undefined' && (window as any).gtag) {
-          (window as any).gtag('event', 'generate_lead', {
+          (window as any).gtag('event', 'sign_up', {
+            method: 'giveaway_form',
             event_category: 'engagement',
             event_label: 'giveaway_entry',
             value: 1
           });
         }
 
-        // Track Google Ads conversion on successful signup
+        // Track Google Ads conversion (uses same event name via GTM dataLayer)
         trackConversionOnly();
       } else {
         setStatus({ message: data.message, isError: true });

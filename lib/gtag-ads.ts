@@ -26,9 +26,9 @@ export const pushToDataLayer = (eventName: string, eventData?: Record<string, an
 };
 
 /**
- * Track a conversion event with delayed navigation
- * This ensures the conversion is tracked before navigating to a URL
- * @param url - The URL to navigate to after tracking (optional)
+ * Track a conversion event and open URL in new tab
+ * This ensures the conversion is tracked before opening the URL
+ * @param url - The URL to open in new tab after tracking (optional)
  * @param eventParameters - Additional event parameters
  */
 export const gtagSendEvent = (url?: string, eventParameters?: Record<string, any>) => {
@@ -38,26 +38,30 @@ export const gtagSendEvent = (url?: string, eventParameters?: Record<string, any
   }
 
   // Flag to prevent double navigation
-  let hasNavigated = false;
+  let hasOpened = false;
 
-  // Navigation function to prevent multiple redirects
-  const navigate = () => {
-    if (!hasNavigated && url) {
-      hasNavigated = true;
-      console.log('[GTM] Navigating to:', url);
-      window.location.href = url;
+  // Navigation function to open in new tab
+  const openInNewTab = () => {
+    if (!hasOpened && url) {
+      hasOpened = true;
+      console.log('[GTM] Opening in new tab:', url);
+      window.open(url, '_blank', 'noopener,noreferrer');
     }
   };
 
-  // Push event to dataLayer
-  pushToDataLayer('conversion_event_signup_1', {
+  // Push event to dataLayer for Google Ads
+  pushToDataLayer('sign_up', {
+    method: 'button_click',
+    event_category: 'engagement',
+    event_label: 'kakobuy_signup',
+    value: 1,
     ...eventParameters,
-    event_callback: navigate,
+    event_callback: openInNewTab,
   });
 
-  // Fallback navigation after timeout (in case callback doesn't fire)
+  // Fallback to open in new tab after timeout (in case callback doesn't fire)
   if (url) {
-    setTimeout(navigate, 2000);
+    setTimeout(openInNewTab, 1000);
   }
 
   console.log('[GTM] Signup conversion tracked', url ? `-> ${url}` : '');
@@ -79,8 +83,10 @@ export const trackSignupConversion = (url?: string) => {
  * Use this for form submissions or other non-navigation events
  */
 export const trackConversionOnly = () => {
-  pushToDataLayer('conversion_event_signup_1', {
-    event_category: 'signup',
-    event_label: 'giveaway_form',
+  pushToDataLayer('sign_up', {
+    method: 'giveaway_form',
+    event_category: 'engagement',
+    event_label: 'giveaway_entry',
+    value: 1,
   });
 };
