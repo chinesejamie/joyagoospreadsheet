@@ -26,6 +26,15 @@ export function GiveawayForm() {
         setStatus({ message: data.message, isError: false });
         setEmail('');
 
+        // Track Google Analytics 4 event
+        if (typeof window !== 'undefined' && (window as any).gtag) {
+          (window as any).gtag('event', 'generate_lead', {
+            event_category: 'engagement',
+            event_label: 'giveaway_entry',
+            value: 1
+          });
+        }
+
         // Track Google Ads conversion on successful signup
         trackConversionOnly();
       } else {

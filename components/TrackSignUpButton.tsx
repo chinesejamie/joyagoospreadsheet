@@ -20,6 +20,16 @@ export default function TrackSignUpButton({ className }: TrackSignUpButtonProps)
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
+    // Track Google Analytics 4 event
+    if (typeof window !== 'undefined' && (window as any).gtag) {
+      (window as any).gtag('event', 'sign_up', {
+        method: 'button_click',
+        event_category: 'engagement',
+        event_label: 'kakobuy_signup',
+        value: 1
+      });
+    }
+
     // Track TikTok event
     if (typeof window !== 'undefined' && window.ttq) {
       window.ttq.track('Subscribe');

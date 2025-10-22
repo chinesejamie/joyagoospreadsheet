@@ -37,19 +37,27 @@ export const gtagSendEvent = (url?: string, eventParameters?: Record<string, any
     return false;
   }
 
+  // Flag to prevent double navigation
+  let hasNavigated = false;
+
+  // Navigation function to prevent multiple redirects
+  const navigate = () => {
+    if (!hasNavigated && url) {
+      hasNavigated = true;
+      console.log('[GTM] Navigating to:', url);
+      window.location.href = url;
+    }
+  };
+
   // Push event to dataLayer
   pushToDataLayer('conversion_event_signup_1', {
     ...eventParameters,
-    event_callback: url ? () => {
-      window.location.href = url;
-    } : undefined,
+    event_callback: navigate,
   });
 
-  // Fallback navigation after timeout
+  // Fallback navigation after timeout (in case callback doesn't fire)
   if (url) {
-    setTimeout(() => {
-      window.location.href = url;
-    }, 2000);
+    setTimeout(navigate, 2000);
   }
 
   console.log('[GTM] Signup conversion tracked', url ? `-> ${url}` : '');

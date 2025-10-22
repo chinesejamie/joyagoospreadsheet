@@ -48,6 +48,25 @@ export default function RootLayout({
         />
         {/* End Google Tag Manager */}
 
+        {/* Google Analytics 4 */}
+        <script
+          async
+          src="https://www.googletagmanager.com/gtag/js?id=G-WB49KRXQFM"
+        />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'G-WB49KRXQFM', {
+                page_path: window.location.pathname,
+              });
+            `,
+          }}
+        />
+        {/* End Google Analytics 4 */}
+
         {/* TikTok Pixel Code Start */}
         <script
           dangerouslySetInnerHTML={{
