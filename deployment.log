@@ -1,0 +1,13 @@
+[0;32m========================================[0m
+[0;32m🚀 KakoBuy Spreadsheet Deployment[0m
+[0;32m========================================[0m
+[0;36mServer: 217.154.115.9[0m
+[0;36mDomain: kakobuy-spreadsheet.com[0m
+[0;36mPort: 3014[0m
+[0;32m========================================[0m
+
+[1;33m🔑 Step 1: Validating SSH key...[0m
+[0;32m✅ SSH connection verified[0m
+
+[1;33m🔄 Step 2: Git commit & push[0m
+[0;34m📝 Changes detected, committing...[0m
