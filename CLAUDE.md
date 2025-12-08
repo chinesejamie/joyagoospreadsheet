@@ -415,3 +415,4 @@ Error loading products: TypeError: fetch failed
  GET /kakobuy-spreadsheet 200 in 81ms
  ✓ Compiled /favicon.ico in 172ms
  GET /favicon.ico 200 in 243ms
+- okay deploy

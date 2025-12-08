@@ -138,12 +138,9 @@ export default async function KakoBuySpreadsheetPage({
   let totalProducts = 0;
 
   try {
-    // In development, construct full URL with the correct port from environment
-    // In production, use the public URL
-    const isDev = process.env.NODE_ENV === 'development';
-    const baseUrl = isDev && !process.env.NEXT_PUBLIC_APP_URL?.includes('localhost')
-      ? `http://localhost:${process.env.NEXT_PUBLIC_PORT || 3002}`
-      : (process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3002');
+    // Server-side rendering should always use localhost to avoid external network calls
+    // NEXT_PUBLIC_APP_URL is for client-side only
+    const baseUrl = `http://localhost:${process.env.PORT || 3000}`;
 
     const res = await fetch(
       `${baseUrl}/api/products?${qp.toString()}`,

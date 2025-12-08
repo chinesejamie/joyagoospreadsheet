@@ -16,7 +16,7 @@ SERVER_IP="217.154.115.9"
 DOMAIN="kakobuy-spreadsheet.com"
 REMOTE_DIR="/var/www/kakobuy-spreadsheet.com"
 APP_NAME="kakobuyspreadsheet"
-PORT=3014
+PORT=3010
 MONGODB_URI="mongodb://envUser:OnlyReadAndWritedug1u@217.154.115.9:27017/myChinaFinds?authSource=myChinaFinds"
 
 # Colors
