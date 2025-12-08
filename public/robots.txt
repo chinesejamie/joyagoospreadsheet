@@ -1,4 +1,30 @@
+# robots.txt for KakoBuy Spreadsheet
+# Optimized for Google crawling of "kakobuy spreadsheet" keyword
+
 User-agent: *
 Allow: /
+Allow: /kakobuy-spreadsheet
+Allow: /articles/
+Allow: /features/
 Disallow: /api/
+Disallow: /_next/
+Disallow: /admin
+
+# Prioritize crawling of main pages
+Crawl-delay: 0
+
+# Sitemaps
 Sitemap: https://kakobuy-spreadsheet.com/sitemap.xml
+
+# Allow all major search engines
+User-agent: Googlebot
+Allow: /
+
+User-agent: Googlebot-Image
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Slurp
+Allow: /

@@ -229,3 +229,189 @@ Optional:
 - Always escape regex special characters in user input (use `escapeRegExp` helper)
 - Schema components must be imported in pages where used
 - Update year references annually (2025 → 2026)
+- still not loading asiger@Mac KakoBuy Next Current  % npm run dev
+
+> kakobuyspreadsheet@0.1.0 dev
+> next dev --turbopack
+
+ ⚠ Port 3000 is in use by process 50242, using available port 3002 instead.
+   ▲ Next.js 15.5.7 (Turbopack)
+   - Local:        http://localhost:3002
+   - Network:      http://192.168.178.199:3002
+   - Environments: .env
+
+ ✓ Starting...
+ ✓ Ready in 1938ms
+ ○ Compiling / ...
+ ✓ Compiled / in 1611ms
+ GET / 200 in 2167ms
+ ✓ Compiled /kakobuy-spreadsheet in 320ms
+Error loading products: Error: Failed to fetch products (status 500)
+    at KakoBuySpreadsheetPage (app/kakobuy-spreadsheet/page.tsx:146:13)
+  144 |       totalProducts = 0;
+  145 |     } else if (!res.ok) {
+> 146 |       throw new Error(`Failed to fetch products (status ${res.status})`);
+      |             ^
+  147 |     } else {
+  148 |       const data = await res.json();
+  149 |       totalProducts = data.totalProducts || 0;
+ GET /kakobuy-spreadsheet 200 in 517ms
+Error loading products: Error: Failed to fetch products (status 500)
+    at KakoBuySpreadsheetPage (app/kakobuy-spreadsheet/page.tsx:146:13)
+  144 |       totalProducts = 0;
+  145 |     } else if (!res.ok) {
+> 146 |       throw new Error(`Failed to fetch products (status ${res.status})`);
+      |             ^
+  147 |     } else {
+  148 |       const data = await res.json();
+  149 |       totalProducts = data.totalProducts || 0;
+ GET /kakobuy-spreadsheet 200 in 236ms
+^C
+asiger@Mac KakoBuy Next Current  % npm run dev
+
+> kakobuyspreadsheet@0.1.0 dev
+> next dev --turbopack
+
+ ⚠ Port 3000 is in use by process 50242, using available port 3002 instead.
+   ▲ Next.js 15.5.7 (Turbopack)
+   - Local:        http://localhost:3002
+   - Network:      http://192.168.178.199:3002
+   - Environments: .env
+
+ ✓ Starting...
+ ✓ Ready in 769ms
+ ○ Compiling /kakobuy-spreadsheet ...
+ ✓ Compiled /kakobuy-spreadsheet in 1622ms
+Error loading products: Error: Failed to fetch products (status 500)
+    at KakoBuySpreadsheetPage (app/kakobuy-spreadsheet/page.tsx:146:13)
+  144 |       totalProducts = 0;
+  145 |     } else if (!res.ok) {
+> 146 |       throw new Error(`Failed to fetch products (status ${res.status})`);
+      |             ^
+  147 |     } else {
+  148 |       const data = await res.json();
+  149 |       totalProducts = data.totalProducts || 0;
+Error loading products: Error: Failed to fetch products (status 500)
+    at KakoBuySpreadsheetPage (app/kakobuy-spreadsheet/page.tsx:146:13)
+  144 |       totalProducts = 0;
+  145 |     } else if (!res.ok) {
+> 146 |       throw new Error(`Failed to fetch products (status ${res.status})`);
+      |             ^
+  147 |     } else {
+  148 |       const data = await res.json();
+  149 |       totalProducts = data.totalProducts || 0;
+Error loading products: Error: Failed to fetch products (status 500)
+    at KakoBuySpreadsheetPage (app/kakobuy-spreadsheet/page.tsx:146:13)
+  144 |       totalProducts = 0;
+  145 |     } else if (!res.ok) {
+> 146 |       throw new Error(`Failed to fetch products (status ${res.status})`);
+      |             ^
+  147 |     } else {
+  148 |       const data = await res.json();
+  149 |       totalProducts = data.totalProducts || 0;
+Error loading products: Error: Failed to fetch products (status 500)
+    at KakoBuySpreadsheetPage (app/kakobuy-spreadsheet/page.tsx:146:13)
+  144 |       totalProducts = 0;
+  145 |     } else if (!res.ok) {
+> 146 |       throw new Error(`Failed to fetch products (status ${res.status})`);
+      |             ^
+  147 |     } else {
+  148 |       const data = await res.json();
+  149 |       totalProducts = data.totalProducts || 0;
+Error loading products: Error: Failed to fetch products (status 500)
+    at KakoBuySpreadsheetPage (app/kakobuy-spreadsheet/page.tsx:146:13)
+  144 |       totalProducts = 0;
+  145 |     } else if (!res.ok) {
+> 146 |       throw new Error(`Failed to fetch products (status ${res.status})`);
+      |             ^
+  147 |     } else {
+  148 |       const data = await res.json();
+  149 |       totalProducts = data.totalProducts || 0;
+Error loading products: Error: Failed to fetch products (status 500)
+    at KakoBuySpreadsheetPage (app/kakobuy-spreadsheet/page.tsx:146:13)
+  144 |       totalProducts = 0;
+  145 |     } else if (!res.ok) {
+> 146 |       throw new Error(`Failed to fetch products (status ${res.status})`);
+      |             ^
+  147 |     } else {
+  148 |       const data = await res.json();
+  149 |       totalProducts = data.totalProducts || 0;
+ GET /kakobuy-spreadsheet 200 in 83ms
+ GET /kakobuy-spreadsheet 200 in 774ms
+ GET /kakobuy-spreadsheet 200 in 1073ms
+ ✓ Compiled /favicon.ico in 221ms
+ GET /favicon.ico 200 in 292ms
+Error loading products: Error: Failed to fetch products (status 500)
+    at KakoBuySpreadsheetPage (app/kakobuy-spreadsheet/page.tsx:146:13)
+  144 |       totalProducts = 0;
+  145 |     } else if (!res.ok) {
+> 146 |       throw new Error(`Failed to fetch products (status ${res.status})`);
+      |             ^
+  147 |     } else {
+  148 |       const data = await res.json();
+  149 |       totalProducts = data.totalProducts || 0;
+ GET /kakobuy-spreadsheet 200 in 252ms
+Error loading products: Error: Failed to fetch products (status 500)
+    at KakoBuySpreadsheetPage (app/kakobuy-spreadsheet/page.tsx:146:13)
+  144 |       totalProducts = 0;
+  145 |     } else if (!res.ok) {
+> 146 |       throw new Error(`Failed to fetch products (status ${res.status})`);
+      |             ^
+  147 |     } else {
+  148 |       const data = await res.json();
+  149 |       totalProducts = data.totalProducts || 0;
+ GET /kakobuy-spreadsheet 200 in 262ms
+ GET /favicon.ico 200 in 32ms
+   Reload env: .env
+ ✓ Compiled /kakobuy-spreadsheet in 18ms
+ ✓ Compiled /_not-found/page in 207ms
+ GET /kakobuy-spreadsheet 404 in 367ms
+ GET /kakobuy-spreadsheet 200 in 1732ms
+(node:54553) [DEP0060] DeprecationWarning: The `util._extend` API is deprecated. Please use Object.assign() instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+ GET /kakobuy-spreadsheet 200 in 2050ms
+npçç^C
+asiger@Mac KakoBuy Next Current  % 
+asiger@Mac KakoBuy Next Current  % npm run dev
+
+> kakobuyspreadsheet@0.1.0 dev
+> next dev --turbopack
+
+ ⚠ Port 3000 is in use by process 50242, using available port 3002 instead.
+   ▲ Next.js 15.5.7 (Turbopack)
+   - Local:        http://localhost:3002
+   - Network:      http://192.168.178.199:3002
+   - Environments: .env
+
+ ✓ Starting...
+ ✓ Ready in 768ms
+ ○ Compiling / ...
+ ✓ Compiled / in 1907ms
+ GET / 200 in 2503ms
+ ✓ Compiled /kakobuy-spreadsheet in 220ms
+Error loading products: TypeError: fetch failed
+    at async KakoBuySpreadsheetPage (app/kakobuy-spreadsheet/page.tsx:137:17)
+  135 |
+  136 |   try {
+> 137 |     const res = await fetch(
+      |                 ^
+  138 |       `${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3001'}/api/products?${qp.toString()}`,
+  139 |       { cache: 'no-store' }
+  140 |     ); {
+  [cause]: [AggregateError: ] { code: 'ECONNREFUSED' }
+}
+ GET /kakobuy-spreadsheet 200 in 265ms
+Error loading products: TypeError: fetch failed
+    at async KakoBuySpreadsheetPage (app/kakobuy-spreadsheet/page.tsx:137:17)
+  135 |
+  136 |   try {
+> 137 |     const res = await fetch(
+      |                 ^
+  138 |       `${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3001'}/api/products?${qp.toString()}`,
+  139 |       { cache: 'no-store' }
+  140 |     ); {
+  [cause]: [AggregateError: ] { code: 'ECONNREFUSED' }
+}
+ GET /kakobuy-spreadsheet 200 in 81ms
+ ✓ Compiled /favicon.ico in 172ms
+ GET /favicon.ico 200 in 243ms

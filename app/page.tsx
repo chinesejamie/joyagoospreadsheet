@@ -7,8 +7,8 @@ import { FAQSchema } from '@/components/StructuredData';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'KakoBuy Spreadsheet 2025 | #1 Free Price List with 10,000+ Products - USA, Germany, Poland',
-  description: 'Official KakoBuy Spreadsheet 2025: 10,000+ verified products, QC photos, exclusive coupons. Best free KakoBuy price list for USA, Germany, Poland. Updated daily. Download now!',
+  title: 'KakoBuy Spreadsheet 2025 | Free Access to 10,000+ Products | USA Germany Poland',
+  description: 'The #1 KakoBuy Spreadsheet with 10,000+ verified products, real QC photos, and exclusive coupon codes. Free access. Updated daily for USA, Germany, and Poland.',
   metadataBase: new URL('https://kakobuy-spreadsheet.com'),
   keywords: [
     // Exact match primary keyword

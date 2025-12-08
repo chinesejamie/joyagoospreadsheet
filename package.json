@@ -17,7 +17,7 @@
     "gray-matter": "^4.0.3",
     "lucide-react": "^0.488.0",
     "mongoose": "^8.13.1",
-    "next": "15.2.4",
+    "next": "^15.5.7",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-intersection-observer": "^9.16.0",

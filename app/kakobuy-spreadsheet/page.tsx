@@ -7,8 +7,8 @@ import { CollectionPageSchema, BreadcrumbSchema } from '@/components/StructuredD
 import type { Metadata } from 'next';
 
 export async function generateMetadata(): Promise<Metadata> {
-  const title = 'KakoBuy Spreadsheet 2025 | Browse 10,000+ Products with Prices & QC Photos';
-  const description = 'Browse the complete KakoBuy Spreadsheet: 10,000+ verified products with USD prices, QC photos, seller ratings. Free access. Best for USA, Germany, Poland. Updated daily.';
+  const title = 'KakoBuy Spreadsheet | Browse 10,000+ Verified Products with Prices & Photos';
+  const description = 'Browse the official KakoBuy Spreadsheet: 10,000+ products with USD prices, authentic QC photos, verified sellers. Free access for USA, Germany, Poland. Search & filter easily.';
   const imageUrl = 'https://kakobuy-spreadsheet.com/images/seo-cover.webp';
 
   return {
@@ -17,17 +17,21 @@ export async function generateMetadata(): Promise<Metadata> {
     metadataBase: new URL('https://kakobuy-spreadsheet.com'),
     keywords: [
       'kakobuy spreadsheet',
+      'kakobuy spreadsheet 2025',
       'kakobuy price list',
       'kakobuy products',
-      'kakobuy spreadsheet 2025',
+      'kakobuy spreadsheet free',
+      'kakobuy spreadsheet download',
       'kakobuy database',
       'kakobuy product list',
       'kakobuy prices usd',
       'kakobuy qc photos',
       'kakobuy verified sellers',
       'browse kakobuy spreadsheet',
-      'kakobuy spreadsheet free',
-      'kakobuy spreadsheet download',
+      'kakobuy spreadsheet usa',
+      'kakobuy spreadsheet germany',
+      'kakobuy spreadsheet poland',
+      'best kakobuy spreadsheet',
     ],
     openGraph: {
       title,
@@ -134,8 +138,15 @@ export default async function KakoBuySpreadsheetPage({
   let totalProducts = 0;
 
   try {
+    // In development, construct full URL with the correct port from environment
+    // In production, use the public URL
+    const isDev = process.env.NODE_ENV === 'development';
+    const baseUrl = isDev && !process.env.NEXT_PUBLIC_APP_URL?.includes('localhost')
+      ? `http://localhost:${process.env.NEXT_PUBLIC_PORT || 3002}`
+      : (process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3002');
+
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3001'}/api/products?${qp.toString()}`,
+      `${baseUrl}/api/products?${qp.toString()}`,
       { cache: 'no-store' }
     );
 
