@@ -14,14 +14,22 @@ function escapeRegExp(string: string): string {
   return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
 
+// Truncate string for filesystem-safe paths (max 100 chars to stay under OS limits)
+function truncateForPath(str: string, maxLength = 100): string {
+  if (str.length <= maxLength) return str;
+  return str.substring(0, maxLength);
+}
+
 export async function generateStaticParams() {
   await connectToDatabase();
-  const products = await Product.find({}, { creatorName: 1, id: 1, slug: 1, name: 1 }).lean();
+  const products = await Product.find({}, { creatorName: 1, id: 1, slug: 1, name: 1, _id: 1 }).lean();
 
   return products.map((product: any) => ({
     creatorName: encodeURIComponent(product.creatorName),
     productName: encodeURIComponent(
-      product.slug || product.id || product.name?.toLowerCase().replace(/\s+/g, '-') || 'product'
+      product.slug ||
+      product.id ||
+      truncateForPath(product.name?.toLowerCase().replace(/\s+/g, '-') || String(product._id))
     ),
   }));
 }
@@ -37,7 +45,7 @@ export async function generateMetadata({
 
   await connectToDatabase();
   // Use case-insensitive regex queries
-  const product = await Product.findOne({
+  let product = await Product.findOne({
     creatorName: { $regex: new RegExp(`^${escapeRegExp(creatorName)}$`, 'i') },
     $or: [
       { slug: { $regex: new RegExp(`^${escapeRegExp(productName)}$`, 'i') } },
@@ -45,6 +53,14 @@ export async function generateMetadata({
       { name: { $regex: new RegExp(`^${escapeRegExp(productName)}$`, 'i') } },
     ],
   }).lean();
+
+  // Fallback: if productName is truncated (100 chars), try prefix match
+  if (!product && productName.length >= 100) {
+    product = await Product.findOne({
+      creatorName: { $regex: new RegExp(`^${escapeRegExp(creatorName)}$`, 'i') },
+      name: { $regex: new RegExp(`^${escapeRegExp(productName)}`, 'i') },
+    }).lean();
+  }
 
   if (!product) return {};
 
@@ -111,7 +127,7 @@ export default async function ProductPage({
   await connectToDatabase();
 
   // Update the query to be case-insensitive
-  const product = (await Product.findOne({
+  let product = (await Product.findOne({
     creatorName: { $regex: new RegExp(`^${escapeRegExp(creatorName)}$`, 'i') },
     $or: [
       { slug: { $regex: new RegExp(`^${escapeRegExp(productName)}$`, 'i') } },
@@ -120,6 +136,15 @@ export default async function ProductPage({
     ],
   })
     .lean()) as unknown as IProduct & { _id: Types.ObjectId } | null;
+
+  // Fallback: if productName is truncated (100 chars), try prefix match
+  if (!product && productName.length >= 100) {
+    product = (await Product.findOne({
+      creatorName: { $regex: new RegExp(`^${escapeRegExp(creatorName)}$`, 'i') },
+      name: { $regex: new RegExp(`^${escapeRegExp(productName)}`, 'i') },
+    })
+      .lean()) as unknown as IProduct & { _id: Types.ObjectId } | null;
+  }
 
   if (!product) notFound();
 

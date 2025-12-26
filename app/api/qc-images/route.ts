@@ -31,15 +31,19 @@ export async function POST(request: NextRequest) {
     });
 
     const rawData = await response.text(); // Lesen als TEXT zuerst
-    console.log('=== RAW RESPONSE FROM KAKOBUY API ===');
-    console.log(rawData);
 
     let data: any = {};
     try {
       data = JSON.parse(rawData); // Danach sicher in JSON parsen
     } catch (e) {
-      console.log(e)
-      console.error('❌ Failed to parse JSON from KakoBuy API:', e);
+      // API returned non-JSON (e.g., IP whitelist error)
+      console.error('❌ KakoBuy API returned non-JSON:', rawData.substring(0, 100));
+      return NextResponse.json({
+        status: 'error',
+        message: rawData.includes('whitelist')
+          ? 'Server IP not whitelisted with KakoBuy API'
+          : 'Invalid response from QC API',
+      }, { status: 502 });
     }
 
     // Wenn Response nicht OK oder Data leer/problematisch
