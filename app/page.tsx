@@ -166,65 +166,85 @@ export default function Home() {
     <div className="min-h-screen bg-white">
       <FAQSchema faqs={faqData} />
 
-      {/* HERO SECTION - Redesigned */}
-      <section className="relative min-h-[90vh] flex items-center overflow-hidden">
-        {/* Animated Background */}
-        <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-blue-900 to-purple-900">
-          <div className="absolute inset-0 opacity-30">
-            <div className="absolute top-20 left-10 w-72 h-72 bg-blue-500 rounded-full mix-blend-multiply filter blur-3xl animate-pulse"></div>
-            <div className="absolute top-40 right-10 w-72 h-72 bg-purple-500 rounded-full mix-blend-multiply filter blur-3xl animate-pulse" style={{animationDelay: '1s'}}></div>
-            <div className="absolute bottom-20 left-1/3 w-72 h-72 bg-pink-500 rounded-full mix-blend-multiply filter blur-3xl animate-pulse" style={{animationDelay: '2s'}}></div>
-          </div>
-          {/* Grid Pattern */}
-          <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iMC4wNSI+PHBhdGggZD0iTTM2IDM0djItSDI0di0yaDEyek0zNiAyNHYySDI0di0yaDEyeiIvPjwvZz48L2c+PC9zdmc+')] opacity-40"></div>
-        </div>
+      {/* HERO SECTION - SEO Optimized with KakoBuy Orange */}
+      <section className="bg-gradient-to-b from-orange-50 to-white py-16 md:py-24 px-4">
+        <div className="container mx-auto max-w-6xl">
+          {/* Breadcrumb for SEO */}
+          <nav className="text-sm text-gray-500 mb-8" aria-label="Breadcrumb">
+            <ol className="flex items-center gap-2">
+              <li><Link href="/" className="hover:text-orange-600">Home</Link></li>
+              <li>/</li>
+              <li className="text-orange-600 font-medium">KakoBuy Spreadsheet 2026</li>
+            </ol>
+          </nav>
 
-        <div className="relative z-10 container mx-auto px-4 py-20">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            {/* Left Content */}
-            <div className="text-white space-y-8">
-              {/* E-E-A-T Badge */}
+          <div className="grid lg:grid-cols-5 gap-12 items-start">
+            {/* Main Content - SEO Rich */}
+            <div className="lg:col-span-3 space-y-8">
+              {/* Trust Badges */}
               <div className="flex flex-wrap gap-3">
-                <span className="inline-flex items-center px-4 py-2 bg-green-500/20 border border-green-500/50 text-green-400 rounded-full text-sm font-medium backdrop-blur-sm">
-                  <span className="w-2 h-2 bg-green-400 rounded-full mr-2 animate-pulse"></span>
-                  Live Updates
+                <span className="inline-flex items-center px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm font-medium">
+                  Updated Daily
                 </span>
-                <span className="inline-flex items-center px-4 py-2 bg-blue-500/20 border border-blue-500/50 text-blue-400 rounded-full text-sm font-medium backdrop-blur-sm">
-                  Est. 2023 - 3 Years Experience
+                <span className="inline-flex items-center px-3 py-1 bg-orange-100 text-orange-700 rounded-full text-sm font-medium">
+                  Est. 2023
+                </span>
+                <span className="inline-flex items-center px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm font-medium">
+                  Free Access
                 </span>
               </div>
 
-              <h1 className="text-5xl md:text-6xl lg:text-7xl font-black leading-tight">
-                <span className="text-white">KakoBuy</span>
-                <br />
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400">
-                  Spreadsheet 2026
+              {/* H1 - Primary Keyword */}
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-gray-900 leading-tight">
+                KakoBuy Spreadsheet 2026
+                <span className="block text-2xl md:text-3xl text-orange-600 mt-2 font-bold">
+                  10,000+ Verified Products | Free Database
                 </span>
               </h1>
 
-              <p className="text-xl md:text-2xl text-gray-300 leading-relaxed max-w-xl">
-                The most trusted <strong className="text-white">KakoBuy product database</strong> with
-                <span className="text-green-400 font-bold"> 10,000+ verified items</span>,
-                live QC photos, and exclusive coupons.
-              </p>
+              {/* Rich Description for SEO */}
+              <div className="prose prose-lg max-w-none">
+                <p className="text-xl text-gray-700 leading-relaxed">
+                  The <strong>official KakoBuy Spreadsheet</strong> is the most comprehensive product database for KakoBuy shoppers.
+                  Access <strong>10,000+ verified products</strong> from Taobao, Weidian, and 1688 with real QC photos,
+                  exclusive coupon codes, and detailed size charts. Updated daily since 2023.
+                </p>
+                <p className="text-gray-600">
+                  Whether you&apos;re in the <strong>USA</strong>, <strong>Germany</strong>, <strong>Poland</strong>, or anywhere else,
+                  our KakoBuy spreadsheet helps you find quality products at the best prices.
+                  Trusted by <strong>50,000+ customers worldwide</strong>.
+                </p>
+              </div>
 
-              {/* Stats - E-E-A-T Numbers */}
-              <div className="grid grid-cols-4 gap-4">
-                <div className="text-center p-4 bg-white/5 rounded-xl backdrop-blur-sm border border-white/10">
-                  <div className="text-3xl md:text-4xl font-black text-white">10K+</div>
-                  <div className="text-xs text-gray-400 mt-1">Products</div>
+              {/* Key Features List - SEO */}
+              <div className="grid sm:grid-cols-2 gap-4">
+                <div className="flex items-start gap-3 p-4 bg-white rounded-lg border border-gray-200">
+                  <span className="text-2xl">📊</span>
+                  <div>
+                    <h3 className="font-bold text-gray-900">10,000+ Products</h3>
+                    <p className="text-sm text-gray-600">Verified items with prices in CNY & USD</p>
+                  </div>
                 </div>
-                <div className="text-center p-4 bg-white/5 rounded-xl backdrop-blur-sm border border-white/10">
-                  <div className="text-3xl md:text-4xl font-black text-green-400">50K+</div>
-                  <div className="text-xs text-gray-400 mt-1">Customers</div>
+                <div className="flex items-start gap-3 p-4 bg-white rounded-lg border border-gray-200">
+                  <span className="text-2xl">📸</span>
+                  <div>
+                    <h3 className="font-bold text-gray-900">QC Photos</h3>
+                    <p className="text-sm text-gray-600">Real quality check images from customers</p>
+                  </div>
                 </div>
-                <div className="text-center p-4 bg-white/5 rounded-xl backdrop-blur-sm border border-white/10">
-                  <div className="text-3xl md:text-4xl font-black text-purple-400">3</div>
-                  <div className="text-xs text-gray-400 mt-1">Years</div>
+                <div className="flex items-start gap-3 p-4 bg-white rounded-lg border border-gray-200">
+                  <span className="text-2xl">🏷️</span>
+                  <div>
+                    <h3 className="font-bold text-gray-900">Exclusive Coupons</h3>
+                    <p className="text-sm text-gray-600">Save 15-25% with our discount codes</p>
+                  </div>
                 </div>
-                <div className="text-center p-4 bg-white/5 rounded-xl backdrop-blur-sm border border-white/10">
-                  <div className="text-3xl md:text-4xl font-black text-yellow-400">4.9</div>
-                  <div className="text-xs text-gray-400 mt-1">Rating</div>
+                <div className="flex items-start gap-3 p-4 bg-white rounded-lg border border-gray-200">
+                  <span className="text-2xl">🌍</span>
+                  <div>
+                    <h3 className="font-bold text-gray-900">Worldwide Shipping</h3>
+                    <p className="text-sm text-gray-600">USA, Germany, Poland, UK & more</p>
+                  </div>
                 </div>
               </div>
 
@@ -232,77 +252,118 @@ export default function Home() {
               <div className="flex flex-col sm:flex-row gap-4">
                 <Link
                   href="/kakobuy-spreadsheet"
-                  className="group relative px-8 py-4 bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl text-lg font-bold shadow-2xl shadow-purple-500/25 hover:shadow-purple-500/40 transition-all duration-300 transform hover:scale-105 flex items-center justify-center gap-3"
+                  className="px-8 py-4 bg-orange-600 hover:bg-orange-700 text-white rounded-lg text-lg font-bold transition-colors flex items-center justify-center gap-2 shadow-lg"
                 >
-                  <span>Browse Spreadsheet</span>
-                  <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  Browse KakoBuy Spreadsheet
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
                   </svg>
                 </Link>
-                <TrackSignUpButton className="px-8 py-4 bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl text-lg font-semibold hover:bg-white/20 transition-all duration-300 flex items-center justify-center gap-2" />
+                <TrackSignUpButton className="px-8 py-4 bg-white border-2 border-orange-600 text-orange-600 hover:bg-orange-50 rounded-lg text-lg font-bold transition-colors flex items-center justify-center gap-2" />
               </div>
 
-              {/* Trust Signals - E-E-A-T */}
-              <div className="flex flex-wrap items-center gap-6 pt-4 text-sm text-gray-400">
+              {/* Trust Signals */}
+              <div className="flex flex-wrap items-center gap-6 text-sm text-gray-600 pt-4 border-t border-gray-200">
                 <span className="flex items-center gap-2">
-                  <svg className="w-5 h-5 text-green-400" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"/></svg>
+                  <svg className="w-4 h-4 text-green-600" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"/></svg>
                   SSL Secured
                 </span>
                 <span className="flex items-center gap-2">
-                  <svg className="w-5 h-5 text-green-400" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"/></svg>
-                  Free Access
+                  <svg className="w-4 h-4 text-green-600" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"/></svg>
+                  100% Free
                 </span>
                 <span className="flex items-center gap-2">
-                  <svg className="w-5 h-5 text-green-400" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"/></svg>
-                  Updated Daily
+                  <svg className="w-4 h-4 text-green-600" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"/></svg>
+                  No Registration Required
                 </span>
               </div>
             </div>
 
-            {/* Right - Featured Products Preview */}
-            <div className="hidden lg:block relative">
-              <div className="relative">
-                {/* Floating Cards Effect */}
-                <div className="absolute -top-8 -left-8 w-64 h-80 bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl rounded-2xl border border-white/20 p-4 transform rotate-6 hover:rotate-0 transition-transform duration-500">
-                  <div className="w-full h-40 bg-gradient-to-br from-gray-700 to-gray-800 rounded-xl mb-4"></div>
-                  <div className="h-4 bg-white/20 rounded w-3/4 mb-2"></div>
-                  <div className="h-3 bg-white/10 rounded w-1/2"></div>
-                  <div className="mt-4 text-green-400 font-bold">$12.99</div>
+            {/* Sidebar - Stats & Quick Info */}
+            <div className="lg:col-span-2 space-y-6">
+              {/* Stats Card */}
+              <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-6">
+                <h2 className="text-lg font-bold text-gray-900 mb-4">KakoBuy Spreadsheet Stats</h2>
+                <div className="space-y-4">
+                  <div className="flex justify-between items-center pb-3 border-b border-gray-100">
+                    <span className="text-gray-600">Total Products</span>
+                    <span className="text-2xl font-black text-orange-600">10,000+</span>
+                  </div>
+                  <div className="flex justify-between items-center pb-3 border-b border-gray-100">
+                    <span className="text-gray-600">Happy Customers</span>
+                    <span className="text-2xl font-black text-green-600">50,000+</span>
+                  </div>
+                  <div className="flex justify-between items-center pb-3 border-b border-gray-100">
+                    <span className="text-gray-600">Years Active</span>
+                    <span className="text-2xl font-black text-blue-600">3</span>
+                  </div>
+                  <div className="flex justify-between items-center pb-3 border-b border-gray-100">
+                    <span className="text-gray-600">Trusted Sellers</span>
+                    <span className="text-2xl font-black text-purple-600">200+</span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-gray-600">User Rating</span>
+                    <div className="flex items-center gap-1">
+                      <span className="text-yellow-500">★★★★★</span>
+                      <span className="font-bold">4.9</span>
+                    </div>
+                  </div>
                 </div>
+              </div>
 
-                <div className="relative z-10 w-72 h-96 bg-gradient-to-br from-white/15 to-white/5 backdrop-blur-xl rounded-2xl border border-white/30 p-6 mx-auto shadow-2xl">
-                  <div className="absolute -top-3 -right-3 bg-red-500 text-white text-xs font-bold px-3 py-1 rounded-full">HOT</div>
-                  <div className="w-full h-48 bg-gradient-to-br from-blue-600/30 to-purple-600/30 rounded-xl mb-4 flex items-center justify-center">
-                    <span className="text-6xl">👟</span>
-                  </div>
-                  <h3 className="text-white font-bold text-lg mb-2">Premium Sneakers</h3>
-                  <p className="text-gray-400 text-sm mb-3">Verified Seller - 98% Rating</p>
-                  <div className="flex items-center justify-between">
-                    <span className="text-2xl font-bold text-green-400">$45.99</span>
-                    <span className="text-gray-500 line-through">$180</span>
-                  </div>
-                  <div className="mt-4 flex gap-1">
-                    {[1,2,3,4,5].map(i => <span key={i} className="text-yellow-400">★</span>)}
-                    <span className="text-gray-400 text-sm ml-2">(2,847)</span>
-                  </div>
-                </div>
+              {/* Quick Links - Internal Linking for SEO */}
+              <div className="bg-orange-50 rounded-xl border border-orange-200 p-6">
+                <h2 className="text-lg font-bold text-gray-900 mb-4">Quick Access</h2>
+                <ul className="space-y-3">
+                  <li>
+                    <Link href="/kakobuy-spreadsheet" className="flex items-center gap-2 text-orange-700 hover:text-orange-900 font-medium">
+                      <span>→</span> Browse All Products
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/features/finds-of-the-week" className="flex items-center gap-2 text-orange-700 hover:text-orange-900 font-medium">
+                      <span>→</span> Weekly Finds
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/features/faq" className="flex items-center gap-2 text-orange-700 hover:text-orange-900 font-medium">
+                      <span>→</span> FAQ (English & Polski)
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/articles/is-kakobuy-legit" className="flex items-center gap-2 text-orange-700 hover:text-orange-900 font-medium">
+                      <span>→</span> Is KakoBuy Legit?
+                    </Link>
+                  </li>
+                </ul>
+              </div>
 
-                <div className="absolute -bottom-8 -right-8 w-64 h-80 bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl rounded-2xl border border-white/20 p-4 transform -rotate-6 hover:rotate-0 transition-transform duration-500">
-                  <div className="w-full h-40 bg-gradient-to-br from-gray-700 to-gray-800 rounded-xl mb-4"></div>
-                  <div className="h-4 bg-white/20 rounded w-3/4 mb-2"></div>
-                  <div className="h-3 bg-white/10 rounded w-1/2"></div>
-                  <div className="mt-4 text-green-400 font-bold">$28.50</div>
+              {/* Polish Quick Info */}
+              <div className="bg-white rounded-xl border border-red-200 p-6">
+                <div className="flex items-center gap-2 mb-4">
+                  <span className="text-2xl">🇵🇱</span>
+                  <h2 className="text-lg font-bold text-gray-900">Dla Polski</h2>
                 </div>
+                <ul className="space-y-2 text-sm text-gray-700">
+                  <li className="flex items-center gap-2">
+                    <span className="text-green-600">✓</span>
+                    Wysylka EMS 10-15 dni
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <span className="text-green-600">✓</span>
+                    Brak problemow celnych
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <span className="text-green-600">✓</span>
+                    Obsluga po polsku
+                  </li>
+                </ul>
+                <Link href="/features/faq" className="mt-4 inline-block text-red-600 hover:text-red-700 font-medium text-sm">
+                  Zobacz FAQ po polsku →
+                </Link>
               </div>
             </div>
           </div>
-        </div>
-
-        {/* Scroll Indicator */}
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
-          <svg className="w-6 h-6 text-white/50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-          </svg>
         </div>
       </section>
 
