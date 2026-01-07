@@ -15,6 +15,8 @@ export async function GET() {
   const staticPages = [
     { path: '', priority: 1.0, changefreq: 'daily', lastmod: currentDate },
     { path: '/kakobuy-spreadsheet', priority: 0.95, changefreq: 'daily', lastmod: currentDate },
+    { path: '/features/faq?lang=english', priority: 0.9, changefreq: 'weekly', lastmod: currentDate },
+    { path: '/features/faq?lang=poland', priority: 0.9, changefreq: 'weekly', lastmod: currentDate },
     { path: '/articles', priority: 0.8, changefreq: 'weekly', lastmod: currentDate },
     { path: '/features/finds-of-the-week', priority: 0.85, changefreq: 'weekly', lastmod: currentDate },
     { path: '/articles/kakobuy-coupons-2024', priority: 0.75, changefreq: 'weekly', lastmod: currentDate },

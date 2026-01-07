@@ -14,8 +14,8 @@ const navigation = [
   { name: `${agentName} Spreadsheet`, href: `/${agentName.toLowerCase()}-spreadsheet` },
   { name: 'Articles', href: '/articles' },
   { name: 'Finds of the Week', href: '/features/finds-of-the-week' },
+  { name: 'FAQ', href: '/features/faq' },
   { name: 'QC-Images', href: '/features/kakobuy-qc-images' },
-  { name: 'Dead Link', href: '/features/dead-link' },
 ];
 
 export default function Header() {
