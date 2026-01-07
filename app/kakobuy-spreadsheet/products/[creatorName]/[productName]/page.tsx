@@ -86,7 +86,7 @@ export async function generateMetadata({
       'kakobuy price list',
       'kakobuy product',
       `${product.category || 'product'} kakobuy`,
-      'kakobuy spreadsheet 2025',
+      'kakobuy spreadsheet 2026',
       'buy on kakobuy',
       'kakobuy verified seller',
     ],

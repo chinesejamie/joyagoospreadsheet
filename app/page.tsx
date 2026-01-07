@@ -7,12 +7,13 @@ import { FAQSchema } from '@/components/StructuredData';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'KakoBuy Spreadsheet 2025 | Free Access to 10,000+ Products | USA Germany Poland',
+  title: 'KakoBuy Spreadsheet 2026 | 10,000+ Products Free',
   description: 'The #1 KakoBuy Spreadsheet with 10,000+ verified products, real QC photos, and exclusive coupon codes. Free access. Updated daily for USA, Germany, and Poland.',
   metadataBase: new URL('https://kakobuy-spreadsheet.com'),
   keywords: [
     // Exact match primary keyword
     'kakobuy spreadsheet',
+    'kakobuy spreadsheet 2026',
 
     // Target countries
     'kakobuy spreadsheet usa',
@@ -22,14 +23,15 @@ export const metadata: Metadata = {
     'kakobuy spreadsheet polska',
 
     // High-value modifiers
-    'kakobuy spreadsheet 2025',
+    'kakobuy mega spreadsheet',
     'kakobuy spreadsheet free',
     'kakobuy spreadsheet download',
     'best kakobuy spreadsheet',
+    'official kakobuy spreadsheet',
 
     // Related searches
     'kakobuy price list',
-    'kakobuy price list 2025',
+    'kakobuy price list 2026',
     'kakobuy finds',
     'kakobuy coupons',
     'kakobuy qc photos',
@@ -39,14 +41,20 @@ export const metadata: Metadata = {
     'kakobuy product list',
     'kakobuy haul',
     'kakobuy reviews',
+    'kakobuy link converter',
+    'taobao kakobuy',
+    'weidian kakobuy',
+    '1688 kakobuy',
 
     // Long-tail
     'where to find kakobuy spreadsheet',
     'kakobuy spreadsheet with prices',
     'kakobuy verified sellers',
+    'kakobuy spreadsheet taobao links',
+    'kakobuy spreadsheet weidian links',
   ],
   openGraph: {
-    title: 'KakoBuy Spreadsheet 2025 | 10,000+ Verified Products & QC Photos',
+    title: 'KakoBuy Spreadsheet 2026 | 10,000+ Verified Products & QC Photos',
     description: 'The most comprehensive KakoBuy spreadsheet online. 10,000+ verified finds, live QC photos, exclusive coupons. Updated daily by experts.',
     url: '/',
     siteName: 'KakoBuy Spreadsheet',
@@ -424,7 +432,7 @@ export default function Home() {
         <div className="container mx-auto max-w-4xl text-center text-white">
           <div className="mb-8">
             <div className="inline-block px-6 py-3 bg-white/20 rounded-full text-lg font-medium mb-4">
-              🎁 February 2025 Exclusive
+              🎁 February 2026 Exclusive
             </div>
             <h2 className="text-4xl md:text-5xl font-black mb-4">
               Win $500 KakoBuy Shopping Spree!
@@ -468,7 +476,7 @@ export default function Home() {
               <h3 className="text-2xl font-bold text-gray-800 mb-4">Enter the Giveaway Now</h3>
               <GiveawayForm />
               <p className="text-sm text-gray-600 mt-4">
-                Drawing on February 28, 2025. Winner announced on Discord and via email.
+                Drawing on February 28, 2026. Winner announced on Discord and via email.
               </p>
             </div>
           </div>
@@ -709,11 +717,11 @@ export default function Home() {
               Join 50,000+ Smart KakoBuy Shoppers
             </h2>
             <p className="text-xl md:text-2xl opacity-90 max-w-3xl mx-auto mb-8">
-              Get instant access to our complete <strong>KakoBuy spreadsheet database</strong>, 
+              Get instant access to our complete <strong>KakoBuy spreadsheet database</strong>,
               exclusive coupon codes, and save hundreds on your next haul.
             </p>
           </div>
-          
+
           <div className="grid md:grid-cols-3 gap-6 mb-12">
             <div className="bg-white/10 backdrop-blur-sm p-6 rounded-2xl">
               <div className="text-4xl mb-3">⚡</div>
@@ -731,10 +739,10 @@ export default function Home() {
               <div className="opacity-80">30-day full refund policy</div>
             </div>
           </div>
-          
+
           <div className="space-y-4">
             <TrackSignUpButton className="bg-white text-blue-900 hover:bg-gray-100 px-12 py-5 rounded-2xl text-xl font-black shadow-2xl transform hover:scale-105 transition-all duration-300 inline-flex items-center gap-3" />
-            
+
             <div className="text-center">
               <p className="text-lg opacity-80 mb-2">⭐⭐⭐⭐⭐ Rated 4.9/5 by 12,000+ customers</p>
               <div className="flex justify-center items-center gap-4 text-sm opacity-70">
@@ -748,6 +756,111 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* Footer with Partner Sites */}
+      <footer className="py-12 bg-gray-900 text-white px-4">
+        <div className="container mx-auto max-w-6xl">
+          <div className="grid md:grid-cols-4 gap-8">
+            {/* Brand Column */}
+            <div className="md:col-span-2">
+              <h3 className="text-2xl font-bold mb-4">KakoBuy Spreadsheet</h3>
+              <p className="text-gray-400 mb-4">
+                The #1 KakoBuy spreadsheet with 10,000+ verified products.
+                Trusted by 50,000+ shoppers worldwide since 2023.
+                3 years of experience helping you find the best deals on Taobao, Weidian, and 1688.
+              </p>
+              <p className="text-gray-500 text-sm">
+                © 2023-2026 KakoBuy Spreadsheet. All rights reserved.
+              </p>
+            </div>
+
+            {/* Quick Links */}
+            <div>
+              <h4 className="font-bold text-lg mb-4">Quick Links</h4>
+              <ul className="space-y-2 text-gray-400">
+                <li>
+                  <Link href="/kakobuy-spreadsheet" className="hover:text-white transition-colors">
+                    Browse Spreadsheet
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/features/finds-of-the-week" className="hover:text-white transition-colors">
+                    Weekly Finds
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/features/qc-images" className="hover:text-white transition-colors">
+                    QC Photos
+                  </Link>
+                </li>
+                <li>
+                  <Link href="#giveaway" className="hover:text-white transition-colors">
+                    Giveaway
+                  </Link>
+                </li>
+              </ul>
+            </div>
+
+            {/* Partner Network */}
+            <div>
+              <h4 className="font-bold text-lg mb-4">Our KakoBuy Network</h4>
+              <ul className="space-y-2 text-gray-400">
+                <li>
+                  <a
+                    href="https://kakobuyproducts.net"
+                    target="_blank"
+                    rel="noopener"
+                    className="hover:text-white transition-colors"
+                  >
+                    KakoBuy Products
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="https://kakobuyspreadsheets.net"
+                    target="_blank"
+                    rel="noopener"
+                    className="hover:text-white transition-colors"
+                  >
+                    KakoBuy Spreadsheets
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="https://kakobuyproducts.com"
+                    target="_blank"
+                    rel="noopener"
+                    className="hover:text-white transition-colors"
+                  >
+                    KakoBuy Products Hub
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="https://kakobuy.com"
+                    target="_blank"
+                    rel="noopener"
+                    className="hover:text-white transition-colors"
+                  >
+                    Official KakoBuy
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          {/* SEO Text for Footer */}
+          <div className="mt-8 pt-8 border-t border-gray-800">
+            <p className="text-gray-500 text-sm text-center">
+              Looking for the best <strong className="text-gray-400">KakoBuy spreadsheet 2026</strong>?
+              Our comprehensive database includes verified products from Taobao, Weidian, and 1688.
+              Whether you&apos;re in the USA, Germany, Poland, or anywhere else,
+              access free KakoBuy price lists, QC photos, and exclusive coupon codes.
+              The most trusted KakoBuy spreadsheet since 2023.
+            </p>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }

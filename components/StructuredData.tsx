@@ -16,17 +16,21 @@ export function OrganizationSchema({
     "name": name,
     "url": url,
     "logo": `${url}/images/seo-cover.webp`,
+    "foundingDate": "2023",
     "sameAs": [
       "https://www.facebook.com/kakobuyspreadsheet",
       "https://twitter.com/kakobuysheet",
-      "https://www.instagram.com/kakobuyspreadsheet"
+      "https://www.instagram.com/kakobuyspreadsheet",
+      "https://kakobuyproducts.net",
+      "https://kakobuyspreadsheets.net",
+      "https://kakobuyproducts.com"
     ],
     "contactPoint": {
       "@type": "ContactPoint",
       "contactType": "Customer Service",
       "availableLanguage": ["English", "German", "Polish"]
     },
-    "description": "The world's #1 KakoBuy spreadsheet with 10,000+ verified products, exclusive coupons, and QC photos. Updated daily.",
+    "description": "The world's #1 KakoBuy spreadsheet with 10,000+ verified products, exclusive coupons, and QC photos. Updated daily. Established 2023 with 3+ years of experience in the Chinese shopping agent industry.",
     "areaServed": ["US", "DE", "PL", "GB", "CA", "AU", "NZ", "Worldwide"],
     "aggregateRating": {
       "@type": "AggregateRating",
@@ -34,7 +38,15 @@ export function OrganizationSchema({
       "reviewCount": "12847",
       "bestRating": "5",
       "worstRating": "1"
-    }
+    },
+    "knowsAbout": [
+      "KakoBuy Shopping",
+      "Taobao Agent",
+      "Weidian Agent",
+      "1688 Agent",
+      "Chinese E-commerce",
+      "Product Spreadsheets"
+    ]
   };
 
   return (
@@ -49,10 +61,10 @@ export function WebSiteSchema() {
   const schema = {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    "name": "KakoBuy Spreadsheet",
-    "alternateName": ["KakoBuy Price List", "KakoBuy Database", "KakoBuy Finds"],
+    "name": "KakoBuy Spreadsheet 2026",
+    "alternateName": ["KakoBuy Price List", "KakoBuy Database", "KakoBuy Finds", "KakoBuy Mega Spreadsheet", "Official KakoBuy Spreadsheet"],
     "url": "https://kakobuy-spreadsheet.com",
-    "description": "Comprehensive KakoBuy product database with 10,000+ verified items, QC photos, coupons, and daily updates",
+    "description": "Comprehensive KakoBuy product database with 10,000+ verified items, QC photos, coupons, and daily updates. The most trusted KakoBuy spreadsheet since 2023.",
     "potentialAction": {
       "@type": "SearchAction",
       "target": {

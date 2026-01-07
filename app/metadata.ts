@@ -7,12 +7,14 @@ export function generateMainMetadata(): Metadata {
 
   return {
     metadataBase: new URL('https://kakobuy-spreadsheet.com'),
-    title: 'KakoBuy Spreadsheet 2025 | #1 Price List, Finds & QC Photos - USA, DE, PL',
-    description: 'Official KakoBuy Spreadsheet 2025 with 10,000+ verified products, exclusive coupons & QC photos. Best KakoBuy price list for USA, Germany, Poland. Updated daily. Free access.',
+    title: 'KakoBuy Spreadsheet 2026 | #1 Free Price List & QC',
+    description: 'Official KakoBuy Spreadsheet 2026 with 10,000+ verified products, exclusive coupons & QC photos. Best KakoBuy price list for USA, Germany, Poland. Updated daily. Free access.',
     keywords: [
       // Primary target keyword
       'kakobuy spreadsheet',
-      'kakobuy spreadsheet 2025',
+      'kakobuy spreadsheet 2026',
+      'kakobuy mega spreadsheet',
+      'official kakobuy spreadsheet',
 
       // Geographic modifiers
       'kakobuy spreadsheet usa',
@@ -32,21 +34,29 @@ export function generateMainMetadata(): Metadata {
       'kakobuy qc photos',
       'kakobuy coupons',
       'kakobuy discount codes',
+      'kakobuy link converter',
+      'taobao kakobuy',
+      'weidian kakobuy',
+      '1688 kakobuy',
 
       // Long-tail variations
       'where to find kakobuy spreadsheet',
-      'kakobuy spreadsheet 2025 free',
+      'kakobuy spreadsheet 2026 free',
       'kakobuy spreadsheet with prices',
       'kakobuy verified products',
       'kakobuy seller list',
+      'kakobuy spreadsheet taobao links',
+      'kakobuy spreadsheet weidian links',
 
       // German keywords
       'kakobuy tabelle',
       'kakobuy preisliste',
+      'kakobuy spreadsheet deutschland',
 
       // Polish keywords
       'kakobuy arkusz',
       'kakobuy lista',
+      'kakobuy spreadsheet polska',
     ].join(', '),
     authors: [{ name: 'KakoBuy Spreadsheet Team' }],
     creator: 'KakoBuy Spreadsheet',
@@ -57,7 +67,7 @@ export function generateMainMetadata(): Metadata {
       telephone: false,
     },
     openGraph: {
-      title: 'KakoBuy Spreadsheet 2025 | 10,000+ Verified Products & QC Photos',
+      title: 'KakoBuy Spreadsheet 2026 | 10,000+ Verified Products & QC Photos',
       description: 'The official #1 KakoBuy spreadsheet with 10,000+ verified products, exclusive coupons, and QC photos. Best price list for USA, Germany, Poland. Updated daily, free access.',
       url: canonicalUrl,
       siteName: 'KakoBuy Spreadsheet',
@@ -74,7 +84,7 @@ export function generateMainMetadata(): Metadata {
     },
     twitter: {
       card: 'summary_large_image',
-      title: "KakoBuy Spreadsheet 2025 | 10,000+ Products, Coupons & QC Photos",
+      title: "KakoBuy Spreadsheet 2026 | 10,000+ Products, Coupons & QC Photos",
       description: 'Official #1 KakoBuy spreadsheet: 10,000+ verified products, exclusive coupons, QC photos. Best for USA, Germany, Poland. Free access, updated daily.',
       images: ['https://kakobuy-spreadsheet.com/images/seo-cover.webp'],
       creator: '@kakobuysheet',

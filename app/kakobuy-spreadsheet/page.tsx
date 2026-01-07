@@ -17,7 +17,8 @@ export async function generateMetadata(): Promise<Metadata> {
     metadataBase: new URL('https://kakobuy-spreadsheet.com'),
     keywords: [
       'kakobuy spreadsheet',
-      'kakobuy spreadsheet 2025',
+      'kakobuy spreadsheet 2026',
+      'kakobuy mega spreadsheet',
       'kakobuy price list',
       'kakobuy products',
       'kakobuy spreadsheet free',
@@ -32,6 +33,11 @@ export async function generateMetadata(): Promise<Metadata> {
       'kakobuy spreadsheet germany',
       'kakobuy spreadsheet poland',
       'best kakobuy spreadsheet',
+      'official kakobuy spreadsheet',
+      'kakobuy link converter',
+      'taobao kakobuy links',
+      'weidian kakobuy links',
+      '1688 kakobuy',
     ],
     openGraph: {
       title,
@@ -250,7 +256,7 @@ export default async function KakoBuySpreadsheetPage({
       <ProductPageHeroProducts />
 
       {/* H1 for SEO - visually hidden */}
-      <h1 className="sr-only">KakoBuy Spreadsheet 2025 - Complete Product Database</h1>
+      <h1 className="sr-only">KakoBuy Spreadsheet 2026 - Complete Product Database</h1>
 
       <div className="h-full my-4">
         <div className="grid max-w-screen-xl px-4 mx-auto w-full animate-page-fade-in">
