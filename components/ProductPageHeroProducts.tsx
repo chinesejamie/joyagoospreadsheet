@@ -3,8 +3,8 @@
 import Link from 'next/link';
 import ProductPageSearchBar from '@/components/ProductPageSearchBar';
 
-const agentName = process.env.NEXT_PUBLIC_AGENT_NAME || 'KakoBuy';
-const inviteURL = process.env.NEXT_PUBLIC_INVITE_URL || 'https://ikako.vip/r/kakobuyspreadsheet';
+const agentName = process.env.NEXT_PUBLIC_AGENT_NAME || 'JoyaGoo';
+const inviteURL = process.env.NEXT_PUBLIC_INVITE_URL || 'https://joyagoo.com/register?ref=300000171';
 
 export default function ProductPageHeroProducts() {
   return (
@@ -31,7 +31,7 @@ export default function ProductPageHeroProducts() {
         <div className="hidden lg:mt-0 lg:col-span-5 lg:flex items-center justify-center">
           <a
             href={inviteURL}
-            className="signup-button bg-primary-600 hover:bg-primary-700 text-white font-bold py-8 px-8 rounded-full shadow-lg flex items-center justify-center transform transition duration-300 ease-in-out hover:scale-105 focus:outline-none"
+            className="signup-button bg-primary-500 hover:bg-primary-600 text-gray-900 font-bold py-8 px-8 rounded-full shadow-lg flex items-center justify-center transform transition duration-300 ease-in-out hover:scale-105 focus:outline-none"
             target="_blank"
             rel="noopener noreferrer"
           >

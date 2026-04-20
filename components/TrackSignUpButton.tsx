@@ -25,7 +25,7 @@ export default function TrackSignUpButton({ className }: TrackSignUpButtonProps)
       (window as any).gtag('event', 'sign_up', {
         method: 'button_click',
         event_category: 'engagement',
-        event_label: 'kakobuy_signup',
+        event_label: 'joyagoo_signup',
         value: 1
       });
     }
@@ -36,11 +36,11 @@ export default function TrackSignUpButton({ className }: TrackSignUpButtonProps)
     }
 
     // Track Google Ads conversion with delayed navigation
-    const url = process.env.NEXT_PUBLIC_INVITE_URL || 'https://www.kakobuy.com/register_sps?affcode=kakobuyspreadsheet';
+    const url = process.env.NEXT_PUBLIC_INVITE_URL || 'https://joyagoo.com/register?ref=300000171';
     trackSignupConversion(url);
   };
 
-  const defaultClassName = "bg-gradient-to-br from-primary-500 to-primary-600 hover:from-primary-600 hover:to-primary-700 text-white px-12 py-6 rounded-full text-xl font-bold transition-all transform hover:scale-105 shadow-xl shadow-primary-200 hover:shadow-primary-300 flex items-center justify-center gap-2 cursor-pointer";
+  const defaultClassName = "bg-gradient-to-br from-primary-500 to-primary-600 hover:from-primary-600 hover:to-primary-700 text-gray-900 px-12 py-6 rounded-full text-xl font-bold transition-all transform hover:scale-105 shadow-xl shadow-primary-200 hover:shadow-primary-300 flex items-center justify-center gap-2 cursor-pointer";
 
   return (
     <button
@@ -48,7 +48,7 @@ export default function TrackSignUpButton({ className }: TrackSignUpButtonProps)
       className={className || defaultClassName}
       type="button"
     >
-      🚀 Sign Up for KakoBuy & Get Exclusive Coupons!
+      🚀 Sign Up for JoyaGoo & Get Exclusive Coupons!
     </button>
   );
 }

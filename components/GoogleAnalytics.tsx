@@ -22,7 +22,7 @@ export function GoogleAnalytics() {
             page_location: window.location.href,
           });
           
-          // Custom Events für KakoBuy Spreadsheet
+          // Custom Events für JoyaGoo Spreadsheet
           window.gtag = gtag;
         `}
       </Script>
@@ -34,14 +34,14 @@ export function GoogleAnalytics() {
 export const trackEvent = (eventName: string, parameters?: any) => {
   if (typeof window !== 'undefined' && window.gtag) {
     window.gtag('event', eventName, {
-      event_category: 'KakoBuy_Spreadsheet',
+      event_category: 'JoyaGoo_Spreadsheet',
       event_label: window.location.pathname,
       ...parameters,
     });
   }
 };
 
-// Spezielle Events für KakoBuy
+// Spezielle Events für JoyaGoo
 export const trackSignupAttempt = (method: string = 'email') => {
   trackEvent('signup_attempt', {
     event_category: 'User_Acquisition',

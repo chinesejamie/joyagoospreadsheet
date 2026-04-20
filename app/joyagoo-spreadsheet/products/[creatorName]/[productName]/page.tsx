@@ -1,4 +1,4 @@
-// app/kakobuy-spreadsheet/products/[creatorName]/[productName]/page.tsx
+// app/joyagoo-spreadsheet/products/[creatorName]/[productName]/page.tsx
 
 import { notFound } from 'next/navigation';
 import connectToDatabase from '@/lib/mongodb';
@@ -65,10 +65,10 @@ export async function generateMetadata({
   if (!product) return {};
 
   const usdPrice = (product.price * 0.14).toFixed(2);
-  const seoTitle = `${product.name} - $${usdPrice} | KakoBuy Spreadsheet ${new Date().getFullYear()}`;
-  const seoDescription = `Buy ${product.name} on KakoBuy. Best price: $${usdPrice} USD (¥${product.price} CNY). ${
+  const seoTitle = `${product.name} - $${usdPrice} | JoyaGoo Spreadsheet ${new Date().getFullYear()}`;
+  const seoDescription = `Buy ${product.name} on JoyaGoo. Best price: $${usdPrice} USD (¥${product.price} CNY). ${
     product.description?.slice(0, 140) || 'Verified seller, quality guaranteed.'
-  } Free KakoBuy Spreadsheet.`;
+  } Free JoyaGoo Spreadsheet.`;
   const imageUrl =
     product.images?.[0] && typeof product.images[0] === 'string'
       ? product.images[0]
@@ -77,18 +77,18 @@ export async function generateMetadata({
   return {
     title: seoTitle,
     description: seoDescription,
-    metadataBase: new URL('https://kakobuy-spreadsheet.com'),
+    metadataBase: new URL('https://joyagoospreadsheet.com'),
     keywords: [
-      'kakobuy spreadsheet',
+      'joyagoo spreadsheet',
       `${product.name}`,
-      `${product.name} kakobuy`,
-      `${creatorName} kakobuy`,
-      'kakobuy price list',
-      'kakobuy product',
-      `${product.category || 'product'} kakobuy`,
-      'kakobuy spreadsheet 2026',
-      'buy on kakobuy',
-      'kakobuy verified seller',
+      `${product.name} joyagoo`,
+      `${creatorName} joyagoo`,
+      'joyagoo price list',
+      'joyagoo product',
+      `${product.category || 'product'} joyagoo`,
+      'joyagoo spreadsheet 2026',
+      'buy on joyagoo',
+      'joyagoo verified seller',
     ],
     openGraph: {
       title: seoTitle,
@@ -110,7 +110,7 @@ export async function generateMetadata({
       images: [imageUrl],
     },
     alternates: {
-      canonical: `/kakobuy-spreadsheet/products/${encCreator}/${encProduct}`,
+      canonical: `/joyagoo-spreadsheet/products/${encCreator}/${encProduct}`,
     },
   };
 }
@@ -160,25 +160,25 @@ export default async function ProductPage({
       ? product.images[0]
       : product.images?.[0]?.url || '/images/default-product.jpg';
 
-  const linkToKakoBuy = product.link
-    ? `https://www.kakobuy.com/item/details?url=${encodeURI(
+  const linkToJoyaGoo = product.link
+    ? `https://www.joyagoo.com/product?url=${encodeURI(
         product.link
-      )}&affcode=kakobuyspreadsheet`
+      )}&ref=300000171`
     : null;
 
   // Breadcrumb data
   const breadcrumbs = [
-    { name: 'Home', url: 'https://kakobuy-spreadsheet.com' },
-    { name: 'KakoBuy Spreadsheet', url: 'https://kakobuy-spreadsheet.com/kakobuy-spreadsheet' },
-    { name: product.name || 'Product', url: `https://kakobuy-spreadsheet.com/kakobuy-spreadsheet/products/${encodeURIComponent(product.creatorName)}/${encodeURIComponent(product.name)}` },
+    { name: 'Home', url: 'https://joyagoospreadsheet.com' },
+    { name: 'JoyaGoo Spreadsheet', url: 'https://joyagoospreadsheet.com/joyagoo-spreadsheet' },
+    { name: product.name || 'Product', url: `https://joyagoospreadsheet.com/joyagoo-spreadsheet/products/${encodeURIComponent(product.creatorName)}/${encodeURIComponent(product.name)}` },
   ];
 
   return (
     <div className="container mx-auto py-8 bg-white">
       {/* Schema.org Product structured data */}
       <ProductSchema
-        name={product.name || 'KakoBuy Product'}
-        description={product.description || `Buy ${product.name} on KakoBuy. Verified seller with quality guarantee.`}
+        name={product.name || 'JoyaGoo Product'}
+        description={product.description || `Buy ${product.name} on JoyaGoo. Verified seller with quality guarantee.`}
         image={mainImage}
         price={parseFloat(usdPrice)}
         currency="USD"
@@ -194,8 +194,8 @@ export default async function ProductPage({
                 src={mainImage}
                 alt={
                   product.name
-                    ? `${product.name} - KakoBuy Spreadsheet`
-                    : 'KakoBuy Spreadsheet Product'
+                    ? `${product.name} - JoyaGoo Spreadsheet`
+                    : 'JoyaGoo Spreadsheet Product'
                 }
                 fill
                 className="object-contain"
@@ -207,7 +207,7 @@ export default async function ProductPage({
 
           <div className="flex flex-col">
             <h1 className="text-3xl font-bold text-gray-900 mb-2">
-              {product.name || 'KakoBuy Spreadsheet Product'}
+              {product.name || 'JoyaGoo Spreadsheet Product'}
             </h1>
             <p className="text-xl text-gray-700 mb-4">
               Creator: <span className="font-semibold">{product.creatorName}</span>
@@ -227,7 +227,7 @@ export default async function ProductPage({
               </h2>
               <p className="text-gray-700">
                 {product.description ||
-                  'Explore this product on KakoBuy Spreadsheet for detailed information and pricing.'}
+                  'Explore this product on JoyaGoo Spreadsheet for detailed information and pricing.'}
               </p>
             </div>
 
@@ -246,12 +246,12 @@ export default async function ProductPage({
               </div>
             </div>
 
-            {linkToKakoBuy && (
+            {linkToJoyaGoo && (
               <div className="mt-8">
                 <BuyNowButton
                   creatorName={product.creatorName}
                   productId={product._id.toString()}
-                  href={linkToKakoBuy}
+                  href={linkToJoyaGoo}
                 />
               </div>
             )}
@@ -273,7 +273,7 @@ export default async function ProductPage({
                   >
                     <Image
                       src={src}
-                      alt={`${product.name || 'KakoBuy Product'} - Image ${
+                      alt={`${product.name || 'JoyaGoo Product'} - Image ${
                         index + 2
                       }`}
                       fill

@@ -2,9 +2,9 @@
 import { MetadataRoute } from 'next';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = 'https://kakobuy-spreadsheet.com';
+  const baseUrl = 'https://joyagoospreadsheet.com';
 
-  // Core pages with high priority for "kakobuy spreadsheet" keyword
+  // Core pages with high priority for "joyagoo spreadsheet" keyword
   const routes = [
     {
       url: baseUrl,
@@ -13,7 +13,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 1.0,
     },
     {
-      url: `${baseUrl}/kakobuy-spreadsheet`,
+      url: `${baseUrl}/joyagoo-spreadsheet`,
       lastModified: new Date(),
       changeFrequency: 'hourly' as const,
       priority: 1.0, // Highest priority - main keyword page
@@ -40,11 +40,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   // Article pages
   const articles = [
-    'is-kakobuy-legit',
-    'kakobuy-review',
-    'kakobuy-coupon-code',
-    'how-to-use-kakobuy',
-    'how-to-shop-with-kakobuy',
+    'is-joyagoo-legit',
+    'joyagoo-review',
+    'joyagoo-coupon-code',
+    'how-to-use-joyagoo',
+    'how-to-shop-with-joyagoo',
   ];
 
   const articleRoutes = articles.map((slug) => ({

@@ -109,19 +109,19 @@ export function QCImageFetcher() {
     <div className="space-y-8">
       {/* Header */}
       <div>
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">Kakobuy QC Image Verification Tool</h1>
+        <h1 className="text-3xl font-bold text-gray-900 mb-2">JoyaGoo QC Image Verification Tool</h1>
       </div>
 
       {/* Explanation */}
       <section className="bg-blue-50/30 p-6 rounded-xl border border-blue-200">
-        <h2 className="text-xl font-semibold text-gray-900 mb-3">What is Kakobuy QC Verification?</h2>
+        <h2 className="text-xl font-semibold text-gray-900 mb-3">What is JoyaGoo QC Verification?</h2>
         <p className="text-gray-600 mb-4">
-          The Kakobuy QC Image Checker allows customers to review quality control documentation for their purchases.
+          The JoyaGoo QC Image Checker allows customers to review quality control documentation for their purchases.
         </p>
         <div className="grid gap-2 text-sm text-gray-600">
           <div className="flex items-center gap-2">
             <CheckCircle className="w-5 h-5 text-green-600" />
-            Official Kakobuy quality assurance records
+            Official JoyaGoo quality assurance records
           </div>
           <div className="flex items-center gap-2">
             <ImageIcon className="w-5 h-5 text-blue-600" />
@@ -144,7 +144,7 @@ export function QCImageFetcher() {
               value={goodsUrl}
               onChange={(e) => setGoodsUrl(e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && fetchImages()}
-              placeholder="Enter Kakobuy Product URL"
+              placeholder="Enter JoyaGoo Product URL"
               disabled={loading}
               className="w-full pl-10 pr-4 py-3 border-0 ring-1 ring-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 placeholder-gray-400 bg-gray-50 transition-all duration-200 outline-none"
             />
@@ -154,7 +154,7 @@ export function QCImageFetcher() {
             disabled={loading || !goodsUrl}
             className="px-6 py-3.5 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl hover:opacity-90 disabled:opacity-50 flex items-center justify-center gap-2 font-medium transition"
           >
-            {loading ? <Search className="w-5 h-5 animate-spin" /> : 'Verify Kakobuy QC'}
+            {loading ? <Search className="w-5 h-5 animate-spin" /> : 'Verify JoyaGoo QC'}
           </button>
         </div>
       </section>
@@ -226,7 +226,7 @@ export function QCImageFetcher() {
           <FileSearch className="mx-auto h-12 w-12 text-gray-400 mb-4" />
           <h2 className="text-lg font-medium text-gray-900 mb-2">No QC images available</h2>
           <p className="text-gray-500 text-sm mb-4">
-            Enter a valid Kakobuy product URL to find QC images.
+            Enter a valid JoyaGoo product URL to find QC images.
           </p>
         </div>
       )}

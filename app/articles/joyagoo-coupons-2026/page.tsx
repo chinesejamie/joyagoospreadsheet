@@ -1,4 +1,4 @@
-// app/articles/kakobuy-coupons/page.tsx
+// app/articles/joyagoo-coupons/page.tsx
 import { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -19,24 +19,24 @@ import {
   } from 'lucide-react';
   
 export const metadata: Metadata = {
-  title: 'KakoBuy Coupons 2024: How to Save Money on Every Order',
-  description: 'Discover how to find and use active KakoBuy coupon codes and spreadsheet-exclusive deals in 2024. Save up to 20% on your next purchase.',
+  title: 'JoyaGoo Coupons 2026: How to Save Money on Every Order',
+  description: 'Discover how to find and use active JoyaGoo coupon codes and spreadsheet-exclusive deals in 2026. Save up to 20% on your next purchase.',
   alternates: {
-    canonical: '/articles/kakobuy-coupons',
+    canonical: '/articles/joyagoo-coupons',
   },
-  keywords: 'kakobuy coupons, kakobuy discounts, kakobuy spreadsheet deals, save on kakobuy, kakobuy promo codes, kakobuy savings',
+  keywords: 'joyagoo coupons, joyagoo discounts, joyagoo spreadsheet deals, save on joyagoo, joyagoo promo codes, joyagoo savings',
   openGraph: {
-    title: 'KakoBuy Coupons 2024: How to Save Money on Every Order',
-    description: 'Discover how to find and use active KakoBuy coupon codes and spreadsheet-exclusive deals in 2024. Save up to 20% on your next purchase.',
-    url: '/articles/kakobuy-coupons',
+    title: 'JoyaGoo Coupons 2026: How to Save Money on Every Order',
+    description: 'Discover how to find and use active JoyaGoo coupon codes and spreadsheet-exclusive deals in 2026. Save up to 20% on your next purchase.',
+    url: '/articles/joyagoo-coupons',
     type: 'article',
-    publishedTime: '2024-04-17T00:00:00.000Z',
-    authors: ['KakoBuy Shopping Experts'],
+    publishedTime: '2026-04-17T00:00:00.000Z',
+    authors: ['JoyaGoo Shopping Experts'],
   },
 };
 
 
-export default function KakoBuyCouponsPage() {
+export default function JoyaGooCouponsPage() {
   return (
     <div className="max-w-4xl mx-auto px-4 py-12">
       {/* Hero Section with Animation */}
@@ -44,11 +44,11 @@ export default function KakoBuyCouponsPage() {
         <div className="bg-gradient-to-r from-blue-600 to-indigo-800 p-8 text-white">
           <div className="flex items-center mb-4">
           <Ticket size={32} className="mr-3" />
-            <h1 className="text-4xl font-bold">KakoBuy Coupons 2024</h1>
+            <h1 className="text-4xl font-bold">JoyaGoo Coupons 2026</h1>
           </div>
           <p className="text-xl mb-6">How to Save Money on Every Order</p>
           <div className="flex items-center text-sm">
-            <span className="bg-white text-blue-800 px-3 py-1 rounded-full font-medium">Last Updated: April 17, 2024</span>
+            <span className="bg-white text-blue-800 px-3 py-1 rounded-full font-medium">Last Updated: April 17, 2026</span>
             <span className="mx-3">•</span>
             <span>7 min read</span>
           </div>
@@ -59,7 +59,7 @@ export default function KakoBuyCouponsPage() {
       {/* Introduction */}
       <div className="prose prose-lg max-w-none mb-10 animate-fade-in-up">
       <p className="text-xl leading-relaxed">
-          KakoBuy has quickly become the go-to shopping agent for finding quality products on Chinese marketplaces. 
+          JoyaGoo has quickly become the go-to shopping agent for finding quality products on Chinese marketplaces. 
           But are you making the most of your budget? This comprehensive guide will help you unlock the best coupon codes 
           and combine them with spreadsheet-exclusive discounts to maximize your savings on every order.
         </p>
@@ -68,7 +68,7 @@ export default function KakoBuyCouponsPage() {
           <div className="flex">
             <AlertCircle className="text-yellow-800 mr-3" />
             <p className="text-yellow-800">
-              <strong>Pro Tip:</strong> Most KakoBuy shoppers miss out on up to 20% in potential savings by not combining 
+              <strong>Pro Tip:</strong> Most JoyaGoo shoppers miss out on up to 20% in potential savings by not combining 
               available discounts. Our guide shows you exactly how to stack coupons strategically.
             </p>
           </div>
@@ -84,7 +84,7 @@ export default function KakoBuyCouponsPage() {
         <ul className="space-y-3">
           <li className="flex items-center">
             <span className="bg-blue-100 text-blue-800 w-6 h-6 rounded-full flex items-center justify-center mr-2">1</span>
-            <a href="#finding-coupons" className="text-blue-800 hover:underline">Where to find reliable KakoBuy coupons</a>
+            <a href="#finding-coupons" className="text-blue-800 hover:underline">Where to find reliable JoyaGoo coupons</a>
           </li>
           <li className="flex items-center">
             <span className="bg-blue-100 text-blue-800 w-6 h-6 rounded-full flex items-center justify-center mr-2">2</span>
@@ -109,14 +109,14 @@ export default function KakoBuyCouponsPage() {
       <div className="prose prose-lg max-w-none">
         <h2 id="finding-coupons" className="text-2xl font-bold mt-12 mb-6 flex items-center">
           <ShoppingBag className="mr-2" />
-          Where to Find KakoBuy Coupons
+          Where to Find JoyaGoo Coupons
         </h2>
         
         <div className="grid md:grid-cols-2 gap-8 my-8 animate-fade-in-up">
         <div className="bg-white p-6 rounded-lg shadow-md border border-gray-100 hover:shadow-lg transition-shadow duration-200">
-            <h3 className="font-bold text-lg mb-3">Official KakoBuy Channels</h3>
+            <h3 className="font-bold text-lg mb-3">Official JoyaGoo Channels</h3>
             <p>
-              KakoBuy regularly posts limited-time promotional codes on their official communication channels. Make sure to:
+              JoyaGoo regularly posts limited-time promotional codes on their official communication channels. Make sure to:
             </p>
             <ul className="mt-3 space-y-2">
               <li className="flex items-start">
@@ -160,7 +160,7 @@ export default function KakoBuyCouponsPage() {
         <div className="bg-white p-6 rounded-lg shadow-md border border-gray-100 hover:shadow-lg transition-shadow duration-200">
             <h3 className="font-bold text-lg mb-3">First-Time User Benefits</h3>
             <p>
-              New to KakoBuy? Don't miss out on these opportunities:
+              New to JoyaGoo? Don't miss out on these opportunities:
             </p>
             <ul className="mt-3 space-y-2">
               <li className="flex items-start">
@@ -181,7 +181,7 @@ export default function KakoBuyCouponsPage() {
           <div className="bg-white p-6 rounded-lg shadow-md border border-gray-100 hover:shadow-lg transition-shadow duration-200">
             <h3 className="font-bold text-lg mb-3">Agent-Specific Promotions</h3>
             <p>
-              Individual KakoBuy agents often have their own promotion systems:
+              Individual JoyaGoo agents often have their own promotion systems:
             </p>
             <ul className="mt-3 space-y-2">
               <li className="flex items-start">
@@ -202,35 +202,35 @@ export default function KakoBuyCouponsPage() {
         
         {/* Active Coupon Codes Section */}
         <div className="bg-blue-50 p-6 rounded-lg my-12 border border-blue-100">
-          <h3 className="text-xl font-bold mb-4 text-blue-800">Active KakoBuy Coupon Codes (April 2024)</h3>
+          <h3 className="text-xl font-bold mb-4 text-blue-800">Active JoyaGoo Coupon Codes (April 2026)</h3>
           <div className="grid md:grid-cols-2 gap-4">
             <CouponCard 
               code="KAKOSPRING24" 
               discount="15% OFF" 
-              expiry="April 30, 2024" 
+              expiry="April 30, 2026" 
               minPurchase={100} 
             />
             <CouponCard 
-              code="NEWUSER2024" 
+              code="NEWUSER2026" 
               discount="10% OFF" 
-              expiry="Dec 31, 2024" 
+              expiry="Dec 31, 2026" 
               minPurchase={50} 
             />
             <CouponCard 
               code="FREESHIP100" 
               discount="Free Shipping" 
-              expiry="May 15, 2024" 
+              expiry="May 15, 2026" 
               minPurchase={100} 
             />
             <CouponCard 
               code="SPREADSHEET10" 
               discount="10% OFF" 
-              expiry="June 1, 2024" 
+              expiry="June 1, 2026" 
               minPurchase={75} 
             />
           </div>
           <p className="text-sm text-gray-600 mt-4">
-            * These codes have been verified as of April 17, 2024. Availability and terms may change without notice.
+            * These codes have been verified as of April 17, 2026. Availability and terms may change without notice.
           </p>
         </div>
         
@@ -355,7 +355,7 @@ export default function KakoBuyCouponsPage() {
         
         <div className="my-8">
           <p>
-            The most experienced KakoBuy shoppers know that true savings come from strategically combining different 
+            The most experienced JoyaGoo shoppers know that true savings come from strategically combining different 
             discount types. Here's how to maximize your savings:
           </p>
           
@@ -417,7 +417,7 @@ export default function KakoBuyCouponsPage() {
         
         <div className="my-8">
           <p>
-            KakoBuy sends special promotional codes to their email subscribers that aren't available anywhere else. 
+            JoyaGoo sends special promotional codes to their email subscribers that aren't available anywhere else. 
             These exclusive offers typically include:
           </p>
           
@@ -445,14 +445,14 @@ export default function KakoBuyCouponsPage() {
         <div className="bg-gradient-to-r from-blue-600 to-indigo-800 p-8 rounded-xl text-white my-12 shadow-lg">
           <div className="md:flex items-center justify-between">
             <div className="md:w-2/3">
-              <h3 className="text-2xl font-bold mb-2">Ready to Save on Your Next KakoBuy Order?</h3>
+              <h3 className="text-2xl font-bold mb-2">Ready to Save on Your Next JoyaGoo Order?</h3>
               <p className="mb-4">
                 Sign up now to receive exclusive coupon codes and be the first to know about special promotions. 
                 New subscribers receive an instant 10% off their first order!
               </p>
             </div>
             <div className="md:w-1/3 text-center mt-6 md:mt-0">
-              <Link href="https://ikako.vip/r/kakobuyspreadsheet" className="inline-flex items-center bg-white text-blue-800 px-6 py-3 rounded-lg font-bold hover:bg-blue-50 transition-colors duration-200">
+              <Link href="https://joyagoo.com/register?ref=300000171" className="inline-flex items-center bg-white text-blue-800 px-6 py-3 rounded-lg font-bold hover:bg-blue-50 transition-colors duration-200">
                 Sign Up Now
                 <ArrowRight className="ml-2" />
               </Link>
@@ -515,8 +515,8 @@ export default function KakoBuyCouponsPage() {
       <div className="border-t border-gray-200 pt-10 mt-10">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center">
           <div className="mb-4 sm:mb-0">
-            <p className="text-sm text-gray-500">Last Updated: April 17, 2024</p>
-            <p className="text-sm text-gray-500">Author: KakoBuy Shopping</p>
+            <p className="text-sm text-gray-500">Last Updated: April 17, 2026</p>
+            <p className="text-sm text-gray-500">Author: JoyaGoo Shopping</p>
           </div>
           <div className="flex space-x-4">
             <Link href="/signup" className="flex items-center text-blue-600 hover:text-blue-800 font-semibold">

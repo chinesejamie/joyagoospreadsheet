@@ -4,8 +4,8 @@ import QCFaq from '@/components/QCFaq';
 import { Metadata } from 'next'; // Add this import
 
 export const metadata: Metadata = {
-  title: 'KakoBuy QC Image Checker | Official Quality Control Verification',
-  description: 'Verify Kakobuy product quality with official QC images. Access historical quality control records and inspection photos.',
+  title: 'JoyaGoo QC Image Checker | Official Quality Control Verification',
+  description: 'Verify JoyaGoo product quality with official QC images. Access historical quality control records and inspection photos.',
   other: {
     'script:ld+json': JSON.stringify({
       "@context": "https://schema.org",
@@ -13,18 +13,18 @@ export const metadata: Metadata = {
       "mainEntity": [
         {
           "@type": "Question",
-          "name": "How does the Kakobuy QC verification work?",
+          "name": "How does the JoyaGoo QC verification work?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Our system cross-references Kakobuy product URLs with our quality control database, providing access to original inspection images and documentation."
+            "text": "Our system cross-references JoyaGoo product URLs with our quality control database, providing access to original inspection images and documentation."
           }
         },
         {
           "@type": "Question",
-          "name": "Are Kakobuy QC images available for all products?",
+          "name": "Are JoyaGoo QC images available for all products?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "We maintain QC records for all Kakobuy products that have undergone quality inspection. Some newer items may take 24-48 hours for records to become available."
+            "text": "We maintain QC records for all JoyaGoo products that have undergone quality inspection. Some newer items may take 24-48 hours for records to become available."
           }
         }
       ]

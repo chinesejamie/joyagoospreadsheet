@@ -40,7 +40,7 @@ const ProductSchema = new Schema(
       type: [
         {
           purchasedAt: { type: Date, default: Date.now },
-          origin: { type: String, default: 'KakoBuy' },
+          origin: { type: String, default: 'JoyaGoo' },
         },
       ],
       default: [],

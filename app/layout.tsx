@@ -21,14 +21,14 @@ export default function RootLayout({
     <html lang="en">
       <head>
         {/* Hreflang tags for international SEO */}
-        <link rel="alternate" hrefLang="en" href="https://kakobuy-spreadsheet.com" />
-        <link rel="alternate" hrefLang="en-us" href="https://kakobuy-spreadsheet.com" />
-        <link rel="alternate" hrefLang="en-gb" href="https://kakobuy-spreadsheet.com" />
-        <link rel="alternate" hrefLang="de" href="https://kakobuy-spreadsheet.com" />
-        <link rel="alternate" hrefLang="de-de" href="https://kakobuy-spreadsheet.com" />
-        <link rel="alternate" hrefLang="pl" href="https://kakobuy-spreadsheet.com" />
-        <link rel="alternate" hrefLang="pl-pl" href="https://kakobuy-spreadsheet.com" />
-        <link rel="alternate" hrefLang="x-default" href="https://kakobuy-spreadsheet.com" />
+        <link rel="alternate" hrefLang="en" href="https://joyagoospreadsheet.com" />
+        <link rel="alternate" hrefLang="en-us" href="https://joyagoospreadsheet.com" />
+        <link rel="alternate" hrefLang="en-gb" href="https://joyagoospreadsheet.com" />
+        <link rel="alternate" hrefLang="de" href="https://joyagoospreadsheet.com" />
+        <link rel="alternate" hrefLang="de-de" href="https://joyagoospreadsheet.com" />
+        <link rel="alternate" hrefLang="pl" href="https://joyagoospreadsheet.com" />
+        <link rel="alternate" hrefLang="pl-pl" href="https://joyagoospreadsheet.com" />
+        <link rel="alternate" hrefLang="x-default" href="https://joyagoospreadsheet.com" />
 
         {/* Structured Data - Organization & Website */}
         <OrganizationSchema />
@@ -61,7 +61,7 @@ export default function RootLayout({
               gtag('js', new Date());
               gtag('config', 'G-WB49KRXQFM', {
                 page_path: window.location.pathname,
-                debug_mode: true, // Enable debug mode for local testing
+                debug_mode: true,
               });
             `,
           }}

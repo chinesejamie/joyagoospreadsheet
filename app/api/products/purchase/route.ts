@@ -19,7 +19,7 @@ export async function POST(req: NextRequest) {
       { creatorName, _id: new mongoose.Types.ObjectId(productId) },
       {
         $inc: { purchased: 1 },
-        $push: { purchaseHistory: { purchasedAt: new Date(), origin: 'KakoBuy' } }
+        $push: { purchaseHistory: { purchasedAt: new Date(), origin: 'JoyaGoo' } }
       },
       { new: true }
     );

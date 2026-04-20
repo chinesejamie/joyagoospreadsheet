@@ -7,8 +7,8 @@ export default function RelatedArticles() {
     {
       id: 1,
       icon: <CreditCard className="w-12 h-12 text-gray-400" />,
-      title: "Top 5 Agent Services Compared for 2024",
-      description: "See how KakoBuy stacks up against other leading services in our comprehensive comparison.",
+      title: "Top 5 Agent Services Compared for 2026",
+      description: "See how JoyaGoo stacks up against other leading services in our comprehensive comparison.",
       link: "#"
     },
     {

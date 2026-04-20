@@ -7,7 +7,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
 
-const agentName = process.env.NEXT_PUBLIC_AGENT_NAME || 'KakoBuy';
+const agentName = process.env.NEXT_PUBLIC_AGENT_NAME || 'JoyaGoo';
 
 const navigation = [
   { name: 'Home', href: '/' },
@@ -15,7 +15,7 @@ const navigation = [
   { name: 'Articles', href: '/articles' },
   { name: 'Finds of the Week', href: '/features/finds-of-the-week' },
   { name: 'FAQ', href: '/features/faq' },
-  { name: 'QC-Images', href: '/features/kakobuy-qc-images' },
+  { name: 'QC-Images', href: '/features/joyagoo-qc-images' },
 ];
 
 export default function Header() {
@@ -27,28 +27,18 @@ export default function Header() {
       <div className="relative">{/* <TopBanner /> */}</div>
 
       <nav className="flex items-center justify-between p-6 lg:px-8" aria-label="Global">
-        {/* Left Side: Logo & Discord */}
+        {/* Left Side: Logo */}
         <div className="flex lg:flex-1 items-center">
           <Link href="/" className="-m-1.5 p-1.5">
             <span className="sr-only">{agentName} Spreadsheet</span>
             <Image
-              src="/staticImages/KakoBuySpreadSheet.webp"
+              src="/staticImages/JoyaGooSpreadSheet.webp"
               alt={`${agentName}-logo`}
               width={120}
               height={32}
               className="h-8 w-auto"
             />
           </Link>
-
-          <a
-            href="https://discord.gg/GGZPQeSjxv"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="ml-4 inline-flex items-center rounded-md p-2 text-white transition hover:scale-110 hover:bg-gray-200"
-          >
-            <span className="sr-only">Join us on Discord</span>
-            <Icon width="2rem" icon="logos:discord-icon" />
-          </a>
         </div>
 
         {/* Mobile menu open button */}
@@ -95,7 +85,7 @@ export default function Header() {
             <Link href="/" className="-m-1.5 p-1.5">
               <span className="sr-only">{agentName} Spreadsheet</span>
               <Image
-                src="/staticImages/KakoBuySpreadSheet.webp"
+                src="/staticImages/JoyaGooSpreadSheet.webp"
                 alt={`${agentName}-logo`}
                 width={120}
                 height={32}

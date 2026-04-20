@@ -2,7 +2,7 @@ import DeadLinkForm from '@/components/DeadLinkForm';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Report Dead Product Link | KakoBuy Spreadsheet',
+  title: 'Report Dead Product Link | JoyaGoo Spreadsheet',
   description: 'Report a dead spreadsheet or Taobao/Weidian product link to our team. Get notified when a fix is available.',
 };
 

@@ -4,14 +4,14 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is a Next.js 15 application built with TypeScript that serves as a product spreadsheet/marketplace for KakoBuy. It connects to MongoDB to manage product listings, implements view/purchase tracking, and includes features like "Finds of the Week", QC image galleries, and giveaway signup.
+This is a Next.js 15 application built with TypeScript that serves as a product spreadsheet/marketplace for JoyaGoo. It connects to MongoDB to manage product listings, implements view/purchase tracking, and includes features like "Finds of the Week", QC image galleries, and giveaway signup.
 
 ## Development Commands
 
 ```bash
 # Start development server (uses Turbopack)
 npm run dev
-# Server runs on http://localhost:3001 (not 3000!)
+# Server runs on http://localhost:3010
 
 # Build for production
 npm run build
@@ -78,8 +78,8 @@ Key fields:
 
 **Main Pages**:
 - `/` - Homepage with hero, features, testimonials, FAQ
-- `/kakobuy-spreadsheet` - Main product listing (server-side rendered)
-- `/kakobuy-spreadsheet/products/[creatorName]/[productName]` - Product detail pages
+- `/joyagoo-spreadsheet` - Main product listing (server-side rendered)
+- `/joyagoo-spreadsheet/products/[creatorName]/[productName]` - Product detail pages
 - `/articles/*` - Blog/article content
 - `/features/*` - Special features (finds of the week, QC images, dead link reporting)
 
@@ -87,13 +87,13 @@ Key fields:
 - Use `generateStaticParams()` for static generation
 - Case-insensitive product/creator name matching via regex
 - Auto-increment view count on page load
-- Generate affiliate links with `affcode=kakobuyspreadsheet`
+- Generate affiliate links with `ref=300000171`
 
 ### Special Sorting Logic
 
 **Shoes Category**:
 - Products with `creatorName` containing "manyouyisi" are sorted to the top
-- Implemented in `/kakobuy-spreadsheet/page.tsx` lines 163-179
+- Implemented in `/joyagoo-spreadsheet/page.tsx`
 
 **General Sorting**:
 1. Boost amount (highest first)
@@ -112,17 +112,18 @@ Key fields:
 
 Required:
 - `MONGODB_URI` - MongoDB connection string
-- `NEXT_PUBLIC_APP_URL` - Base URL (defaults to http://localhost:3001)
+- `NEXT_PUBLIC_APP_URL` - Base URL (defaults to https://joyagoospreadsheet.com)
 
 Optional:
-- `AGENT_NAME` - Defaults to "KakoBuy"
-- `INVITE_URL` - Defaults to Discord invite URL
+- `AGENT_NAME` - Defaults to "JoyaGoo"
+- `INVITE_URL` - Defaults to JoyaGoo registration URL
 - `NEXT_PUBLIC_INVITE_URL` - Public facing invite URL
+- `NEXT_PUBLIC_AGENT_NAME` - Public agent name
 
 ### Styling System
 
 - Tailwind CSS v4 with inline theme configuration in `app/globals.css`
-- Custom primary color palette (red-based: #f5222d)
+- Custom primary color palette (yellow-green based: #e3fc00)
 - Custom animations: `cta-pop`, `page-fade-in`
 - Uses Inter font from Google Fonts
 
@@ -130,7 +131,7 @@ Optional:
 
 - Markdown articles stored in `/content/articles/`
 - Processed with `gray-matter`, `remark`, `remark-gfm`, `remark-html`
-- Articles include: KakoBuy reviews, legitimacy checks, coupons, how-to guides
+- Articles include: JoyaGoo reviews, legitimacy checks, coupons, how-to guides
 
 ## Development Guidelines
 
@@ -192,7 +193,7 @@ Optional:
 
 ### SEO Optimization
 
-**Target Keyword**: "kakobuy spreadsheet" (USA, Germany, Poland + International)
+**Target Keyword**: "joyagoo spreadsheet" (USA, Germany, Poland + International)
 
 **Implemented SEO Features**:
 - Comprehensive Schema.org structured data (Organization, WebSite, Product, FAQ, Breadcrumb, Collection)
@@ -222,197 +223,10 @@ Optional:
 - Geographic modifiers for local SEO
 
 ### Common Pitfalls
-- Development server runs on port 3001, not 3000
+- Development server runs on port 3010
 - Product URL slugs use `creatorName` and `productName` (URL-encoded)
 - Case-insensitive searches require regex with 'i' flag
 - MongoDB lean() queries return POJOs, not Mongoose documents
 - Always escape regex special characters in user input (use `escapeRegExp` helper)
 - Schema components must be imported in pages where used
 - Update year references annually (2025 → 2026)
-- still not loading asiger@Mac KakoBuy Next Current  % npm run dev
-
-> kakobuyspreadsheet@0.1.0 dev
-> next dev --turbopack
-
- ⚠ Port 3000 is in use by process 50242, using available port 3002 instead.
-   ▲ Next.js 15.5.7 (Turbopack)
-   - Local:        http://localhost:3002
-   - Network:      http://192.168.178.199:3002
-   - Environments: .env
-
- ✓ Starting...
- ✓ Ready in 1938ms
- ○ Compiling / ...
- ✓ Compiled / in 1611ms
- GET / 200 in 2167ms
- ✓ Compiled /kakobuy-spreadsheet in 320ms
-Error loading products: Error: Failed to fetch products (status 500)
-    at KakoBuySpreadsheetPage (app/kakobuy-spreadsheet/page.tsx:146:13)
-  144 |       totalProducts = 0;
-  145 |     } else if (!res.ok) {
-> 146 |       throw new Error(`Failed to fetch products (status ${res.status})`);
-      |             ^
-  147 |     } else {
-  148 |       const data = await res.json();
-  149 |       totalProducts = data.totalProducts || 0;
- GET /kakobuy-spreadsheet 200 in 517ms
-Error loading products: Error: Failed to fetch products (status 500)
-    at KakoBuySpreadsheetPage (app/kakobuy-spreadsheet/page.tsx:146:13)
-  144 |       totalProducts = 0;
-  145 |     } else if (!res.ok) {
-> 146 |       throw new Error(`Failed to fetch products (status ${res.status})`);
-      |             ^
-  147 |     } else {
-  148 |       const data = await res.json();
-  149 |       totalProducts = data.totalProducts || 0;
- GET /kakobuy-spreadsheet 200 in 236ms
-^C
-asiger@Mac KakoBuy Next Current  % npm run dev
-
-> kakobuyspreadsheet@0.1.0 dev
-> next dev --turbopack
-
- ⚠ Port 3000 is in use by process 50242, using available port 3002 instead.
-   ▲ Next.js 15.5.7 (Turbopack)
-   - Local:        http://localhost:3002
-   - Network:      http://192.168.178.199:3002
-   - Environments: .env
-
- ✓ Starting...
- ✓ Ready in 769ms
- ○ Compiling /kakobuy-spreadsheet ...
- ✓ Compiled /kakobuy-spreadsheet in 1622ms
-Error loading products: Error: Failed to fetch products (status 500)
-    at KakoBuySpreadsheetPage (app/kakobuy-spreadsheet/page.tsx:146:13)
-  144 |       totalProducts = 0;
-  145 |     } else if (!res.ok) {
-> 146 |       throw new Error(`Failed to fetch products (status ${res.status})`);
-      |             ^
-  147 |     } else {
-  148 |       const data = await res.json();
-  149 |       totalProducts = data.totalProducts || 0;
-Error loading products: Error: Failed to fetch products (status 500)
-    at KakoBuySpreadsheetPage (app/kakobuy-spreadsheet/page.tsx:146:13)
-  144 |       totalProducts = 0;
-  145 |     } else if (!res.ok) {
-> 146 |       throw new Error(`Failed to fetch products (status ${res.status})`);
-      |             ^
-  147 |     } else {
-  148 |       const data = await res.json();
-  149 |       totalProducts = data.totalProducts || 0;
-Error loading products: Error: Failed to fetch products (status 500)
-    at KakoBuySpreadsheetPage (app/kakobuy-spreadsheet/page.tsx:146:13)
-  144 |       totalProducts = 0;
-  145 |     } else if (!res.ok) {
-> 146 |       throw new Error(`Failed to fetch products (status ${res.status})`);
-      |             ^
-  147 |     } else {
-  148 |       const data = await res.json();
-  149 |       totalProducts = data.totalProducts || 0;
-Error loading products: Error: Failed to fetch products (status 500)
-    at KakoBuySpreadsheetPage (app/kakobuy-spreadsheet/page.tsx:146:13)
-  144 |       totalProducts = 0;
-  145 |     } else if (!res.ok) {
-> 146 |       throw new Error(`Failed to fetch products (status ${res.status})`);
-      |             ^
-  147 |     } else {
-  148 |       const data = await res.json();
-  149 |       totalProducts = data.totalProducts || 0;
-Error loading products: Error: Failed to fetch products (status 500)
-    at KakoBuySpreadsheetPage (app/kakobuy-spreadsheet/page.tsx:146:13)
-  144 |       totalProducts = 0;
-  145 |     } else if (!res.ok) {
-> 146 |       throw new Error(`Failed to fetch products (status ${res.status})`);
-      |             ^
-  147 |     } else {
-  148 |       const data = await res.json();
-  149 |       totalProducts = data.totalProducts || 0;
-Error loading products: Error: Failed to fetch products (status 500)
-    at KakoBuySpreadsheetPage (app/kakobuy-spreadsheet/page.tsx:146:13)
-  144 |       totalProducts = 0;
-  145 |     } else if (!res.ok) {
-> 146 |       throw new Error(`Failed to fetch products (status ${res.status})`);
-      |             ^
-  147 |     } else {
-  148 |       const data = await res.json();
-  149 |       totalProducts = data.totalProducts || 0;
- GET /kakobuy-spreadsheet 200 in 83ms
- GET /kakobuy-spreadsheet 200 in 774ms
- GET /kakobuy-spreadsheet 200 in 1073ms
- ✓ Compiled /favicon.ico in 221ms
- GET /favicon.ico 200 in 292ms
-Error loading products: Error: Failed to fetch products (status 500)
-    at KakoBuySpreadsheetPage (app/kakobuy-spreadsheet/page.tsx:146:13)
-  144 |       totalProducts = 0;
-  145 |     } else if (!res.ok) {
-> 146 |       throw new Error(`Failed to fetch products (status ${res.status})`);
-      |             ^
-  147 |     } else {
-  148 |       const data = await res.json();
-  149 |       totalProducts = data.totalProducts || 0;
- GET /kakobuy-spreadsheet 200 in 252ms
-Error loading products: Error: Failed to fetch products (status 500)
-    at KakoBuySpreadsheetPage (app/kakobuy-spreadsheet/page.tsx:146:13)
-  144 |       totalProducts = 0;
-  145 |     } else if (!res.ok) {
-> 146 |       throw new Error(`Failed to fetch products (status ${res.status})`);
-      |             ^
-  147 |     } else {
-  148 |       const data = await res.json();
-  149 |       totalProducts = data.totalProducts || 0;
- GET /kakobuy-spreadsheet 200 in 262ms
- GET /favicon.ico 200 in 32ms
-   Reload env: .env
- ✓ Compiled /kakobuy-spreadsheet in 18ms
- ✓ Compiled /_not-found/page in 207ms
- GET /kakobuy-spreadsheet 404 in 367ms
- GET /kakobuy-spreadsheet 200 in 1732ms
-(node:54553) [DEP0060] DeprecationWarning: The `util._extend` API is deprecated. Please use Object.assign() instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
- GET /kakobuy-spreadsheet 200 in 2050ms
-npçç^C
-asiger@Mac KakoBuy Next Current  % 
-asiger@Mac KakoBuy Next Current  % npm run dev
-
-> kakobuyspreadsheet@0.1.0 dev
-> next dev --turbopack
-
- ⚠ Port 3000 is in use by process 50242, using available port 3002 instead.
-   ▲ Next.js 15.5.7 (Turbopack)
-   - Local:        http://localhost:3002
-   - Network:      http://192.168.178.199:3002
-   - Environments: .env
-
- ✓ Starting...
- ✓ Ready in 768ms
- ○ Compiling / ...
- ✓ Compiled / in 1907ms
- GET / 200 in 2503ms
- ✓ Compiled /kakobuy-spreadsheet in 220ms
-Error loading products: TypeError: fetch failed
-    at async KakoBuySpreadsheetPage (app/kakobuy-spreadsheet/page.tsx:137:17)
-  135 |
-  136 |   try {
-> 137 |     const res = await fetch(
-      |                 ^
-  138 |       `${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3001'}/api/products?${qp.toString()}`,
-  139 |       { cache: 'no-store' }
-  140 |     ); {
-  [cause]: [AggregateError: ] { code: 'ECONNREFUSED' }
-}
- GET /kakobuy-spreadsheet 200 in 265ms
-Error loading products: TypeError: fetch failed
-    at async KakoBuySpreadsheetPage (app/kakobuy-spreadsheet/page.tsx:137:17)
-  135 |
-  136 |   try {
-> 137 |     const res = await fetch(
-      |                 ^
-  138 |       `${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3001'}/api/products?${qp.toString()}`,
-  139 |       { cache: 'no-store' }
-  140 |     ); {
-  [cause]: [AggregateError: ] { code: 'ECONNREFUSED' }
-}
- GET /kakobuy-spreadsheet 200 in 81ms
- ✓ Compiled /favicon.ico in 172ms
- GET /favicon.ico 200 in 243ms
-- okay deploy

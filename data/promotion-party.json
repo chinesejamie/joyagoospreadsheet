@@ -1,0 +1,23 @@
+{
+  "name": "JoyaGooSpreadsheet.com",
+  "description": "Main JoyaGoo spreadsheet portal - The #1 JoyaGoo Product Database with 7,500+ verified products.",
+  "type": "spreadsheet",
+  "url": "https://joyagoospreadsheet.com",
+  "previewImage": "https://joyagoospreadsheet.com/images/og-image.jpg",
+  "cost": 6,
+  "analytics": {
+    "dailyTraffic": 3500,
+    "monthlyClicks": 105000
+  },
+  "features": [
+    "7,500+ verified products",
+    "QC image verification",
+    "Weekly finds updates",
+    "Multi-language support (EN/PL)",
+    "Price comparison",
+    "Direct JoyaGoo integration"
+  ],
+  "targetKeyword": "joyagoo spreadsheet",
+  "regions": ["USA", "Germany", "Poland", "International"],
+  "referralCode": "ref=300000171"
+}

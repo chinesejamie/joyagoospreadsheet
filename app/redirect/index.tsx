@@ -44,7 +44,7 @@ const trackRedirect = (url: string): void => {
 
 const RedirectPage: React.FC = () => {
   const router = useRouter();
-  const redirectUrl: string = 'https://www.kakobuy.com/register_sps?affcode=kakobuyspreadsheet';
+  const redirectUrl: string = 'https://joyagoo.com/register?ref=300000171';
 
   useEffect(() => {
     // Track the redirect

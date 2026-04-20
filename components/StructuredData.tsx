@@ -7,8 +7,8 @@ interface OrganizationSchemaProps {
 }
 
 export function OrganizationSchema({
-  name = "KakoBuy Spreadsheet",
-  url = "https://kakobuy-spreadsheet.com"
+  name = "JoyaGoo Spreadsheet",
+  url = "https://joyagoospreadsheet.com"
 }: OrganizationSchemaProps) {
   const schema = {
     "@context": "https://schema.org",
@@ -18,19 +18,17 @@ export function OrganizationSchema({
     "logo": `${url}/images/seo-cover.webp`,
     "foundingDate": "2023",
     "sameAs": [
-      "https://www.facebook.com/kakobuyspreadsheet",
-      "https://twitter.com/kakobuysheet",
-      "https://www.instagram.com/kakobuyspreadsheet",
-      "https://kakobuyproducts.net",
-      "https://kakobuyspreadsheets.net",
-      "https://kakobuyproducts.com"
+      "https://www.facebook.com/joyagoospreadsheet",
+      "https://twitter.com/joyagoosheet",
+      "https://www.instagram.com/joyagoospreadsheet",
+      "https://joyagoo.com"
     ],
     "contactPoint": {
       "@type": "ContactPoint",
       "contactType": "Customer Service",
       "availableLanguage": ["English", "German", "Polish"]
     },
-    "description": "The world's #1 KakoBuy spreadsheet with 10,000+ verified products, exclusive coupons, and QC photos. Updated daily. Established 2023 with 3+ years of experience in the Chinese shopping agent industry.",
+    "description": "The world's #1 JoyaGoo spreadsheet with 7,500+ verified products, exclusive coupons, and QC photos. Updated daily. Established 2023 with 3+ years of experience in the Chinese shopping agent industry.",
     "areaServed": ["US", "DE", "PL", "GB", "CA", "AU", "NZ", "Worldwide"],
     "aggregateRating": {
       "@type": "AggregateRating",
@@ -40,7 +38,7 @@ export function OrganizationSchema({
       "worstRating": "1"
     },
     "knowsAbout": [
-      "KakoBuy Shopping",
+      "JoyaGoo Shopping",
       "Taobao Agent",
       "Weidian Agent",
       "1688 Agent",
@@ -61,24 +59,24 @@ export function WebSiteSchema() {
   const schema = {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    "name": "KakoBuy Spreadsheet 2026",
-    "alternateName": ["KakoBuy Price List", "KakoBuy Database", "KakoBuy Finds", "KakoBuy Mega Spreadsheet", "Official KakoBuy Spreadsheet"],
-    "url": "https://kakobuy-spreadsheet.com",
-    "description": "Comprehensive KakoBuy product database with 10,000+ verified items, QC photos, coupons, and daily updates. The most trusted KakoBuy spreadsheet since 2023.",
+    "name": "JoyaGoo Spreadsheet 2026",
+    "alternateName": ["JoyaGoo Price List", "JoyaGoo Database", "JoyaGoo Finds", "JoyaGoo Mega Spreadsheet", "Official JoyaGoo Spreadsheet"],
+    "url": "https://joyagoospreadsheet.com",
+    "description": "Comprehensive JoyaGoo product database with 7,500+ verified items, QC photos, coupons, and daily updates. The most trusted JoyaGoo spreadsheet since 2023.",
     "potentialAction": {
       "@type": "SearchAction",
       "target": {
         "@type": "EntryPoint",
-        "urlTemplate": "https://kakobuy-spreadsheet.com/kakobuy-spreadsheet?search={search_term_string}"
+        "urlTemplate": "https://joyagoospreadsheet.com/joyagoo-spreadsheet?search={search_term_string}"
       },
       "query-input": "required name=search_term_string"
     },
     "publisher": {
       "@type": "Organization",
-      "name": "KakoBuy Spreadsheet",
+      "name": "JoyaGoo Spreadsheet",
       "logo": {
         "@type": "ImageObject",
-        "url": "https://kakobuy-spreadsheet.com/images/seo-cover.webp"
+        "url": "https://joyagoospreadsheet.com/images/seo-cover.webp"
       }
     }
   };
@@ -176,11 +174,11 @@ export function ProductSchema({
     "image": image,
     "brand": {
       "@type": "Brand",
-      "name": "KakoBuy"
+      "name": "JoyaGoo"
     },
     "offers": {
       "@type": "Offer",
-      "url": `https://kakobuy-spreadsheet.com/kakobuy-spreadsheet/products/${encodeURIComponent(name)}`,
+      "url": `https://joyagoospreadsheet.com/joyagoo-spreadsheet/products/${encodeURIComponent(name)}`,
       "priceCurrency": currency,
       "price": price.toFixed(2),
       "availability": `https://schema.org/${availability}`,
@@ -207,13 +205,13 @@ export function CollectionPageSchema() {
   const schema = {
     "@context": "https://schema.org",
     "@type": "CollectionPage",
-    "name": "KakoBuy Product Spreadsheet",
-    "description": "Browse 10,000+ verified KakoBuy products with prices, QC photos, and reviews",
-    "url": "https://kakobuy-spreadsheet.com/kakobuy-spreadsheet",
+    "name": "JoyaGoo Product Spreadsheet",
+    "description": "Browse 7,500+ verified JoyaGoo products with prices, QC photos, and reviews",
+    "url": "https://joyagoospreadsheet.com/joyagoo-spreadsheet",
     "isPartOf": {
       "@type": "WebSite",
-      "name": "KakoBuy Spreadsheet",
-      "url": "https://kakobuy-spreadsheet.com"
+      "name": "JoyaGoo Spreadsheet",
+      "url": "https://joyagoospreadsheet.com"
     }
   };
 

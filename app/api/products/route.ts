@@ -48,8 +48,8 @@ export async function GET(request: NextRequest) {
     ? await Product.countDocuments(mongoQuery)
     : exactCount;
 
-  // 4) Page‑ID für Boosts
-  const pageId = '6799584fbc65b3b31ece3bc6';
+  // 4) Page‑ID für Boosts (JoyaGoo)
+  const pageId = '69651a22477d89367936e6a6';
 
   // 5) Aggregation
   const pipeline: PipelineStage[] = [
@@ -81,9 +81,7 @@ export async function GET(request: NextRequest) {
     {
       $sort: {
         totalBoostForPage: -1,
-        purchased:         -1,
-        viewCount:         -1,
-        _id:               -1
+        _id:               -1  // Newest products first (by creation date)
       }
     },
     { $skip: (page - 1) * limit },

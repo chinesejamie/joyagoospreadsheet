@@ -53,7 +53,7 @@ export const gtagSendEvent = (url?: string, eventParameters?: Record<string, any
   pushToDataLayer('sign_up', {
     method: 'button_click',
     event_category: 'engagement',
-    event_label: 'kakobuy_signup',
+    event_label: 'joyagoo_signup',
     value: 1,
     ...eventParameters,
     event_callback: openInNewTab,

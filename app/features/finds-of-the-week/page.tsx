@@ -306,8 +306,8 @@ function FindsContent() {
 
       <div className="text-center mt-12">
         <Link
-          href="/kakobuy-spreadsheet"
-          className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-primary-600 hover:bg-primary-700"
+          href="/joyagoo-spreadsheet"
+          className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-gray-900 bg-primary-500 hover:bg-primary-600"
         >
           Browse All Products
         </Link>

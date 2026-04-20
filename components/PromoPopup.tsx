@@ -7,8 +7,8 @@ import { X } from 'lucide-react';
 export default function PopupReminder() {
   const [showPopup, setShowPopup] = useState(false);
 
-  const agentName = process.env.NEXT_PUBLIC_AGENT_NAME || 'KakoBuy';
-  const inviteURL = process.env.NEXT_PUBLIC_INVITE_URL || 'https://ikako.vip/r/kakobuyspreadsheet';
+  const agentName = process.env.NEXT_PUBLIC_AGENT_NAME || 'JoyaGoo';
+  const inviteURL = process.env.NEXT_PUBLIC_INVITE_URL || 'https://joyagoo.com/register?ref=300000171';
 
   useEffect(() => {
     const userAgent = navigator.userAgent.toLowerCase();
@@ -58,7 +58,7 @@ export default function PopupReminder() {
           href={inviteURL}
           target="_blank"
           rel="noopener noreferrer"
-          className="block w-full bg-primary-600 text-white font-semibold text-center rounded-full py-3 hover:bg-primary-700 transition"
+          className="block w-full bg-primary-500 text-gray-900 font-semibold text-center rounded-full py-3 hover:bg-primary-600 transition"
         >
           🎁 Claim Your Bonus
         </Link>
