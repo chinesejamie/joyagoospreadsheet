@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # ====== CONFIG ======
-SSH_KEY="/Users/asiger/Desktop/RootKey"
+SSH_KEY="/Users/jamie/Desktop/All Websites/RootKey"
 SERVER_IP="217.154.115.9"
 REMOTE_DIR="/var/www/joyagoonext3027"
 PM2_PROCESS_NAME="JoyaGoo3027"
