@@ -1,7 +1,7 @@
 // app/page.tsx (Server Component)
 import Link from 'next/link';
 import Image from 'next/image';
-import { GiveawayForm } from '@/components/GiveawayForm';
+import { NewsletterForm } from '@/components/NewsletterForm';
 import TrackSignUpButton from '@/components/TrackSignUpButton';
 import { FAQSchema } from '@/components/StructuredData';
 import type { Metadata } from 'next';
@@ -774,24 +774,25 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Giveaway Section */}
-      <section id="giveaway" className="py-20 bg-gradient-to-br from-primary-600 via-primary-500 to-primary-700 px-4">
+      {/* Newsletter Section */}
+      <section id="newsletter" className="py-20 bg-gradient-to-br from-primary-600 via-primary-500 to-primary-700 px-4">
         <div className="container mx-auto max-w-4xl text-center text-gray-900">
           <span className="inline-block px-6 py-3 bg-white/20 rounded-full text-lg font-medium mb-6">
-            February 2026 Exclusive
+            Free Newsletter
           </span>
           <h2 className="text-4xl md:text-5xl font-black mb-6">
-            Win $500 JoyaGoo Credit!
+            Never Miss a JoyaGoo Deal
           </h2>
           <p className="text-xl opacity-90 max-w-2xl mx-auto mb-10">
-            Join our monthly giveaway for a chance to win. Open to all countries including Poland!
+            Get new spreadsheet finds, coupon codes and shipping tips straight to your inbox.
+            Available in all countries including Poland!
           </p>
 
           <div className="bg-white rounded-3xl p-8 shadow-2xl max-w-lg mx-auto">
-            <h3 className="text-2xl font-bold text-gray-800 mb-6">Enter Now</h3>
-            <GiveawayForm />
+            <h3 className="text-2xl font-bold text-gray-800 mb-6">Subscribe</h3>
+            <NewsletterForm />
             <p className="text-sm text-gray-500 mt-4">
-              Drawing: February 28, 2026 | Losowanie: 28 lutego 2026
+              Free, no spam, unsubscribe anytime | Za darmo, w każdej chwili możesz zrezygnować
             </p>
           </div>
         </div>
@@ -873,7 +874,7 @@ export default function Home() {
                 <li><Link href="/joyagoo-spreadsheet" className="hover:text-white transition-colors">Browse Spreadsheet</Link></li>
                 <li><Link href="/features/finds-of-the-week" className="hover:text-white transition-colors">Weekly Finds</Link></li>
                 <li><Link href="/features/joyagoo-qc-images" className="hover:text-white transition-colors">QC Photos</Link></li>
-                <li><Link href="#giveaway" className="hover:text-white transition-colors">Giveaway</Link></li>
+                <li><Link href="#newsletter" className="hover:text-white transition-colors">Newsletter</Link></li>
               </ul>
             </div>
 

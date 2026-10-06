@@ -84,9 +84,9 @@ export const trackSignupConversion = (url?: string) => {
  */
 export const trackConversionOnly = () => {
   pushToDataLayer('sign_up', {
-    method: 'giveaway_form',
+    method: 'newsletter_form',
     event_category: 'engagement',
-    event_label: 'giveaway_entry',
+    event_label: 'newsletter_signup',
     value: 1,
   });
 };

@@ -1,6 +1,7 @@
 // app/joyagoo-spreadsheet/products/[creatorName]/[productName]/page.tsx
 
 import { notFound } from 'next/navigation';
+import { buildJoyaGooLink } from '@/lib/joyagooLink';
 import connectToDatabase from '@/lib/mongodb';
 import Product, { IProduct } from '@/models/Product';
 import { Types } from 'mongoose';
@@ -160,11 +161,7 @@ export default async function ProductPage({
       ? product.images[0]
       : product.images?.[0]?.url || '/images/default-product.jpg';
 
-  const linkToJoyaGoo = product.link
-    ? `https://www.joyagoo.com/product?url=${encodeURI(
-        product.link
-      )}&ref=300000171`
-    : null;
+  const linkToJoyaGoo = buildJoyaGooLink(product.link);
 
   // Breadcrumb data
   const breadcrumbs = [

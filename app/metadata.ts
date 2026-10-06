@@ -112,8 +112,11 @@ export function generateMainMetadata(): Metadata {
       },
     },
     icons: {
-      icon: '/favicon.ico',
-      apple: '/favicon.ico',
+      icon: [
+        { url: '/favicon.ico', sizes: '32x32' },
+        { url: '/icon.png', type: 'image/png', sizes: '64x64' },
+      ],
+      apple: '/apple-icon.png',
     },
     verification: {
       // Add your verification codes here when you have them

@@ -89,7 +89,7 @@ interface ApiProduct {
   name: string;
   description: string;
   price: number | string;
-  creatorName: string;
+  creatorName?: string;
   mainImage: string | { url: string };
   images: any[];
   viewCount: number;
@@ -182,7 +182,7 @@ export default async function JoyaGooSpreadsheetPage({
           name: p.name,
           description: p.description,
           price: p.price,
-          creatorName: p.creatorName,
+          creatorName: p.creatorName ?? '',
           mainImage,
           images: p.images,
           viewCount: p.viewCount,

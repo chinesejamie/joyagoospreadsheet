@@ -1,10 +1,10 @@
-// components/GiveawayForm.tsx
+// components/NewsletterForm.tsx
 'use client';
 
 import { useState } from 'react';
 import { trackConversionOnly } from '@/lib/gtag-ads';
 
-export function GiveawayForm() {
+export function NewsletterForm() {
   const [email, setEmail] = useState('');
   const [status, setStatus] = useState<{ message: string; isError: boolean } | null>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -15,7 +15,7 @@ export function GiveawayForm() {
     setIsLoading(true);
 
     try {
-      const res = await fetch('/api/giveaway-signup', {
+      const res = await fetch('/api/newsletter-signup', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email }),
@@ -29,9 +29,9 @@ export function GiveawayForm() {
         // Track Google Analytics 4 event - using sign_up for consistency
         if (typeof window !== 'undefined' && (window as any).gtag) {
           (window as any).gtag('event', 'sign_up', {
-            method: 'giveaway_form',
+            method: 'newsletter_form',
             event_category: 'engagement',
-            event_label: 'giveaway_entry',
+            event_label: 'newsletter_signup',
             value: 1
           });
         }
@@ -64,7 +64,7 @@ export function GiveawayForm() {
         disabled={isLoading}
         className="w-full py-3 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition-colors disabled:opacity-50"
       >
-        {isLoading ? 'Submitting…' : 'Enter Giveaway'}
+        {isLoading ? 'Submitting…' : 'Subscribe'}
       </button>
       {status && (
         <p className={`mt-2 text-center ${status.isError ? 'text-red-600' : 'text-green-600'}`}>

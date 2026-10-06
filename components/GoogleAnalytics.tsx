@@ -74,8 +74,8 @@ export const trackCouponClaim = (couponCode: string) => {
   });
 };
 
-export const trackGiveawayEntry = () => {
-  trackEvent('giveaway_entry', {
+export const trackNewsletterSignup = () => {
+  trackEvent('newsletter_signup', {
     event_category: 'Marketing',
     value: 2,
   });

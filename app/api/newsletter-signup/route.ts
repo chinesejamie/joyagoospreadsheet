@@ -1,4 +1,4 @@
-// app/api/giveaway-signup/route.ts
+// app/api/newsletter-signup/route.ts
 
 import { NextRequest, NextResponse } from 'next/server';
 import mongoose, { Model, Document } from 'mongoose';
@@ -40,7 +40,7 @@ export async function POST(request: NextRequest) {
     );
     if (existing) {
       return NextResponse.json(
-        { success: false, message: 'Email already registered for giveaway' },
+        { success: false, message: 'This email is already subscribed' },
         { status: 400 }
       );
     }
@@ -54,7 +54,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(
       {
         success: true,
-        message: 'Successfully registered for giveaway',
+        message: 'Successfully subscribed to the newsletter',
         metadata: {
           database: dbName,
           collection: GiveawayEntry.collection.name,
@@ -65,15 +65,15 @@ export async function POST(request: NextRequest) {
       { status: 200 }
     );
   } catch (err: any) {
-    console.error('Error in giveaway signup:', err);
+    console.error('Error in newsletter signup:', err);
     if (err.code === 11000) {
       return NextResponse.json(
-        { success: false, message: 'Email already registered for giveaway' },
+        { success: false, message: 'This email is already subscribed' },
         { status: 400 }
       );
     }
     return NextResponse.json(
-      { success: false, message: err.message || 'Failed to register for giveaway' },
+      { success: false, message: err.message || 'Failed to subscribe' },
       { status: 500 }
     );
   }
