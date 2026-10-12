@@ -1,43 +1,21 @@
-'use client';
+// components/CouponCard.tsx
+// Renders one JoyaGoo offer from lib/offers.ts. No codes, no countdowns:
+// the offer is applied by JoyaGoo to new accounts, there is nothing to copy.
+import type { Offer } from '@/lib/offers';
 
-import { useState } from 'react';
-import { Clock, ShoppingCart } from 'lucide-react';
+function fmt(iso: string) {
+  return new Date(`${iso}T12:00:00Z`).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' });
+}
 
-export default function CouponCard({ code, discount, expiry, minPurchase }: { code: string, discount: string, expiry: string, minPurchase?: number }) {
-  const [copied, setCopied] = useState(false);
-
-  const copyToClipboard = async () => {
-    await navigator.clipboard.writeText(code);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
-
+export default function CouponCard({ offer }: { offer: Offer }) {
   return (
-    <div className="bg-white rounded-lg shadow-md p-4 border-2 border-dashed border-blue-500 relative overflow-hidden animate-fade-in-up">
-      <div className="absolute -right-4 -top-4 bg-blue-500 text-white text-xs px-8 py-1 rotate-45">
-        {discount}
-      </div>
-      <div className="flex justify-between items-center mb-2">
-        <h3 className="font-bold text-lg">{code}</h3>
-        <button 
-          onClick={copyToClipboard}
-          className="bg-blue-100 hover:bg-blue-200 text-blue-800 px-3 py-1 rounded-md text-sm transition-colors duration-200"
-        >
-          {copied ? 'Copied!' : 'Copy'}
-        </button>
-      </div>
-      <div className="text-sm text-gray-600 space-y-1">
-        <p className="flex items-center">
-          <Clock size={14} className="inline mr-1" /> 
-          Expires: {expiry}
-        </p>
-        {minPurchase && (
-          <p className="flex items-center">
-            <ShoppingCart size={14} className="inline mr-1" /> 
-            Min purchase: ${minPurchase}
-          </p>
-        )}
-      </div>
+    <div className="rounded-xl border-2 border-dashed border-primary-500 bg-white p-5">
+      <h3 className="text-lg font-bold text-gray-900">{offer.headline}</h3>
+      <p className="mt-2 text-sm text-gray-700">{offer.detail}</p>
+      <dl className="mt-3 space-y-1 text-xs text-gray-500">
+        <div><dt className="inline font-semibold">Seen at: </dt><dd className="inline">{offer.source}</dd></div>
+        <div><dt className="inline font-semibold">Shown here until: </dt><dd className="inline">{fmt(offer.validUntil)} (JoyaGoo can change or end it earlier)</dd></div>
+      </dl>
     </div>
   );
 }

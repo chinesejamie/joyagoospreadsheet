@@ -1,8 +1,10 @@
 // components/NewsletterForm.tsx
+// Newsletter sign-up. Fires the GA4 event `newsletter_signup` only; this is
+// not an agent sign-up, so no Ads conversion is sent.
 'use client';
 
 import { useState } from 'react';
-import { trackConversionOnly } from '@/lib/gtag-ads';
+import Link from 'next/link';
 
 export function NewsletterForm() {
   const [email, setEmail] = useState('');
@@ -23,26 +25,16 @@ export function NewsletterForm() {
       const data = await res.json();
 
       if (res.ok) {
-        setStatus({ message: data.message, isError: false });
+        setStatus({ message: data.message || 'Thanks, you are subscribed.', isError: false });
         setEmail('');
-
-        // Track Google Analytics 4 event - using sign_up for consistency
         if (typeof window !== 'undefined' && (window as any).gtag) {
-          (window as any).gtag('event', 'sign_up', {
-            method: 'newsletter_form',
-            event_category: 'engagement',
-            event_label: 'newsletter_signup',
-            value: 1
-          });
+          (window as any).gtag('event', 'newsletter_signup', { method: 'newsletter_form' });
         }
-
-        // Track Google Ads conversion (uses same event name via GTM dataLayer)
-        trackConversionOnly();
       } else {
-        setStatus({ message: data.message, isError: true });
+        setStatus({ message: data.message || 'Something went wrong. Please try again.', isError: true });
       }
-    } catch (err) {
-      setStatus({ message: 'Submission failed. Bitte versuche es erneut.', isError: true });
+    } catch {
+      setStatus({ message: 'Something went wrong. Please try again.', isError: true });
     } finally {
       setIsLoading(false);
     }
@@ -50,26 +42,30 @@ export function NewsletterForm() {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4 max-w-md mx-auto">
+      <label htmlFor="newsletter-email" className="sr-only">Email address</label>
       <input
+        id="newsletter-email"
         value={email}
-        onChange={e => setEmail(e.target.value)}
+        onChange={(e) => setEmail(e.target.value)}
         name="email"
         type="email"
         required
         placeholder="Your email address"
-        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-base"
+        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent text-base"
       />
       <button
         type="submit"
         disabled={isLoading}
-        className="w-full py-3 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition-colors disabled:opacity-50"
+        className="w-full py-3 bg-primary-500 text-gray-900 rounded-lg font-bold hover:bg-primary-600 transition-colors disabled:opacity-50"
       >
         {isLoading ? 'Submitting…' : 'Subscribe'}
       </button>
+      <p className="text-xs text-gray-500 text-center">
+        Occasional emails about new finds and guides. Unsubscribe any time. See our{' '}
+        <Link href="/privacy-policy" className="underline underline-offset-2">privacy policy</Link>.
+      </p>
       {status && (
-        <p className={`mt-2 text-center ${status.isError ? 'text-red-600' : 'text-green-600'}`}>
-          {status.message}
-        </p>
+        <p className={`mt-2 text-center ${status.isError ? 'text-red-600' : 'text-green-600'}`}>{status.message}</p>
       )}
     </form>
   );

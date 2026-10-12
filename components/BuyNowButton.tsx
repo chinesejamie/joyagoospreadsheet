@@ -1,48 +1,45 @@
 'use client';
 
+// components/BuyNowButton.tsx
+// Main CTA on a product page: opens the find on JoyaGoo (invite link,
+// rel="sponsored"), fires the GA4 `buy_now_click` event and counts the
+// click for the "orders via this sheet" figure.
+
 import React from 'react';
-import { useRouter } from 'next/navigation';
 import { ArrowUpRight } from 'lucide-react';
+import { AGENT_LINK_REL } from '@/lib/site';
 
 interface Props {
   creatorName: string;
-  productId: string;
+  productId: string;   // Mongo _id, used by /api/products/purchase
   href: string;
 }
 
 export default function BuyNowButton({ creatorName, productId, href }: Props) {
-  const router = useRouter();
-
-  const handleClick = (e: React.MouseEvent) => {
-    e.preventDefault();
-
-    // 1) Immediately open the link (before any await)
-    const newWindow = window.open(href, '_blank');
-    if (newWindow) {
-      newWindow.focus();
+  const handleClick = () => {
+    if (typeof window !== 'undefined' && (window as any).gtag) {
+      (window as any).gtag('event', 'buy_now_click', {
+        event_category: 'product',
+        event_label: `${creatorName}/${productId}`,
+      });
     }
-
-    // 2) Then asynchronously update the server
     fetch('/api/products/purchase', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ creatorName, productId }),
-    }).catch(console.error);
-
-    // 3) Optional: refresh local cache
-    router.refresh();
+      keepalive: true,
+    }).catch(() => {});
   };
-
 
   return (
     <a
       href={href}
       onClick={handleClick}
       target="_blank"
-      rel="noopener noreferrer"
-      className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-primary-500 to-primary-600 hover:from-primary-600 hover:to-primary-700 text-gray-900 font-medium py-3 px-8 rounded-lg shadow-lg transform transition-all duration-300 ease-in-out hover:shadow-xl hover:translate-y-[-2px] focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-opacity-50"
+      rel={AGENT_LINK_REL}
+      className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-primary-500 px-8 py-3 text-base font-bold text-gray-900 shadow hover:bg-primary-600 transition-colors sm:w-auto focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
     >
-      View on JoyaGoo
+      Open on JoyaGoo
       <ArrowUpRight size={18} />
     </a>
   );

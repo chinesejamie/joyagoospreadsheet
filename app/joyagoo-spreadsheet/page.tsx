@@ -1,417 +1,277 @@
 // app/joyagoo-spreadsheet/page.tsx
+// "All JoyaGoo finds": the complete, paginated sheet as a table. The head term
+// "JoyaGoo Spreadsheet" belongs to `/`; this page targets the full list and,
+// via ?category=, the category landing pages.
 
 import Link from 'next/link';
-import ProductCard from '@/components/ProductCard';
-import ProductPageHeroProducts from '@/components/ProductPageHeroProducts';
-import { CollectionPageSchema, BreadcrumbSchema, FAQSchema } from '@/components/StructuredData';
+import { notFound } from 'next/navigation';
+import { cache } from 'react';
 import type { Metadata } from 'next';
+import FindsTable from '@/components/FindsTable';
+import Pagination from '@/components/Pagination';
+import AgentCta from '@/components/AgentCta';
+import Disclosure from '@/components/Disclosure';
+import { BreadcrumbSchema, CollectionPageSchema } from '@/components/StructuredData';
+import { getFinds, getCategoryCounts } from '@/lib/finds';
+import { CATEGORIES, categoryBySlug, type CategoryDef } from '@/lib/categories';
+import { activeOffers } from '@/lib/offers';
+import { SITE_URL, roundedCount } from '@/lib/site';
 
-export async function generateMetadata(): Promise<Metadata> {
-  const title = 'JoyaGoo Spreadsheet | Browse 7,500+ Verified Products with Prices & Photos';
-  const description = 'Browse the official JoyaGoo Spreadsheet: 7,500+ products with USD prices, authentic QC photos, verified sellers. Free access for USA, Germany, Poland. Search & filter easily.';
-  const imageUrl = 'https://joyagoospreadsheet.com/images/seo-cover.webp';
+export const dynamic = 'force-dynamic';
+
+const BASE_PATH = '/joyagoo-spreadsheet';
+const PAGE_SIZE = 50;
+
+type SortKey = 'boost' | 'newest' | 'popular';
+type SP = { [key: string]: string | string[] | undefined };
+
+// Short, factual intros for the category landing pages.
+const CATEGORY_INTRO: Record<string, string> = {
+  shoes:
+    'Sneakers, runners and other footwear from Weidian, Taobao and 1688 sellers. Most listings use EU sizes and the fit differs from seller to seller and model to model, so read the size chart in the listing before you order. Prices are the seller’s price in CNY, without shipping.',
+  't-shirts':
+    'T-shirts and polos listed by sellers on Weidian, Taobao and 1688. Chinese size labels often run smaller than EU/US sizes, so compare the measurements in the listing with a shirt you own. Prices are in CNY and do not include shipping.',
+  pants:
+    'Pants, jeans, cargos and shorts. Sizes are often given as waist measurements in cm or as Asian sizes, so check the size table in the listing rather than relying on the label. Prices are the seller’s CNY price before shipping.',
+  hoodies:
+    'Hoodies, zip-ups and crewnecks. Heavier fleece pieces weigh more, and international shipping through an agent is charged by weight and volume, so the parcel cost can matter as much as the item price. Prices are in CNY.',
+  accessories:
+    'Hats, belts, watches and other small items. Small accessories are light, which keeps the shipping share low when you add them to a larger haul. Prices are in CNY; check the listing for colour and size options.',
+  jackets:
+    'Jackets and outerwear. These are among the heaviest and bulkiest items in the sheet, so expect a noticeable share of shipping cost on top of the CNY price. Compare the listing’s measurements with a jacket you own.',
+  tracksuits:
+    'Tracksuits and matching sets, usually sold as top and bottom together. Check whether the listing price covers the full set or a single piece, and compare the size table with your measurements. Prices are in CNY.',
+  jerseys:
+    'Football and sports jerseys. Listings often differ in fan or player version, name and number printing and patches, which can change the price, so check the options in the listing. Prices are in CNY.',
+  electronics:
+    'A small set of electronics and gadgets. Items with built-in batteries cannot be sent on every shipping line, so check which lines JoyaGoo offers for them before you order. Prices are in CNY.',
+};
+
+function first(v: string | string[] | undefined): string | undefined {
+  return Array.isArray(v) ? v[0] : v;
+}
+
+interface Parsed {
+  search: string;
+  sortParam: string | undefined;
+  sort: SortKey;
+  category: CategoryDef | null;
+  page: number;
+}
+
+function parse(sp: SP): Parsed {
+  const rawCategory = first(sp.category)?.trim();
+  const category = rawCategory ? categoryBySlug(rawCategory) : null;
+  if (rawCategory && !category) notFound();
+
+  const rawPage = first(sp.page);
+  let page = 1;
+  if (rawPage !== undefined) {
+    if (!/^\d+$/.test(rawPage)) notFound();
+    page = parseInt(rawPage, 10);
+    if (page < 1) notFound();
+  }
+
+  const sortParam = first(sp.sort)?.trim() || undefined;
+  const sort: SortKey = sortParam === 'newest' ? 'newest' : sortParam === 'popular' ? 'popular' : 'boost';
+
+  return { search: (first(sp.search) ?? '').trim().slice(0, 100), sortParam, sort, category, page };
+}
+
+const load = cache(async (search: string, category: string | null, page: number, sort: SortKey) =>
+  getFinds({ search: search || undefined, category, page, limit: PAGE_SIZE, sort }),
+);
+
+function canonicalPath(category: CategoryDef | null, page: number): string {
+  const qs = new URLSearchParams();
+  if (category) qs.set('category', category.slug);
+  if (page > 1) qs.set('page', String(page));
+  const s = qs.toString();
+  return s ? `${BASE_PATH}?${s}` : BASE_PATH;
+}
+
+export async function generateMetadata({ searchParams }: { searchParams: Promise<SP> }): Promise<Metadata> {
+  const p = parse(await searchParams);
+  const data = await load(p.search, p.category?.slug ?? null, p.page, p.sort);
+  if (p.page > data.pages) notFound();
+
+  const pageSuffix = p.page > 1 ? ` (Page ${p.page})` : '';
+  const title = p.category
+    ? `${p.category.name} on the JoyaGoo sheet – ${roundedCount(data.total)} finds${pageSuffix}`
+    : `All JoyaGoo Finds – ${roundedCount(data.total)} products with prices & links${pageSuffix}`;
+  const description = p.category
+    ? `${p.category.name} finds from Weidian, Taobao and 1688 sellers as a table: price in CNY with an approximate EUR/USD value, store, and a link to open each item on JoyaGoo.`
+    : 'The full JoyaGoo finds table: every listed item with its price in CNY, an approximate EUR/USD value, the store, and a link to open it on JoyaGoo. Filter by category or search.';
+
+  const url = `${SITE_URL}${canonicalPath(p.category, p.page)}`;
+  const noindex = Boolean(p.search) || Boolean(p.sortParam);
 
   return {
     title,
     description,
-    metadataBase: new URL('https://joyagoospreadsheet.com'),
-    keywords: [
-      'joyagoo spreadsheet',
-      'joyagoo spreadsheet 2026',
-      'joyagoo mega spreadsheet',
-      'joyagoo price list',
-      'joyagoo products',
-      'joyagoo spreadsheet free',
-      'joyagoo spreadsheet download',
-      'joyagoo database',
-      'joyagoo product list',
-      'joyagoo prices usd',
-      'joyagoo qc photos',
-      'joyagoo verified sellers',
-      'browse joyagoo spreadsheet',
-      'joyagoo spreadsheet usa',
-      'joyagoo spreadsheet germany',
-      'joyagoo spreadsheet poland',
-      'best joyagoo spreadsheet',
-      'official joyagoo spreadsheet',
-      'joyagoo link converter',
-      'taobao joyagoo links',
-      'weidian joyagoo links',
-      '1688 joyagoo',
-    ],
-    openGraph: {
-      title,
-      description,
-      url: '/joyagoo-spreadsheet',
-      siteName: 'JoyaGoo Spreadsheet',
-      images: [
-        {
-          url: imageUrl,
-          width: 1200,
-          height: 630,
-          alt: 'JoyaGoo Spreadsheet - Browse 7,500+ Products',
-        },
-      ],
-      locale: 'en_US',
-      type: 'website',
-    },
-    twitter: {
-      card: 'summary_large_image',
-      title,
-      description,
-      images: [imageUrl],
-    },
-    alternates: {
-      canonical: '/joyagoo-spreadsheet',
-      languages: {
-        'en-US': '/joyagoo-spreadsheet',
-        'de-DE': '/joyagoo-spreadsheet',
-        'pl-PL': '/joyagoo-spreadsheet',
-      },
-    },
-    robots: {
-      index: true,
-      follow: true,
-      googleBot: {
-        index: true,
-        follow: true,
-        'max-image-preview': 'large',
-        'max-snippet': -1,
-      },
-    },
+    alternates: { canonical: url },
+    robots: noindex ? { index: false, follow: true } : { index: true, follow: true },
+    openGraph: { title, description, url, type: 'website' },
+    twitter: { card: 'summary', title, description },
   };
 }
 
-export const dynamic = 'force-dynamic';
+export default async function AllFindsPage({ searchParams }: { searchParams: Promise<SP> }) {
+  const p = parse(await searchParams);
+  const [data, counts] = await Promise.all([
+    load(p.search, p.category?.slug ?? null, p.page, p.sort),
+    getCategoryCounts(),
+  ]);
+  if (p.page > data.pages) notFound();
 
-interface ApiProduct {
-  _id: string;
-  name: string;
-  description: string;
-  price: number | string;
-  creatorName?: string;
-  mainImage: string | { url: string };
-  images: any[];
-  viewCount: number;
-  boostAmount?: number;
-  purchased?: number;
-  findsOfTheWeekUntil?: Date;
-  category?: string;
-}
+  const { rows, total, pages } = data;
+  const heading = p.category ? p.category.name : 'All JoyaGoo finds';
+  const pageUrl = `${SITE_URL}${canonicalPath(p.category, p.page)}`;
+  const description = p.category
+    ? `${p.category.name} finds on the JoyaGoo sheet with CNY prices and links to JoyaGoo.`
+    : 'All finds on the JoyaGoo sheet with CNY prices and links to JoyaGoo.';
 
-interface Product {
-  _id: string;
-  name: string;
-  description: string;
-  price: number | string;
-  creatorName: string;
-  mainImage: string;
-  images: any[];
-  viewCount: number;
-  boostAmount: number;
-  purchased: number;
-  findsOfTheWeekUntil: Date | null;
-  category?: string;
-}
-
-export default async function JoyaGooSpreadsheetPage({
-  searchParams,
-}: {
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
-}) {
-  const params = await searchParams;
-
-  // 1) Query-Params parsen
-  const pParam = Array.isArray(params.page) ? params.page[0] : params.page;
-  const page = parseInt(pParam ?? '1', 10);
-  const search = Array.isArray(params.search)
-    ? params.search[0]
-    : params.search ?? '';
-  const category = Array.isArray(params.category)
-    ? params.category[0]
-    : params.category ?? 'All';
-  const limit = 100;
-
-  const qp = new URLSearchParams({
-    search,
-    category,
-    page: String(page),
-    limit: String(limit),
-  });
-
-  // 2) Daten laden
-  let allProducts: Product[] = [];
-  let totalProducts = 0;
-
-  try {
-    // Server-side rendering should always use localhost to avoid external network calls
-    const baseUrl = `http://localhost:${process.env.PORT || 3000}`;
-
-    const res = await fetch(
-      `${baseUrl}/api/products?${qp.toString()}`,
-      { cache: 'no-store' }
-    );
-
-    if (res.status === 404) {
-      allProducts = [];
-      totalProducts = 0;
-    } else if (!res.ok) {
-      throw new Error(`Failed to fetch products (status ${res.status})`);
-    } else {
-      const data = await res.json();
-      totalProducts = data.totalProducts || 0;
-
-      // 3) mainImage und Badge-Felder normalisieren
-      const apiProducts: ApiProduct[] = data.products || [];
-      allProducts = apiProducts.map((p) => {
-        // mainImage auf String bringen
-        let mainImage: string;
-        if (typeof p.mainImage === 'string') {
-          mainImage = p.mainImage;
-        } else if (
-          p.mainImage &&
-          typeof (p.mainImage as any).url === 'string'
-        ) {
-          mainImage = (p.mainImage as any).url;
-        } else {
-          mainImage = '/images/default-product.jpg';
-        }
-
-        return {
-          _id: p._id,
-          name: p.name,
-          description: p.description,
-          price: p.price,
-          creatorName: p.creatorName ?? '',
-          mainImage,
-          images: p.images,
-          viewCount: p.viewCount,
-          boostAmount: p.boostAmount ?? 0,
-          purchased: p.purchased ?? 0,
-          findsOfTheWeekUntil: p.findsOfTheWeekUntil ?? null,
-          category: p.category,
-        };
-      });
-
-      // For Shoes category, make sure manyouyisi products are at the top
-      if (category === 'Shoes') {
-        const manyouyisiProducts = allProducts.filter(p =>
-          p.creatorName.toLowerCase().includes('manyouyisi')
-        );
-
-        const otherProducts = allProducts.filter(p =>
-          !p.creatorName.toLowerCase().includes('manyouyisi')
-        );
-
-        manyouyisiProducts.sort((a, b) => b.purchased - a.purchased || b.viewCount - a.viewCount);
-        otherProducts.sort((a, b) => b.boostAmount - a.boostAmount || b.purchased - a.purchased);
-
-        allProducts = [...manyouyisiProducts, ...otherProducts];
-      }
-    }
-  } catch (err) {
-    console.error('Error loading products:', err);
-    return (
-      <div className="text-center mt-10 text-red-600">
-        Failed to load products. Please try again later.
-      </div>
-    );
-  }
-
-  // 4) Pagination-Berechnung
-  const totalPages = Math.max(1, Math.ceil(totalProducts / limit));
-  const getPageUrl = (num: number) => {
-    const params = new URLSearchParams({
-      page: String(num),
-      ...(category !== 'All' ? { category } : {}),
-      ...(search ? { search } : {}),
-    });
-    return `/joyagoo-spreadsheet?${params.toString()}`;
-  };
-  const displayedPages = () => {
-    if (totalPages <= 5) {
-      return Array.from({ length: totalPages }, (_, i) => i + 1);
-    }
-    const start = Math.max(1, page - 2);
-    const end = Math.min(totalPages, page + 2);
-    return Array.from({ length: end - start + 1 }, (_, i) => start + i);
-  };
-
-  // Breadcrumb data for schema
   const breadcrumbs = [
-    { name: 'Home', url: 'https://joyagoospreadsheet.com' },
-    { name: 'JoyaGoo Spreadsheet', url: 'https://joyagoospreadsheet.com/joyagoo-spreadsheet' },
+    { name: 'Home', url: SITE_URL },
+    { name: 'All finds', url: `${SITE_URL}${BASE_PATH}` },
+    ...(p.category ? [{ name: p.category.name, url: `${SITE_URL}${BASE_PATH}?category=${p.category.slug}` }] : []),
   ];
 
-  const faqs = [
-    {
-      question: 'What is the JoyaGoo Spreadsheet?',
-      answer: 'The JoyaGoo Spreadsheet is a free, community-curated database of 7,500+ products available on JoyaGoo — a Chinese shopping agent. It lists verified items across categories like shoes, clothing, hoodies, and accessories with USD prices, QC photos, and direct purchase links.',
-    },
-    {
-      question: 'Is the JoyaGoo Spreadsheet free to use?',
-      answer: 'Yes, the JoyaGoo Spreadsheet is completely free. You can browse, search, and filter all 7,500+ products without creating an account. Simply click any product to view it on JoyaGoo.',
-    },
-    {
-      question: 'How often is the JoyaGoo Spreadsheet updated?',
-      answer: 'The spreadsheet is updated daily with new products, price changes, and QC photos. New finds are highlighted in the "Finds of the Week" section so you never miss the best deals.',
-    },
-    {
-      question: 'What categories does the JoyaGoo Spreadsheet cover?',
-      answer: 'The JoyaGoo Spreadsheet covers Shoes, Clothing, Hoodies, T-Shirts, Tracksuits, Sweaters, Accessories, Bags, Watches, and more. Use the category filter to narrow down your search.',
-    },
-    {
-      question: 'How do I find products on the JoyaGoo Spreadsheet?',
-      answer: 'Use the search bar to find products by name or keyword, or filter by category using the dropdown. You can also browse the full list sorted by popularity and purchases.',
-    },
-    {
-      question: 'Does the JoyaGoo Spreadsheet have QC photos?',
-      answer: 'Yes. You can access QC (Quality Control) photos for products directly through the JoyaGoo QC Image Checker feature. QC photos help you verify product quality before buying.',
-    },
+  // Links keep the other active params, drop page.
+  const linkWith = (over: Record<string, string | null>): string => {
+    const qs = new URLSearchParams();
+    const cur: Record<string, string | null> = {
+      category: p.category?.slug ?? null,
+      search: p.search || null,
+      sort: p.sort === 'boost' ? null : p.sort,
+      ...over,
+    };
+    for (const [k, v] of Object.entries(cur)) if (v) qs.set(k, v);
+    const s = qs.toString();
+    return s ? `${BASE_PATH}?${s}` : BASE_PATH;
+  };
+
+  const paginationParams: Record<string, string> = {};
+  if (p.category) paginationParams.category = p.category.slug;
+  if (p.search) paginationParams.search = p.search;
+  if (p.sort !== 'boost') paginationParams.sort = p.sort;
+
+  const allCount = Object.values(counts).reduce((a, b) => a + b, 0);
+  const chip = (active: boolean) =>
+    `rounded-full border px-3 py-1 text-sm ${active ? 'border-gray-900 bg-gray-900 text-white' : 'border-gray-200 bg-white text-gray-800 hover:bg-gray-100'}`;
+
+  const sorts: { key: SortKey; label: string }[] = [
+    { key: 'boost', label: 'Sponsored first' },
+    { key: 'newest', label: 'Newest' },
+    { key: 'popular', label: 'Most ordered' },
   ];
+
+  const caption = `${heading}${p.search ? ` matching “${p.search}”` : ''}, page ${p.page} of ${pages}`;
 
   return (
     <>
-      {/* Schema.org structured data */}
-      <CollectionPageSchema />
       <BreadcrumbSchema items={breadcrumbs} />
-      <FAQSchema faqs={faqs} />
+      <CollectionPageSchema
+        name={heading}
+        description={description}
+        url={pageUrl}
+        itemUrls={rows.map((r) => SITE_URL + r.path)}
+      />
 
-      <ProductPageHeroProducts />
-
-      <div className="h-full my-4">
-        <div className="grid max-w-screen-xl px-4 mx-auto w-full animate-page-fade-in">
-          {/* Kein Produkt gefunden */}
-          {allProducts.length === 0 && (
-            <div className="text-center">
-              <p className="text-lg font-medium text-gray-900">
-                No products existing
-              </p>
-              <p className="text-sm text-gray-500 mt-2">
-                Searching for a product but it's not here?{' '}
-                <Link
-                  href="/features/request-product"
-                  className="text-primary-500 hover:underline"
-                >
-                  Request a Product
-                </Link>
-              </p>
-            </div>
+      <div className="mx-auto w-full max-w-screen-xl px-4 py-8">
+        <nav aria-label="Breadcrumb" className="mb-3 text-xs text-gray-500">
+          <Link href="/" className="hover:underline">Home</Link>
+          {' / '}
+          {p.category ? (
+            <>
+              <Link href={BASE_PATH} className="hover:underline">All finds</Link>
+              {' / '}
+              <span className="text-gray-700">{p.category.name}</span>
+            </>
+          ) : (
+            <span className="text-gray-700">All finds</span>
           )}
+        </nav>
 
-          {/* Product-Grid - Fixed to show only once */}
-          {allProducts.length > 0 && (
-            <div className="mt-6 grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
-              {allProducts.map((product) => (
-                <ProductCard key={product._id} product={product} />
-              ))}
-            </div>
-          )}
-
-          {/* Pagination */}
-          {totalProducts > limit && (
-            <div className="mt-6 flex justify-center md:justify-end space-x-1 md:space-x-2">
-              {page > 1 && (
-                <Link
-                  href={getPageUrl(page - 1)}
-                  className="px-3 py-1 text-sm bg-gray-200 hover:bg-gray-300 rounded-full"
-                >
-                  Previous
-                </Link>
-              )}
-              {displayedPages().map((p) => (
-                <Link
-                  key={p}
-                  href={getPageUrl(p)}
-                  className={`px-3 py-1 text-sm rounded-full ${
-                    p === page
-                      ? 'bg-primary-500 text-gray-900'
-                      : 'bg-gray-200 hover:bg-gray-300'
-                  }`}
-                >
-                  {p}
-                </Link>
-              ))}
-              {page < totalPages && (
-                <Link
-                  href={getPageUrl(page + 1)}
-                  className="px-3 py-1 text-sm bg-gray-200 hover:bg-gray-300 rounded-full"
-                >
-                  Next
-                </Link>
-              )}
-            </div>
-          )}
-        </div>
-      </div>
-
-      {/* SEO Content Section */}
-      <section className="max-w-screen-xl px-4 mx-auto mt-16 mb-12">
-        <div className="border-t border-gray-200 pt-12">
-          <h2 className="text-3xl font-bold text-gray-900 mb-4">
-            JoyaGoo Spreadsheet 2026 — Complete Product Database
-          </h2>
-          <p className="text-gray-600 mb-6 max-w-3xl">
-            The <strong>JoyaGoo Spreadsheet</strong> is the most comprehensive free product database for JoyaGoo shoppers worldwide.
-            Browse over <strong>7,500 verified products</strong> across all major categories — from shoes and hoodies to tracksuits, bags, and accessories.
-            Every listing includes USD pricing, QC photos, and a direct link to the product on JoyaGoo.com.
+        <header>
+          <h1 className="text-2xl font-bold text-gray-900 md:text-3xl">
+            {heading}
+            {p.page > 1 ? <span className="text-gray-500"> – page {p.page}</span> : null}
+          </h1>
+          <p className="mt-2 max-w-3xl text-sm text-gray-700">
+            {total.toLocaleString('en-US')} {p.search ? 'matching ' : ''}finds with the seller’s price in CNY, an approximate EUR/USD value and a link that opens the item on JoyaGoo.
+            {p.sort === 'boost' ? ' Rows marked “Sponsored” are paid placements by sellers and are shown first.' : null}
           </p>
+          <Disclosure short className="mt-1 text-xs text-gray-500" />
+        </header>
 
-          <div className="grid md:grid-cols-2 gap-8 mb-12">
-            <div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-3">How to Use the JoyaGoo Spreadsheet</h3>
-              <ul className="space-y-2 text-gray-600">
-                <li>1. Use the <strong>search bar</strong> to find any product by keyword or name</li>
-                <li>2. Filter by <strong>category</strong> (Shoes, Clothing, Bags, Accessories, etc.)</li>
-                <li>3. Click any product card to open the product page on JoyaGoo</li>
-                <li>4. Check <strong>QC photos</strong> before purchasing for peace of mind</li>
-                <li>5. Use our <strong>exclusive coupon codes</strong> at checkout to save more</li>
-              </ul>
-            </div>
-            <div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-3">Why Use This JoyaGoo Spreadsheet?</h3>
-              <ul className="space-y-2 text-gray-600">
-                <li>✓ <strong>7,500+ verified products</strong> updated daily</li>
-                <li>✓ <strong>USD prices</strong> so you always know what you pay</li>
-                <li>✓ <strong>QC photos</strong> for quality verification before you buy</li>
-                <li>✓ <strong>Finds of the Week</strong> — hand-picked best deals</li>
-                <li>✓ <strong>Exclusive coupon codes</strong> for extra savings</li>
-                <li>✓ Trusted by shoppers in <strong>USA, Germany, Poland</strong> and worldwide</li>
-              </ul>
-            </div>
-          </div>
+        <form method="get" action={BASE_PATH} role="search" className="mt-5 flex max-w-xl gap-2">
+          {p.category ? <input type="hidden" name="category" value={p.category.slug} /> : null}
+          <label htmlFor="finds-search" className="sr-only">Search finds</label>
+          <input
+            id="finds-search"
+            type="search"
+            name="search"
+            defaultValue={p.search}
+            placeholder="Search by name, seller or item ID"
+            className="min-w-0 flex-1 rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-gray-900 focus:outline-none"
+          />
+          <button type="submit" className="rounded-lg bg-gray-900 px-4 py-2 text-sm font-semibold text-white hover:bg-gray-700">
+            Search
+          </button>
+        </form>
 
-          {/* Internal links */}
-          <div className="flex flex-wrap gap-3 mb-12">
-            <Link href="/features/finds-of-the-week" className="px-4 py-2 bg-primary-500 text-gray-900 rounded-full text-sm font-medium hover:bg-primary-600 transition-colors">
-              Finds of the Week
+        <nav aria-label="Categories" className="mt-4 flex flex-wrap gap-2">
+          <Link href={linkWith({ category: null })} className={chip(!p.category)}>
+            All <span className="opacity-60">{allCount.toLocaleString('en-US')}</span>
+          </Link>
+          {CATEGORIES.map((c) => (
+            <Link
+              key={c.slug}
+              href={linkWith({ category: c.slug })}
+              className={chip(p.category?.slug === c.slug)}
+              aria-current={p.category?.slug === c.slug ? 'page' : undefined}
+            >
+              {c.name} <span className="opacity-60">{(counts[c.slug] ?? 0).toLocaleString('en-US')}</span>
             </Link>
-            <Link href="/features/joyagoo-qc-images" className="px-4 py-2 bg-gray-100 text-gray-800 rounded-full text-sm font-medium hover:bg-gray-200 transition-colors">
-              JoyaGoo QC Images
-            </Link>
-            <Link href="/articles/joyagoo-coupons-2026" className="px-4 py-2 bg-gray-100 text-gray-800 rounded-full text-sm font-medium hover:bg-gray-200 transition-colors">
-              JoyaGoo Coupons 2026
-            </Link>
-            <Link href="/articles/is-joyagoo-legit" className="px-4 py-2 bg-gray-100 text-gray-800 rounded-full text-sm font-medium hover:bg-gray-200 transition-colors">
-              Is JoyaGoo Legit?
-            </Link>
-            <Link href="/features/dead-link" className="px-4 py-2 bg-gray-100 text-gray-800 rounded-full text-sm font-medium hover:bg-gray-200 transition-colors">
-              Report a Dead Link
-            </Link>
-          </div>
+          ))}
+        </nav>
 
-          {/* FAQ Section */}
-          <h2 className="text-2xl font-bold text-gray-900 mb-6">Frequently Asked Questions</h2>
-          <div className="space-y-4">
-            {faqs.map((faq, i) => (
-              <div key={i} className="p-5 bg-gray-50 rounded-xl">
-                <h3 className="font-semibold text-gray-900">{faq.question}</h3>
-                <p className="mt-2 text-gray-600 text-sm">{faq.answer}</p>
-              </div>
-            ))}
-          </div>
+        <div className="mt-3 flex flex-wrap items-center gap-2 text-sm">
+          <span className="text-gray-500">Sort:</span>
+          {sorts.map((s) =>
+            s.key === p.sort ? (
+              <span key={s.key} className="font-semibold text-gray-900">{s.label}</span>
+            ) : (
+              <Link key={s.key} href={linkWith({ sort: s.key === 'boost' ? null : s.key })} rel="nofollow" className="text-gray-700 underline underline-offset-2 hover:text-gray-900">
+                {s.label}
+              </Link>
+            ),
+          )}
+          {p.search ? (
+            <Link href={linkWith({ search: null })} className="ml-auto text-gray-700 underline underline-offset-2">
+              Clear search
+            </Link>
+          ) : null}
         </div>
-      </section>
+
+        <div className="mt-4">
+          <FindsTable rows={rows} startIndex={(p.page - 1) * PAGE_SIZE} showCategory={!p.category} caption={caption} />
+        </div>
+
+        <Pagination currentPage={p.page} totalPages={pages} basePath={BASE_PATH} params={paginationParams} />
+
+        <div className="mt-10">
+          <AgentCta variant="box" offerHeadline={activeOffers()[0]?.headline ?? null} />
+        </div>
+
+        {p.category && CATEGORY_INTRO[p.category.slug] ? (
+          <section className="mt-10 max-w-3xl">
+            <h2 className="text-lg font-semibold text-gray-900">About {p.category.name.toLowerCase()} on the sheet</h2>
+            <p className="mt-2 text-sm leading-relaxed text-gray-700">{CATEGORY_INTRO[p.category.slug]}</p>
+          </section>
+        ) : null}
+      </div>
     </>
   );
 }

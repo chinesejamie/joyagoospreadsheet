@@ -1,136 +1,32 @@
 // app/api/products/route.ts
+// Public listing API. Same rules as the sheet (LISTABLE_QUERY, boost order)
+// via getFinds; returns only table rows, no database internals.
 
 import { NextRequest, NextResponse } from 'next/server';
-import mongoose from 'mongoose';
-import type { PipelineStage } from 'mongoose';
-import Product from '@/models/Product';
-import connectToDatabase from '@/lib/mongodb';
+import { getFinds } from '@/lib/finds';
+import { categoryBySlug } from '@/lib/categories';
 
-// Hilfsfunktion CNY → USD
-const convertCnyToUsd = (cny: number): string =>
-  (cny * 0.14).toFixed(2);
+export const dynamic = 'force-dynamic';
 
 export async function GET(request: NextRequest) {
-  // 1) DB verbinden
-  await connectToDatabase();
+  const sp = request.nextUrl.searchParams;
+  const search = (sp.get('search') ?? '').trim().slice(0, 100) || undefined;
+  const rawCategory = sp.get('category');
+  const category = rawCategory && categoryBySlug(rawCategory) ? rawCategory.toLowerCase() : null;
+  const creator = sp.get('creatorName')?.trim() || null;
+  const page = Math.max(1, parseInt(sp.get('page') ?? '1', 10) || 1);
+  const limit = Math.min(100, Math.max(1, parseInt(sp.get('limit') ?? '50', 10) || 50));
+  const rawSort = sp.get('sort');
+  const sort = rawSort === 'newest' || rawSort === 'popular' ? rawSort : 'boost';
 
-  const url         = new URL(request.url);
-  const search      = url.searchParams.get('search');
-  const creatorName = url.searchParams.get('creatorName');
-  const category    = url.searchParams.get('category');
-  const page        = Number(url.searchParams.get('page')  ?? '1');
-  const limit       = Number(url.searchParams.get('limit') ?? '100');
-  const now         = new Date();
-
-  // 2) Basis‐Query
-  const mongoQuery: Record<string, any> = {};
-  if (search) {
-    const rx = new RegExp(String(search), 'i');
-    mongoQuery.$or = [
-      { name:        { $regex: rx } },
-      { description: { $regex: rx } },
-      { creatorName: { $regex: rx } },
-      { id:          { $regex: rx } },
-      { link:        { $regex: rx } },
-    ];
+  try {
+    const { rows, total, pages } = await getFinds({ search, category, creator, page, limit, sort });
+    return NextResponse.json(
+      { products: rows, total, page, pages },
+      { headers: { 'Cache-Control': 'public, max-age=300' } },
+    );
+  } catch (err) {
+    console.error('GET /api/products failed:', err);
+    return NextResponse.json({ message: 'Failed to load products' }, { status: 500 });
   }
-  if (category && category !== 'All') {
-    mongoQuery.category = category;
-  }
-  if (creatorName) {
-    mongoQuery.creatorName = new RegExp(String(creatorName), 'i');
-  }
-
-  // 3) Zählungen
-  const rawCount      = await mongoose.connection.db.collection(Product.collection.name).countDocuments();
-  const exactCount    = await Product.countDocuments({});
-  const filteredCount = Object.keys(mongoQuery).length
-    ? await Product.countDocuments(mongoQuery)
-    : exactCount;
-
-  // 4) Page‑ID für Boosts (JoyaGoo)
-  const pageId = '69651a22477d89367936e6a6';
-
-  // 5) Aggregation
-  const pipeline: PipelineStage[] = [
-    { $match: mongoQuery },
-    {
-      $addFields: {
-        totalBoostForPage: {
-          $sum: {
-            $map: {
-              input: {
-                $filter: {
-                  input: '$boosts',
-                  as:    'b',
-                  cond: {
-                    $and: [
-                      { $eq: ['$$b.boostPage', pageId] },
-                      { $gt: ['$$b.validUntil', now] }
-                    ]
-                  }
-                }
-              },
-              as: 'validBoost',
-              in: '$$validBoost.amount'
-            }
-          }
-        }
-      }
-    },
-    {
-      $sort: {
-        totalBoostForPage: -1,
-        _id:               -1  // Newest products first (by creation date)
-      }
-    },
-    { $skip: (page - 1) * limit },
-    { $limit: limit },
-    {
-      $project: {
-        name:                1,
-        description:         1,
-        price:               1,
-        creatorName:         1,
-        store:               1,
-        mainImage:           { $arrayElemAt: ['$images', 0] },
-        images:              1,
-        viewCount:           1,
-        purchased:           1,
-        findsOfTheWeekUntil: 1,
-        // Aliase the boost total to "boostAmount":
-        boostAmount:         '$totalBoostForPage'
-      }
-    }
-  ];
-
-  // 6) Ausführen
-  const products = await Product.aggregate(pipeline);
-
-  if (!products.length) {
-    return NextResponse.json({ message: 'No products found' }, { status: 404 });
-  }
-
-  // 7) Ergebnis konvertieren
-  const converted = products.map(p => ({
-    ...p,
-    price:     typeof p.price === 'number' ? convertCnyToUsd(p.price) : p.price,
-    mainImage: p.mainImage || '/images/default-product.jpg',
-  }));
-
-  // 8) Antwort
-  return NextResponse.json({
-    products:            converted,
-    totalProducts:       filteredCount,
-    totalCollectionSize: rawCount,
-    collectionName:      Product.collection.name,
-    databaseInfo: {
-      database:       mongoose.connection.db.databaseName,
-      collection:     Product.collection.name,
-      model:          Product.modelName,
-      estimatedCount: await Product.estimatedDocumentCount(),
-      exactCount,
-      filteredCount,
-    }
-  });
 }

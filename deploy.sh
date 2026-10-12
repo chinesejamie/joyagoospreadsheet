@@ -1,130 +1,62 @@
 #!/bin/bash
+# Deploy joyagoospreadsheet.com: build LOCALLY (the VPS has no RAM headroom for
+# `next build`), upload .next + public + sources via tar-over-ssh (macOS rsync is
+# broken against this host), swap directories, restart pm2. Keeps the server .env.
+set -euo pipefail
 
-# ====== CONFIG ======
-SSH_KEY="/Users/jamie/Desktop/All Websites/RootKey"
-SERVER_IP="217.154.115.9"
+SSH_KEY="/Users/asiger/Desktop/All Websites/RootKey"
+SERVER="root@217.154.115.9"
 REMOTE_DIR="/var/www/joyagoonext3027"
-PM2_PROCESS_NAME="JoyaGoo3027"
-PORT="3027"
+PM2_NAME="JoyaGoo3027"
 DOMAIN="joyagoospreadsheet.com"
-# =====================
 
-# Check if SSH key exists
-if [ ! -f "$SSH_KEY" ]; then
-  echo "Error: SSH key not found at $SSH_KEY"
-  exit 1
+cd "$(dirname "$0")"
+[ -f "$SSH_KEY" ] || { echo "SSH key missing: $SSH_KEY"; exit 1; }
+
+if [ "${SKIP_BUILD:-0}" != "1" ]; then
+  echo "== Building locally (webpack, .env.local must point MONGODB_URI at the SSH tunnel)…"
+  rm -rf .next
+  npx next build
 fi
+[ -f .next/BUILD_ID ] || { echo "no .next/BUILD_ID – build failed?"; exit 1; }
+rm -rf .next/cache
 
-echo "Starting Deployment..."
+echo "== Packing…"
+export COPYFILE_DISABLE=1
+tar --no-xattrs -czf /tmp/joyagoo-deploy.tgz \
+  --exclude='node_modules' --exclude='.git' --exclude='.env*' --exclude='*.tgz' \
+  .next public app components lib models package.json package-lock.json next.config.mjs tsconfig.json postcss.config.mjs jsconfig.json next-env.d.ts
 
-# Step 1: Compress project
-echo "Compressing project..."
-tar --exclude='.next' \
-    --exclude='node_modules' \
-    --exclude='.turbo' \
-    --exclude='.git' \
-    --exclude='out' \
-    --exclude='*.pem' \
-    --exclude='*.key' \
-    --exclude='*.pub' \
-    --exclude='kRoot' \
-    --exclude='.env' \
-    --exclude='project.tar.gz' \
-    -czf project.tar.gz .
+echo "== Uploading…"
+scp -q -i "$SSH_KEY" /tmp/joyagoo-deploy.tgz "$SERVER":/tmp/joyagoo-deploy.tgz
+LOCAL_PKG_HASH=$(shasum -a 256 package.json | cut -c1-16)
 
-# Step 2: Upload archive
-echo "Uploading project..."
-scp -i "$SSH_KEY" project.tar.gz root@"$SERVER_IP":/tmp/project.tar.gz
+echo "== Installing on server…"
+ssh -i "$SSH_KEY" "$SERVER" REMOTE_DIR="$REMOTE_DIR" PM2_NAME="$PM2_NAME" LOCAL_PKG_HASH="$LOCAL_PKG_HASH" 'bash -s' <<'REMOTE'
+set -euo pipefail
+NEW="${REMOTE_DIR}.new"; OLD="${REMOTE_DIR}.old"
+rm -rf "$NEW" && mkdir -p "$NEW"
+tar -xzf /tmp/joyagoo-deploy.tgz -C "$NEW" && rm /tmp/joyagoo-deploy.tgz
+cp "$REMOTE_DIR/.env" "$NEW/.env"
+# reuse node_modules when package.json is unchanged
+if [ -d "$REMOTE_DIR/node_modules" ] && [ "$(sha256sum "$REMOTE_DIR/package.json" | cut -c1-16)" = "$LOCAL_PKG_HASH" ]; then
+  mv "$REMOTE_DIR/node_modules" "$NEW/node_modules"
+else
+  (cd "$NEW" && npm ci --omit=dev --no-audit --no-fund)
+fi
+rm -rf "$OLD"; mv "$REMOTE_DIR" "$OLD"; mv "$NEW" "$REMOTE_DIR"
+cat > "$REMOTE_DIR/ecosystem.config.js" <<PM2
+module.exports = { apps: [{ name: '${PM2_NAME}', script: 'npm', args: 'start', cwd: '${REMOTE_DIR}', instances: 1, autorestart: true, watch: false, max_memory_restart: '1G', env: { NODE_ENV: 'production', PORT: 3027 } }] };
+PM2
+pm2 delete "$PM2_NAME" >/dev/null 2>&1 || true
+pm2 start "$REMOTE_DIR/ecosystem.config.js" >/dev/null && pm2 save >/dev/null
+sleep 4
+curl -s -o /dev/null -w "local http %{http_code}\n" -H "Host: joyagoospreadsheet.com" http://127.0.0.1:3027/
+rm -rf "$OLD"
+REMOTE
+rm -f /tmp/joyagoo-deploy.tgz
 
-# Step 3: Deploy on server
-echo "Deploying on server..."
-ssh -t -i "$SSH_KEY" root@"$SERVER_IP" << 'EOF'
-  set -e
-
-  REMOTE_DIR="/var/www/joyagoonext3027"
-  PM2_PROCESS_NAME="JoyaGoo3027"
-  DOMAIN="joyagoospreadsheet.com"
-
-  # Create directory
-  mkdir -p $REMOTE_DIR
-
-  # Clean old files (keep .env)
-  find $REMOTE_DIR -mindepth 1 ! -name '.env' -exec rm -rf {} + 2>/dev/null || true
-
-  # Extract new code
-  tar -xzf /tmp/project.tar.gz -C $REMOTE_DIR
-  rm /tmp/project.tar.gz
-
-  cd $REMOTE_DIR
-
-  # Install dependencies
-  echo "Installing dependencies..."
-  npm install
-
-  # Build project
-  echo "Building project..."
-  npm run build
-
-  # Configure Nginx
-  echo "Configuring Nginx..."
-  cat > /etc/nginx/sites-available/$DOMAIN << 'NGINX_CONFIG'
-server {
-    listen 80;
-    server_name joyagoospreadsheet.com www.joyagoospreadsheet.com;
-
-    location / {
-        proxy_pass http://localhost:3027/;
-        proxy_http_version 1.1;
-        proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Connection 'upgrade';
-        proxy_set_header Host $host;
-        proxy_cache_bypass $http_upgrade;
-    }
-
-    access_log /var/log/nginx/joyagoo_access.log;
-    error_log /var/log/nginx/joyagoo_error.log;
-}
-NGINX_CONFIG
-
-  # Enable site
-  ln -sf /etc/nginx/sites-available/$DOMAIN /etc/nginx/sites-enabled/$DOMAIN
-
-  # Test and restart Nginx
-  nginx -t && systemctl restart nginx
-
-  # PM2 setup
-  echo "Setting up PM2..."
-  pm2 delete $PM2_PROCESS_NAME 2>/dev/null || true
-
-  # Create ecosystem config
-  cat > ecosystem.config.js << 'PM2_CONFIG'
-module.exports = {
-  apps: [{
-    name: 'JoyaGoo3027',
-    script: 'npm',
-    args: 'start',
-    cwd: '/var/www/joyagoonext3027',
-    instances: 1,
-    autorestart: true,
-    watch: false,
-    max_memory_restart: '1G',
-    env: {
-      NODE_ENV: 'production',
-      PORT: 3027
-    }
-  }]
-};
-PM2_CONFIG
-
-  pm2 start ecosystem.config.js
-  pm2 save
-
-  echo "PM2 Status:"
-  pm2 list
-EOF
-
-# Cleanup
-rm project.tar.gz
-
-echo "Deployment complete!"
-echo "Site: https://joyagoospreadsheet.com"
+echo "== Verifying from outside…"
+curl -s -o /dev/null -w "https://$DOMAIN/ -> %{http_code}\n" "https://$DOMAIN/"
+curl -s -A "Mozilla/5.0 (compatible; Googlebot/2.1)" "https://$DOMAIN/" | grep -ci kakobuy | sed 's/^/kakobuy mentions (must be 0): /'
+echo "Deployment complete."

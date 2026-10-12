@@ -1,73 +1,64 @@
 // app/articles/page.tsx
-
 import Link from 'next/link';
 import type { Metadata } from 'next';
+import articles, { formatDate } from '@/content/articles';
+import { BreadcrumbSchema } from '@/components/StructuredData';
+import Disclosure from '@/components/Disclosure';
+import { SITE_URL, SITE_NAME, AUTHOR_NAME, AUTHOR_URL } from '@/lib/site';
+
+const URL = `${SITE_URL}/articles`;
+const TITLE = 'JoyaGoo Guides: Buying, Shipping, Coupons, Legit Check';
+const DESCRIPTION =
+  'Dated, sourced guides for buying on JoyaGoo with the spreadsheet: how ordering works, customs and tax for Germany and the EU, current offers and an honest legit check.';
 
 export const metadata: Metadata = {
-  title: 'JoyaGoo Spreadsheet Articles & Guides – Coupons, Tutorials, Reviews 2026',
-  description:
-    'Discover expert-written JoyaGoo articles including coupon guides, product spreadsheet tips, JoyaGoo seller reviews and more. Updated regularly in 2026.',
-  keywords: [
-    'joyagoo spreadsheet',
-    'joyagoo coupons',
-    'joyagoo tips',
-    'how to use joyagoo',
-    'joyagoo reviews',
-    'best agents for joyagoo',
-    'joyagoo spreadsheet guide',
-    'joyagoo vs wegobuy',
-    'is joyagoo legit',
-  ],
-  openGraph: {
-    title: 'JoyaGoo Spreadsheet Articles & Guides 2026',
-    description:
-      'Explore in-depth articles around the JoyaGoo Spreadsheet, including coupon hacks, agent comparisons, trust scores, and shopping tips for Chinese marketplaces.',
-    url: 'https://joyagoospreadsheet.com/articles',
-    type: 'article',
-  },
-  alternates: {
-    canonical: '/articles',
-  },
+  title: TITLE,
+  description: DESCRIPTION,
+  alternates: { canonical: URL },
+  openGraph: { title: TITLE, description: DESCRIPTION, url: URL, siteName: SITE_NAME, type: 'website' },
 };
 
-const articles = [
-  {
-    slug: 'joyagoo-coupons-2026',
-    title: 'JoyaGoo Coupons 2026: How to Save Money on Every Order',
-    description:
-      'Looking for active JoyaGoo coupons? This guide explains how to apply agent discounts, combine promotions, and get weekly spreadsheet deals.',
-  },
-  {
-    slug: 'is-joyagoo-legit',
-    title: 'Is JoyaGoo Legit? A Deep Dive into Safety & Trust in 2026',
-    description:
-      'We break down the pros, cons, user experiences, and transparency of JoyaGoo compared to other shopping agents in 2026.',
-  },
-];
-
 export default function ArticlesPage() {
+  const sorted = [...articles].sort((a, b) => b.dateModified.localeCompare(a.dateModified));
+
   return (
-    <div className="max-w-4xl mx-auto px-4 py-10 animate-page-fade-in">
-      <h1 className="text-3xl font-bold text-gray-900 mb-6 text-center">
-        JoyaGoo Spreadsheet Articles & Guides
-      </h1>
-      <p className="text-center text-gray-600 mb-10 max-w-2xl mx-auto">
-        Explore tutorials, reviews, coupon breakdowns, and expert insights to make the most of the JoyaGoo Spreadsheet and agent services in 2026.
+    <div className="mx-auto max-w-3xl px-4 py-10">
+      <BreadcrumbSchema
+        items={[
+          { name: 'Home', url: SITE_URL },
+          { name: 'Articles', url: URL },
+        ]}
+      />
+      <nav aria-label="Breadcrumb" className="mb-6 text-sm text-gray-500">
+        <Link href="/" className="hover:text-gray-900">Home</Link>
+        <span className="mx-2">/</span>
+        <span aria-current="page">Articles</span>
+      </nav>
+
+      <h1 className="text-3xl font-bold text-gray-900">JoyaGoo guides</h1>
+      <p className="mt-3 text-gray-700">
+        Written and reviewed by <a href={AUTHOR_URL} className="font-semibold underline underline-offset-2">{AUTHOR_NAME}</a>.
+        Every guide shows when it was published and last reviewed, and links its sources.
       </p>
-      <div className="grid gap-6 sm:grid-cols-2">
-        {articles.map((article) => (
-          <Link
-            key={article.slug}
-            href={`/articles/${article.slug}`}
-            className="block border border-gray-200 hover:border-primary-500 rounded-xl p-5 transition shadow-sm hover:shadow-md bg-white"
-          >
-            <h2 className="text-lg font-semibold text-gray-900 mb-2">
-              {article.title}
-            </h2>
-            <p className="text-sm text-gray-600">{article.description}</p>
-          </Link>
+      <Disclosure className="mt-2 text-xs text-gray-500" />
+
+      <ul className="mt-8 space-y-4">
+        {sorted.map((a) => (
+          <li key={a.slug}>
+            <Link
+              href={`/articles/${a.slug}`}
+              className="block rounded-xl border border-gray-200 bg-white p-5 transition hover:border-primary-500"
+            >
+              <h2 className="text-lg font-semibold text-gray-900">{a.title}</h2>
+              <p className="mt-1 text-sm text-gray-600">{a.description}</p>
+              <p className="mt-2 text-xs text-gray-500">
+                Published <time dateTime={a.datePublished}>{formatDate(a.datePublished)}</time> · Last reviewed{' '}
+                <time dateTime={a.dateModified}>{formatDate(a.dateModified)}</time>
+              </p>
+            </Link>
+          </li>
         ))}
-      </div>
+      </ul>
     </div>
   );
 }

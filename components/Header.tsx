@@ -2,38 +2,37 @@
 
 import { Dialog } from '@headlessui/react';
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
-import { Icon } from '@iconify/react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
-
-const agentName = process.env.NEXT_PUBLIC_AGENT_NAME || 'JoyaGoo';
+import AgentCta from '@/components/AgentCta';
+import { AGENT_NAME, SITE_NAME } from '@/lib/site';
 
 const navigation = [
   { name: 'Home', href: '/' },
-  { name: `${agentName} Spreadsheet`, href: `/${agentName.toLowerCase()}-spreadsheet` },
-  { name: 'Articles', href: '/articles' },
-  { name: 'Finds of the Week', href: '/features/finds-of-the-week' },
+  { name: 'All finds', href: '/joyagoo-spreadsheet' },
+  { name: 'How to buy', href: '/articles/how-to-buy-on-joyagoo' },
+  { name: `Is ${AGENT_NAME} legit?`, href: '/articles/is-joyagoo-legit' },
+  { name: 'Coupons', href: '/articles/joyagoo-coupons-2026' },
   { name: 'FAQ', href: '/features/faq' },
-  { name: 'QC-Images', href: '/features/joyagoo-qc-images' },
 ];
+
+const ctaClass =
+  'inline-flex items-center justify-center rounded-md bg-primary-500 px-3 py-1.5 text-sm font-semibold text-gray-900 shadow-sm hover:bg-primary-600 transition-colors';
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
     <header className="relative z-30 bg-white shadow-md">
-      {/* TopBanner placeholder */}
-      <div className="relative">{/* <TopBanner /> */}</div>
-
       <nav className="flex items-center justify-between p-6 lg:px-8" aria-label="Global">
         {/* Left Side: Logo */}
         <div className="flex lg:flex-1 items-center">
           <Link href="/" className="-m-1.5 p-1.5">
-            <span className="sr-only">{agentName} Spreadsheet</span>
+            <span className="sr-only">{SITE_NAME}</span>
             <Image
               src="/staticImages/JoyaGooSpreadSheet.webp"
-              alt={`${agentName}-logo`}
+              alt={`${SITE_NAME} logo`}
               width={120}
               height={32}
               className="h-8 w-auto"
@@ -54,7 +53,7 @@ export default function Header() {
         </div>
 
         {/* Desktop Navigation */}
-        <div className="hidden lg:flex lg:gap-x-12">
+        <div className="hidden lg:flex lg:gap-x-6">
           {navigation.map((item) => (
             <Link
               key={item.name}
@@ -66,14 +65,9 @@ export default function Header() {
           ))}
         </div>
 
-        {/* Desktop Login */}
+        {/* Desktop CTA */}
         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-          <Link
-            href="/feature-soon"
-            className="text-sm font-semibold leading-6 text-gray-900 hover:text-gray-600"
-          >
-            Log in <span aria-hidden="true">&rarr;</span>
-          </Link>
+          <AgentCta variant="button" label={`Register on ${AGENT_NAME}`} className={ctaClass} />
         </div>
       </nav>
 
@@ -83,10 +77,10 @@ export default function Header() {
         <Dialog.Panel className="fixed inset-y-0 right-0 z-50 w-full max-w-sm bg-white px-6 py-6 sm:ring-1 sm:ring-gray-900/10">
           <div className="flex items-center justify-between">
             <Link href="/" className="-m-1.5 p-1.5">
-              <span className="sr-only">{agentName} Spreadsheet</span>
+              <span className="sr-only">{SITE_NAME}</span>
               <Image
                 src="/staticImages/JoyaGooSpreadSheet.webp"
-                alt={`${agentName}-logo`}
+                alt={`${SITE_NAME} logo`}
                 width={120}
                 height={32}
                 className="h-8 w-auto"
@@ -117,13 +111,7 @@ export default function Header() {
                 ))}
               </div>
               <div className="py-6">
-                <Link
-                  href="/feature-soon"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-100"
-                >
-                  Log in
-                </Link>
+                <AgentCta variant="button" label={`Register on ${AGENT_NAME}`} className={ctaClass} />
               </div>
             </div>
           </div>

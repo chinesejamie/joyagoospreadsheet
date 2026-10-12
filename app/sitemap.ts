@@ -1,58 +1,37 @@
 // app/sitemap.ts
-import { MetadataRoute } from 'next';
+// Only real, indexable URLs. No product pages, no facets, no priority/changefreq.
+import type { MetadataRoute } from 'next';
+import { SITE_URL, CONTENT_LAST_REVIEWED } from '@/lib/site';
+import { getLatestCreatedAt } from '@/lib/finds';
+
+export const revalidate = 3600;
+
+const CONTENT_PATHS = [
+  '/articles',
+  '/articles/how-to-buy-on-joyagoo',
+  '/articles/is-joyagoo-legit',
+  '/articles/joyagoo-shipping-to-germany',
+  '/articles/joyagoo-coupons-2026',
+  '/features/faq',
+  '/about',
+  '/contact',
+  '/privacy-policy',
+  '/features/dead-link',
+];
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = 'https://joyagoospreadsheet.com';
+  const reviewed = new Date(CONTENT_LAST_REVIEWED);
 
-  // Core pages with high priority for "joyagoo spreadsheet" keyword
-  const routes = [
-    {
-      url: baseUrl,
-      lastModified: new Date(),
-      changeFrequency: 'daily' as const,
-      priority: 1.0,
-    },
-    {
-      url: `${baseUrl}/joyagoo-spreadsheet`,
-      lastModified: new Date(),
-      changeFrequency: 'hourly' as const,
-      priority: 1.0, // Highest priority - main keyword page
-    },
-    {
-      url: `${baseUrl}/features/finds-of-the-week`,
-      lastModified: new Date(),
-      changeFrequency: 'weekly' as const,
-      priority: 0.9,
-    },
-    {
-      url: `${baseUrl}/features/qc-images`,
-      lastModified: new Date(),
-      changeFrequency: 'weekly' as const,
-      priority: 0.8,
-    },
-    {
-      url: `${baseUrl}/features/report-dead-link`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly' as const,
-      priority: 0.5,
-    },
+  let latestFind: Date = reviewed;
+  try {
+    latestFind = (await getLatestCreatedAt()) ?? reviewed;
+  } catch {
+    latestFind = reviewed;
+  }
+
+  return [
+    { url: SITE_URL, lastModified: latestFind },
+    { url: `${SITE_URL}/joyagoo-spreadsheet`, lastModified: latestFind },
+    ...CONTENT_PATHS.map((path) => ({ url: `${SITE_URL}${path}`, lastModified: reviewed })),
   ];
-
-  // Article pages
-  const articles = [
-    'is-joyagoo-legit',
-    'joyagoo-review',
-    'joyagoo-coupon-code',
-    'how-to-use-joyagoo',
-    'how-to-shop-with-joyagoo',
-  ];
-
-  const articleRoutes = articles.map((slug) => ({
-    url: `${baseUrl}/articles/${slug}`,
-    lastModified: new Date(),
-    changeFrequency: 'monthly' as const,
-    priority: 0.7,
-  }));
-
-  return [...routes, ...articleRoutes];
 }

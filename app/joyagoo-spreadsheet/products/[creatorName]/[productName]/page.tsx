@@ -1,304 +1,237 @@
 // app/joyagoo-spreadsheet/products/[creatorName]/[productName]/page.tsx
+// One find. Rendered on request (no build-time prerendering of ~7,900 pages).
+// House rule since 2026-09-28: product pages are noindex,follow on this domain.
 
-import { notFound } from 'next/navigation';
-import { buildJoyaGooLink } from '@/lib/joyagooLink';
-import connectToDatabase from '@/lib/mongodb';
-import Product, { IProduct } from '@/models/Product';
-import { Types } from 'mongoose';
 import Image from 'next/image';
+import Link from 'next/link';
+import { notFound, permanentRedirect } from 'next/navigation';
+import { cache } from 'react';
 import type { Metadata } from 'next';
 import BuyNowButton from '@/components/BuyNowButton';
-import { ProductSchema, BreadcrumbSchema } from '@/components/StructuredData';
+import AgentCta from '@/components/AgentCta';
+import Disclosure from '@/components/Disclosure';
+import FindsTable from '@/components/FindsTable';
+import { BreadcrumbSchema, ItemPageSchema } from '@/components/StructuredData';
+import connectToDatabase from '@/lib/mongodb';
+import Product from '@/models/Product';
+import { findProduct, getFinds, productId, productPath, toRow, usableImages } from '@/lib/finds';
+import { buildJoyaGooLink } from '@/lib/joyagooLink';
+import { FX_RATES_DATE, SITE_URL, absoluteUrl } from '@/lib/site';
 
-// Helper function to escape special regex characters
-function escapeRegExp(string: string): string {
-  return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-}
+export const dynamic = 'force-dynamic';
 
-// Truncate string for filesystem-safe paths (max 100 chars to stay under OS limits)
-function truncateForPath(str: string, maxLength = 100): string {
-  if (str.length <= maxLength) return str;
-  return str.substring(0, maxLength);
-}
+const PLACEHOLDER = '/images/default-product.webp';
 
-export async function generateStaticParams() {
-  await connectToDatabase();
-  const products = await Product.find({}, { creatorName: 1, id: 1, slug: 1, name: 1, _id: 1 }).lean();
+type Params = Promise<{ creatorName: string; productName: string }>;
 
-  return products.map((product: any) => ({
-    creatorName: encodeURIComponent(product.creatorName),
-    productName: encodeURIComponent(
-      product.slug ||
-      product.id ||
-      truncateForPath(product.name?.toLowerCase().replace(/\s+/g, '-') || String(product._id))
-    ),
-  }));
-}
-
-export async function generateMetadata({
-  params,
-}: {
-  params: Promise<{ creatorName: string; productName: string }>;
-}): Promise<Metadata> {
-  const { creatorName: encCreator, productName: encProduct } = await params;
-  const creatorName = decodeURIComponent(encCreator);
-  const productName = decodeURIComponent(encProduct);
-
-  await connectToDatabase();
-  // Use case-insensitive regex queries
-  let product = await Product.findOne({
-    creatorName: { $regex: new RegExp(`^${escapeRegExp(creatorName)}$`, 'i') },
-    $or: [
-      { slug: { $regex: new RegExp(`^${escapeRegExp(productName)}$`, 'i') } },
-      { id: { $regex: new RegExp(`^${escapeRegExp(productName)}$`, 'i') } },
-      { name: { $regex: new RegExp(`^${escapeRegExp(productName)}$`, 'i') } },
-    ],
-  }).lean();
-
-  // Fallback: if productName is truncated (100 chars), try prefix match
-  if (!product && productName.length >= 100) {
-    product = await Product.findOne({
-      creatorName: { $regex: new RegExp(`^${escapeRegExp(creatorName)}$`, 'i') },
-      name: { $regex: new RegExp(`^${escapeRegExp(productName)}`, 'i') },
-    }).lean();
+function safeDecode(s: string): string {
+  try {
+    return decodeURIComponent(s);
+  } catch {
+    return s;
   }
+}
 
-  if (!product) return {};
+function isListable(p: any): boolean {
+  return Boolean(p) && p.hidden !== true && Number(p.price) > 0 && typeof p.name === 'string' && p.name.trim() !== '';
+}
 
-  const usdPrice = (product.price * 0.14).toFixed(2);
-  const seoTitle = `${product.name} - $${usdPrice} | JoyaGoo Spreadsheet ${new Date().getFullYear()}`;
-  const seoDescription = `Buy ${product.name} on JoyaGoo. Best price: $${usdPrice} USD (¥${product.price} CNY). ${
-    product.description?.slice(0, 140) || 'Verified seller, quality guaranteed.'
-  } Free JoyaGoo Spreadsheet.`;
-  const imageUrl =
-    product.images?.[0] && typeof product.images[0] === 'string'
-      ? product.images[0]
-      : product.images?.[0]?.url || '/images/default-product.jpg';
+// Resolves the product, redirects legacy name/slug URLs, 404s the rest.
+const resolve = cache(async (encCreator: string, encKey: string) => {
+  const creatorName = safeDecode(encCreator);
+  const key = safeDecode(encKey);
+  const product = await findProduct(creatorName, key);
+  if (!product || !isListable(product)) notFound();
+  if (key !== productId(product) || creatorName !== product.creatorName) {
+    permanentRedirect(productPath(product));
+  }
+  return product;
+});
+
+function money(n: number, cur: 'eur' | 'usd'): string {
+  const v = n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  return cur === 'eur' ? `€${v}` : `$${v}`;
+}
+
+export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
+  const { creatorName, productName } = await params;
+  const product = await resolve(creatorName, productName);
+  const row = toRow(product);
+  const images = usableImages(product.images);
+
+  const title = `${row.name} – ¥${Math.round(row.priceCny).toLocaleString('en-US')} on the JoyaGoo sheet`;
+  const parts = [
+    `${row.name} from seller ${row.creatorName || 'unknown'}`,
+    row.store && row.store !== 'Unknown' ? `on ${row.store}` : null,
+    row.categoryName ? `(${row.categoryName})` : null,
+  ].filter(Boolean);
+  const description = `${parts.join(' ')}: ¥${row.priceCny} (≈ ${money(row.priceEur, 'eur')} / ${money(row.priceUsd, 'usd')}). Open it on JoyaGoo from the independent JoyaGoo sheet.`;
+  const url = `${SITE_URL}${productPath(product)}`;
 
   return {
-    title: seoTitle,
-    description: seoDescription,
-    metadataBase: new URL('https://joyagoospreadsheet.com'),
-    keywords: [
-      'joyagoo spreadsheet',
-      `${product.name}`,
-      `${product.name} joyagoo`,
-      `${creatorName} joyagoo`,
-      'joyagoo price list',
-      'joyagoo product',
-      `${product.category || 'product'} joyagoo`,
-      'joyagoo spreadsheet 2026',
-      'buy on joyagoo',
-      'joyagoo verified seller',
-    ],
+    title,
+    description,
+    alternates: { canonical: url },
+    robots: { index: false, follow: true },
     openGraph: {
-      title: seoTitle,
-      description: seoDescription,
-      images: [
-        {
-          url: imageUrl,
-          width: 1200,
-          height: 630,
-          alt: product.name || 'Product image',
-        },
-      ],
+      title,
+      description,
+      url,
       type: 'website',
+      images: images[0] ? [{ url: absoluteUrl(images[0]), alt: row.name }] : undefined,
     },
-    twitter: {
-      card: 'summary_large_image',
-      title: seoTitle,
-      description: seoDescription,
-      images: [imageUrl],
-    },
-    alternates: {
-      canonical: `/joyagoo-spreadsheet/products/${encCreator}/${encProduct}`,
-    },
+    twitter: { card: images[0] ? 'summary_large_image' : 'summary', title, description },
   };
 }
 
-export default async function ProductPage({
-  params,
-}: {
-  params: Promise<{ creatorName: string; productName: string }>;
-}) {
-  const { creatorName: encCreator, productName: encProduct } = await params;
-  const creatorName = decodeURIComponent(encCreator);
-  const productName = decodeURIComponent(encProduct);
+export default async function ProductPage({ params }: { params: Params }) {
+  const { creatorName, productName } = await params;
+  const product = await resolve(creatorName, productName);
+  const row = toRow(product);
+  const images = usableImages(product.images);
+  const mainImage = images[0] ?? PLACEHOLDER;
+  const gallery = images.slice(1, 13);
+  const joyagooLink = buildJoyaGooLink(product.link);
+  const description = typeof product.description === 'string' ? product.description.trim() : '';
+  const url = `${SITE_URL}${row.path}`;
 
-  await connectToDatabase();
+  // View counter (fire-and-forget).
+  connectToDatabase()
+    .then(() => Product.updateOne({ _id: product._id }, { $inc: { viewCount: 1 } }))
+    .catch(() => {});
 
-  // Update the query to be case-insensitive
-  let product = (await Product.findOne({
-    creatorName: { $regex: new RegExp(`^${escapeRegExp(creatorName)}$`, 'i') },
-    $or: [
-      { slug: { $regex: new RegExp(`^${escapeRegExp(productName)}$`, 'i') } },
-      { id: { $regex: new RegExp(`^${escapeRegExp(productName)}$`, 'i') } },
-      { name: { $regex: new RegExp(`^${escapeRegExp(productName)}$`, 'i') } },
-    ],
-  })
-    .lean()) as unknown as IProduct & { _id: Types.ObjectId } | null;
+  const related = row.categorySlug
+    ? (await getFinds({ category: row.categorySlug, limit: 9 })).rows.filter((r) => r.mongoId !== row.mongoId).slice(0, 8)
+    : [];
 
-  // Fallback: if productName is truncated (100 chars), try prefix match
-  if (!product && productName.length >= 100) {
-    product = (await Product.findOne({
-      creatorName: { $regex: new RegExp(`^${escapeRegExp(creatorName)}$`, 'i') },
-      name: { $regex: new RegExp(`^${escapeRegExp(productName)}`, 'i') },
-    })
-      .lean()) as unknown as IProduct & { _id: Types.ObjectId } | null;
-  }
-
-  if (!product) notFound();
-
-  await Product.updateOne(
-    { _id: product._id },
-    { $inc: { viewCount: 1 } }
-  ).catch((err) => console.error('Error updating view count:', err));
-
-
-  const usdPrice = (product.price * 0.14).toFixed(2);
-  const mainImage =
-    product.images?.[0] && typeof product.images[0] === 'string'
-      ? product.images[0]
-      : product.images?.[0]?.url || '/images/default-product.jpg';
-
-  const linkToJoyaGoo = buildJoyaGooLink(product.link);
-
-  // Breadcrumb data
   const breadcrumbs = [
-    { name: 'Home', url: 'https://joyagoospreadsheet.com' },
-    { name: 'JoyaGoo Spreadsheet', url: 'https://joyagoospreadsheet.com/joyagoo-spreadsheet' },
-    { name: product.name || 'Product', url: `https://joyagoospreadsheet.com/joyagoo-spreadsheet/products/${encodeURIComponent(product.creatorName)}/${encodeURIComponent(product.name)}` },
+    { name: 'Home', url: SITE_URL },
+    { name: 'All finds', url: `${SITE_URL}/joyagoo-spreadsheet` },
+    ...(row.categorySlug ? [{ name: row.categoryName as string, url: `${SITE_URL}/joyagoo-spreadsheet?category=${row.categorySlug}` }] : []),
+    { name: row.name, url },
   ];
 
   return (
-    <div className="container mx-auto py-8 bg-white">
-      {/* Schema.org Product structured data */}
-      <ProductSchema
-        name={product.name || 'JoyaGoo Product'}
-        description={product.description || `Buy ${product.name} on JoyaGoo. Verified seller with quality guarantee.`}
-        image={mainImage}
-        price={parseFloat(usdPrice)}
-        currency="USD"
-        rating={4.8}
-        reviewCount={product.purchased || 150}
-      />
+    <>
+      <ItemPageSchema name={row.name} url={url} image={images[0] ? absoluteUrl(images[0]) : undefined} />
       <BreadcrumbSchema items={breadcrumbs} />
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 bg-white">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <div className="flex justify-center">
-            <div className="rounded-lg overflow-hidden h-96 w-full relative">
+
+      <div className="mx-auto w-full max-w-screen-xl px-4 py-8">
+        <nav aria-label="Breadcrumb" className="mb-4 text-xs text-gray-500">
+          <Link href="/" className="hover:underline">Home</Link>
+          {' / '}
+          <Link href="/joyagoo-spreadsheet" className="hover:underline">All finds</Link>
+          {row.categorySlug ? (
+            <>
+              {' / '}
+              <Link href={`/joyagoo-spreadsheet?category=${row.categorySlug}`} className="hover:underline">{row.categoryName}</Link>
+            </>
+          ) : null}
+          {' / '}
+          <span className="text-gray-700">{row.name}</span>
+        </nav>
+
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
+          <div>
+            <div className="relative aspect-square w-full overflow-hidden rounded-xl bg-gray-100">
               <Image
                 src={mainImage}
-                alt={
-                  product.name
-                    ? `${product.name} - JoyaGoo Spreadsheet`
-                    : 'JoyaGoo Spreadsheet Product'
-                }
+                alt={row.name}
                 fill
-                className="object-contain"
                 priority
                 sizes="(max-width: 768px) 100vw, 50vw"
+                className="object-contain"
+                unoptimized={mainImage.startsWith('/')}
               />
             </div>
+            {gallery.length ? (
+              <div className="mt-3 grid grid-cols-4 gap-2 sm:grid-cols-6">
+                {gallery.map((src, i) => (
+                  <div key={src} className="relative aspect-square overflow-hidden rounded-md bg-gray-100">
+                    <Image
+                      src={src}
+                      alt={`${row.name} – photo ${i + 2}`}
+                      fill
+                      sizes="120px"
+                      className="object-cover"
+                      unoptimized={src.startsWith('/')}
+                    />
+                  </div>
+                ))}
+              </div>
+            ) : null}
+            <p className="mt-3 text-xs text-gray-500">
+              Photos are the seller&apos;s listing photos. QC photos are taken by JoyaGoo&apos;s warehouse after purchase.
+            </p>
           </div>
 
           <div className="flex flex-col">
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">
-              {product.name || 'JoyaGoo Spreadsheet Product'}
-            </h1>
-            <p className="text-xl text-gray-700 mb-4">
-              Creator: <span className="font-semibold">{product.creatorName}</span>
-            </p>
+            <h1 className="text-2xl font-bold text-gray-900 md:text-3xl">{row.name}</h1>
 
             <div className="mt-4">
-              <span className="text-2xl font-bold text-gray-900">${usdPrice}</span>
-              <span className="text-sm text-gray-500 ml-2">USD</span>
-              <span className="text-sm text-gray-500 ml-2">
-                (¥{product.price} CNY)
+              <span className="text-3xl font-bold text-gray-900">¥{row.priceCny.toLocaleString('en-US')}</span>
+              <span className="ml-2 text-sm text-gray-600">
+                ≈ {money(row.priceEur, 'eur')} · {money(row.priceUsd, 'usd')} (rate {FX_RATES_DATE})
               </span>
             </div>
 
-            <div className="mt-6">
-              <h2 className="text-lg font-semibold text-gray-900 mb-2">
-                Product Description
-              </h2>
-              <p className="text-gray-700">
-                {product.description ||
-                  'Explore this product on JoyaGoo Spreadsheet for detailed information and pricing.'}
-              </p>
+            <dl className="mt-6 grid grid-cols-[7rem_1fr] gap-y-2 text-sm">
+              <dt className="text-gray-500">Store</dt>
+              <dd className="text-gray-800">{row.store}</dd>
+              <dt className="text-gray-500">Seller list</dt>
+              <dd className="text-gray-800">{row.creatorName || 'unknown'}</dd>
+              <dt className="text-gray-500">Category</dt>
+              <dd className="text-gray-800">
+                {row.categorySlug ? (
+                  <Link href={`/joyagoo-spreadsheet?category=${row.categorySlug}`} className="underline underline-offset-2 hover:text-gray-900">
+                    {row.categoryName}
+                  </Link>
+                ) : (
+                  <span className="text-gray-400">—</span>
+                )}
+              </dd>
+              {row.sponsored ? (
+                <>
+                  <dt className="text-gray-500">Placement</dt>
+                  <dd className="text-gray-800">Sponsored (the seller pays for placement on this site)</dd>
+                </>
+              ) : null}
+            </dl>
+
+            <div className="mt-8">
+              {joyagooLink ? (
+                <BuyNowButton creatorName={row.creatorName} productId={row.mongoId} href={joyagooLink} />
+              ) : (
+                <p className="text-sm text-gray-600">This listing has no link JoyaGoo can open.</p>
+              )}
+            </div>
+            <div className="mt-4">
+              <AgentCta variant="inline" />
             </div>
 
-            <div className="mt-6">
-              <h2 className="text-lg font-semibold text-gray-900 mb-2">
-                Spreadsheet Details
-              </h2>
-              <div className="flex flex-col space-y-2">
-                <DetailRow label="Store" value={product.store} />
-                <DetailRow label="Category" value={product.category} />
-                <DetailRow label="Views" value={product.viewCount} />
-                <DetailRow
-                  label="Purchases"
-                  value={`${product.purchased || 0} times`}
-                />
-              </div>
-            </div>
+            {description ? (
+              <section className="mt-8">
+                <h2 className="text-lg font-semibold text-gray-900">Description</h2>
+                <p className="mt-2 whitespace-pre-line text-sm text-gray-700">{description}</p>
+              </section>
+            ) : null}
 
-            {linkToJoyaGoo && (
-              <div className="mt-8">
-                <BuyNowButton
-                  creatorName={product.creatorName}
-                  productId={product._id.toString()}
-                  href={linkToJoyaGoo}
-                />
-              </div>
-            )}
+            <Disclosure className="mt-8 text-xs text-gray-500" />
           </div>
         </div>
 
-        {product.images && product.images.length > 1 && (
-          <div className="mt-12">
-            <h2 className="text-2xl font-semibold text-gray-900 mb-4">
-              Product Gallery
-            </h2>
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-              {product.images.slice(1).map((img, index) => {
-                const src = typeof img === 'string' ? img : img.url;
-                return (
-                  <div
-                    key={index}
-                    className="h-48 rounded-lg overflow-hidden relative"
-                  >
-                    <Image
-                      src={src}
-                      alt={`${product.name || 'JoyaGoo Product'} - Image ${
-                        index + 2
-                      }`}
-                      fill
-                      className="object-cover transition-transform hover:scale-105 duration-300"
-                      sizes="(max-width: 640px) 50vw, 25vw"
-                    />
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        )}
+        {related.length ? (
+          <section className="mt-12">
+            <h2 className="mb-3 text-lg font-semibold text-gray-900">More {row.categoryName?.toLowerCase()} on the sheet</h2>
+            <FindsTable rows={related} showCategory={false} caption={`More ${row.categoryName} finds`} />
+            <p className="mt-3 text-sm">
+              <Link href={`/joyagoo-spreadsheet?category=${row.categorySlug}`} className="underline underline-offset-2">
+                All {row.categoryName?.toLowerCase()} finds →
+              </Link>
+            </p>
+          </section>
+        ) : null}
       </div>
-    </div>
-  );
-}
-
-function DetailRow({
-  label,
-  value,
-}: {
-  label: string;
-  value?: string | number | null;
-}) {
-  return (
-    <div className="flex">
-      <span className="w-24 text-gray-500">{label}:</span>
-      <span className="text-gray-700">{value ?? 'N/A'}</span>
-    </div>
+    </>
   );
 }

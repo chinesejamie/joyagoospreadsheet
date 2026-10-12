@@ -1,224 +1,187 @@
 // components/StructuredData.tsx
-// Comprehensive Schema.org structured data for maximum SEO
+// Schema.org JSON-LD. Honest by design: no ratings, no offers, no brand
+// claims on product pages, no sameAs without living profiles.
+import {
+  SITE_URL,
+  SITE_NAME,
+  CONTACT_EMAIL,
+  AUTHOR_NAME,
+  AUTHOR_URL,
+  AGENT_NAME,
+} from '@/lib/site';
 
-interface OrganizationSchemaProps {
-  name?: string;
-  url?: string;
-}
+const ORG_ID = `${SITE_URL}/#organization`;
+const WEBSITE_ID = `${SITE_URL}/#website`;
 
-export function OrganizationSchema({
-  name = "JoyaGoo Spreadsheet",
-  url = "https://joyagoospreadsheet.com"
-}: OrganizationSchemaProps) {
-  const schema = {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    "name": name,
-    "url": url,
-    "logo": `${url}/images/seo-cover.webp`,
-    "foundingDate": "2023",
-    "sameAs": [
-      "https://www.facebook.com/joyagoospreadsheet",
-      "https://twitter.com/joyagoosheet",
-      "https://www.instagram.com/joyagoospreadsheet",
-      "https://joyagoo.com"
-    ],
-    "contactPoint": {
-      "@type": "ContactPoint",
-      "contactType": "Customer Service",
-      "availableLanguage": ["English", "German", "Polish"]
-    },
-    "description": "The world's #1 JoyaGoo spreadsheet with 7,500+ verified products, exclusive coupons, and QC photos. Updated daily. Established 2023 with 3+ years of experience in the Chinese shopping agent industry.",
-    "areaServed": ["US", "DE", "PL", "GB", "CA", "AU", "NZ", "Worldwide"],
-    "aggregateRating": {
-      "@type": "AggregateRating",
-      "ratingValue": "4.9",
-      "reviewCount": "12847",
-      "bestRating": "5",
-      "worstRating": "1"
-    },
-    "knowsAbout": [
-      "JoyaGoo Shopping",
-      "Taobao Agent",
-      "Weidian Agent",
-      "1688 Agent",
-      "Chinese E-commerce",
-      "Product Spreadsheets"
-    ]
-  };
-
+function JsonLd({ data }: { data: Record<string, unknown> }) {
   return (
     <script
       type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
+    />
+  );
+}
+
+export function OrganizationSchema() {
+  return (
+    <JsonLd
+      data={{
+        '@context': 'https://schema.org',
+        '@type': 'Organization',
+        '@id': ORG_ID,
+        name: SITE_NAME,
+        url: SITE_URL,
+        logo: `${SITE_URL}/staticImages/JoyaGooSpreadSheet.webp`,
+        email: CONTACT_EMAIL,
+        description: `Independent, community-maintained ${AGENT_NAME} spreadsheet with finds, prices and buying guides. Not operated by or affiliated with ${AGENT_NAME}.`,
+      }}
     />
   );
 }
 
 export function WebSiteSchema() {
-  const schema = {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    "name": "JoyaGoo Spreadsheet 2026",
-    "alternateName": ["JoyaGoo Price List", "JoyaGoo Database", "JoyaGoo Finds", "JoyaGoo Mega Spreadsheet", "Official JoyaGoo Spreadsheet"],
-    "url": "https://joyagoospreadsheet.com",
-    "description": "Comprehensive JoyaGoo product database with 7,500+ verified items, QC photos, coupons, and daily updates. The most trusted JoyaGoo spreadsheet since 2023.",
-    "potentialAction": {
-      "@type": "SearchAction",
-      "target": {
-        "@type": "EntryPoint",
-        "urlTemplate": "https://joyagoospreadsheet.com/joyagoo-spreadsheet?search={search_term_string}"
-      },
-      "query-input": "required name=search_term_string"
-    },
-    "publisher": {
-      "@type": "Organization",
-      "name": "JoyaGoo Spreadsheet",
-      "logo": {
-        "@type": "ImageObject",
-        "url": "https://joyagoospreadsheet.com/images/seo-cover.webp"
-      }
-    }
-  };
-
   return (
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+    <JsonLd
+      data={{
+        '@context': 'https://schema.org',
+        '@type': 'WebSite',
+        '@id': WEBSITE_ID,
+        name: SITE_NAME,
+        alternateName: [`${AGENT_NAME} Sheet`],
+        url: SITE_URL,
+        publisher: { '@id': ORG_ID },
+        potentialAction: {
+          '@type': 'SearchAction',
+          target: {
+            '@type': 'EntryPoint',
+            urlTemplate: `${SITE_URL}/joyagoo-spreadsheet?search={search_term_string}`,
+          },
+          'query-input': 'required name=search_term_string',
+        },
+      }}
     />
   );
 }
 
 interface BreadcrumbSchemaProps {
-  items: Array<{
-    name: string;
-    url: string;
-  }>;
+  items: Array<{ name: string; url: string }>;
 }
 
 export function BreadcrumbSchema({ items }: BreadcrumbSchemaProps) {
-  const schema = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    "itemListElement": items.map((item, index) => ({
-      "@type": "ListItem",
-      "position": index + 1,
-      "name": item.name,
-      "item": item.url
-    }))
-  };
-
   return (
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+    <JsonLd
+      data={{
+        '@context': 'https://schema.org',
+        '@type': 'BreadcrumbList',
+        itemListElement: items.map((item, index) => ({
+          '@type': 'ListItem',
+          position: index + 1,
+          name: item.name,
+          item: item.url,
+        })),
+      }}
     />
   );
 }
 
 interface FAQSchemaProps {
-  faqs: Array<{
-    question: string;
-    answer: string;
-  }>;
+  faqs: Array<{ question: string; answer: string }>;
 }
 
 export function FAQSchema({ faqs }: FAQSchemaProps) {
-  const schema = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": faqs.map(faq => ({
-      "@type": "Question",
-      "name": faq.question,
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": faq.answer
-      }
-    }))
-  };
-
   return (
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+    <JsonLd
+      data={{
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: faqs.map((faq) => ({
+          '@type': 'Question',
+          name: faq.question,
+          acceptedAnswer: { '@type': 'Answer', text: faq.answer },
+        })),
+      }}
     />
   );
 }
 
-interface ProductSchemaProps {
+export interface CollectionPageSchemaProps {
   name: string;
   description: string;
-  image: string;
-  price: number;
-  currency?: string;
-  availability?: string;
-  rating?: number;
-  reviewCount?: number;
+  url: string;
+  itemUrls: string[];
 }
 
-export function ProductSchema({
-  name,
-  description,
-  image,
-  price,
-  currency = "USD",
-  availability = "InStock",
-  rating = 4.8,
-  reviewCount = 150
-}: ProductSchemaProps) {
-  const schema = {
-    "@context": "https://schema.org",
-    "@type": "Product",
-    "name": name,
-    "description": description,
-    "image": image,
-    "brand": {
-      "@type": "Brand",
-      "name": "JoyaGoo"
-    },
-    "offers": {
-      "@type": "Offer",
-      "url": `https://joyagoospreadsheet.com/joyagoo-spreadsheet/products/${encodeURIComponent(name)}`,
-      "priceCurrency": currency,
-      "price": price.toFixed(2),
-      "availability": `https://schema.org/${availability}`,
-      "priceValidUntil": new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]
-    },
-    "aggregateRating": {
-      "@type": "AggregateRating",
-      "ratingValue": rating.toFixed(1),
-      "reviewCount": reviewCount,
-      "bestRating": "5",
-      "worstRating": "1"
-    }
-  };
-
+export function CollectionPageSchema({ name, description, url, itemUrls }: CollectionPageSchemaProps) {
   return (
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+    <JsonLd
+      data={{
+        '@context': 'https://schema.org',
+        '@type': 'CollectionPage',
+        name,
+        description,
+        url,
+        isPartOf: { '@id': WEBSITE_ID },
+        mainEntity: {
+          '@type': 'ItemList',
+          numberOfItems: itemUrls.length,
+          itemListElement: itemUrls.map((itemUrl, index) => ({
+            '@type': 'ListItem',
+            position: index + 1,
+            url: itemUrl,
+          })),
+        },
+      }}
     />
   );
 }
 
-export function CollectionPageSchema() {
-  const schema = {
-    "@context": "https://schema.org",
-    "@type": "CollectionPage",
-    "name": "JoyaGoo Product Spreadsheet",
-    "description": "Browse 7,500+ verified JoyaGoo products with prices, QC photos, and reviews",
-    "url": "https://joyagoospreadsheet.com/joyagoo-spreadsheet",
-    "isPartOf": {
-      "@type": "WebSite",
-      "name": "JoyaGoo Spreadsheet",
-      "url": "https://joyagoospreadsheet.com"
-    }
-  };
+export interface ArticleSchemaProps {
+  headline: string;
+  description: string;
+  url: string;
+  datePublished: string;
+  dateModified: string;
+  image?: string;
+}
 
+export function ArticleSchema({ headline, description, url, datePublished, dateModified, image }: ArticleSchemaProps) {
   return (
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+    <JsonLd
+      data={{
+        '@context': 'https://schema.org',
+        '@type': 'BlogPosting',
+        headline,
+        description,
+        url,
+        mainEntityOfPage: { '@type': 'WebPage', '@id': url },
+        datePublished,
+        dateModified,
+        ...(image ? { image } : {}),
+        author: { '@type': 'Person', name: AUTHOR_NAME, url: AUTHOR_URL },
+        publisher: { '@id': ORG_ID },
+        isPartOf: { '@id': WEBSITE_ID },
+      }}
+    />
+  );
+}
+
+export interface ItemPageSchemaProps {
+  name: string;
+  url: string;
+  image?: string;
+}
+
+export function ItemPageSchema({ name, url, image }: ItemPageSchemaProps) {
+  return (
+    <JsonLd
+      data={{
+        '@context': 'https://schema.org',
+        '@type': 'ItemPage',
+        name,
+        url,
+        ...(image ? { primaryImageOfPage: { '@type': 'ImageObject', url: image } } : {}),
+        isPartOf: { '@id': WEBSITE_ID },
+      }}
     />
   );
 }
