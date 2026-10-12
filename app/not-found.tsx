@@ -18,7 +18,7 @@ export default function NotFound() {
           Back to the homepage
         </Link>
         <Link href="/joyagoo-spreadsheet" className="rounded-lg bg-primary-500 px-4 py-2 text-sm font-semibold text-gray-900 hover:bg-primary-600">
-          Browse all finds
+          Open the JoyaGoo Spreadsheet
         </Link>
       </div>
     </section>

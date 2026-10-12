@@ -10,7 +10,7 @@ import type { Metadata } from 'next';
 import BuyNowButton from '@/components/BuyNowButton';
 import AgentCta from '@/components/AgentCta';
 import Disclosure from '@/components/Disclosure';
-import FindsTable from '@/components/FindsTable';
+import ProductGrid from '@/components/ProductGrid';
 import { BreadcrumbSchema, ItemPageSchema } from '@/components/StructuredData';
 import connectToDatabase from '@/lib/mongodb';
 import Product from '@/models/Product';
@@ -106,7 +106,7 @@ export default async function ProductPage({ params }: { params: Params }) {
 
   const breadcrumbs = [
     { name: 'Home', url: SITE_URL },
-    { name: 'All finds', url: `${SITE_URL}/joyagoo-spreadsheet` },
+    { name: 'JoyaGoo Spreadsheet', url: `${SITE_URL}/joyagoo-spreadsheet` },
     ...(row.categorySlug ? [{ name: row.categoryName as string, url: `${SITE_URL}/joyagoo-spreadsheet?category=${row.categorySlug}` }] : []),
     { name: row.name, url },
   ];
@@ -120,7 +120,7 @@ export default async function ProductPage({ params }: { params: Params }) {
         <nav aria-label="Breadcrumb" className="mb-4 text-xs text-gray-500">
           <Link href="/" className="hover:underline">Home</Link>
           {' / '}
-          <Link href="/joyagoo-spreadsheet" className="hover:underline">All finds</Link>
+          <Link href="/joyagoo-spreadsheet" className="hover:underline">JoyaGoo Spreadsheet</Link>
           {row.categorySlug ? (
             <>
               {' / '}
@@ -223,7 +223,7 @@ export default async function ProductPage({ params }: { params: Params }) {
         {related.length ? (
           <section className="mt-12">
             <h2 className="mb-3 text-lg font-semibold text-gray-900">More {row.categoryName?.toLowerCase()} on the sheet</h2>
-            <FindsTable rows={related} showCategory={false} caption={`More ${row.categoryName} finds`} />
+            <ProductGrid rows={related} label={`More ${row.categoryName} finds`} />
             <p className="mt-3 text-sm">
               <Link href={`/joyagoo-spreadsheet?category=${row.categorySlug}`} className="underline underline-offset-2">
                 All {row.categoryName?.toLowerCase()} finds →

@@ -7,7 +7,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { cache } from 'react';
 import type { Metadata } from 'next';
-import FindsTable from '@/components/FindsTable';
+import ProductGrid from '@/components/ProductGrid';
 import Pagination from '@/components/Pagination';
 import AgentCta from '@/components/AgentCta';
 import Disclosure from '@/components/Disclosure';
@@ -97,11 +97,11 @@ export async function generateMetadata({ searchParams }: { searchParams: Promise
 
   const pageSuffix = p.page > 1 ? ` (Page ${p.page})` : '';
   const title = p.category
-    ? `${p.category.name} on the JoyaGoo sheet – ${roundedCount(data.total)} finds${pageSuffix}`
-    : `All JoyaGoo Finds – ${roundedCount(data.total)} products with prices & links${pageSuffix}`;
+    ? `JoyaGoo Spreadsheet: ${p.category.name} – ${roundedCount(data.total)} finds${pageSuffix}`
+    : `JoyaGoo Spreadsheet – browse ${roundedCount(data.total)} finds with prices & links${pageSuffix}`;
   const description = p.category
-    ? `${p.category.name} finds from Weidian, Taobao and 1688 sellers as a table: price in CNY with an approximate EUR/USD value, store, and a link to open each item on JoyaGoo.`
-    : 'The full JoyaGoo finds table: every listed item with its price in CNY, an approximate EUR/USD value, the store, and a link to open it on JoyaGoo. Filter by category or search.';
+    ? `${p.category.name} on the JoyaGoo spreadsheet: finds from Weidian, Taobao and 1688 sellers with the price in CNY, an approximate EUR/USD value and a link to open each item on JoyaGoo.`
+    : 'Browse the full JoyaGoo spreadsheet: every listed find with its price in CNY, an approximate EUR/USD value, the seller and a link to open it on JoyaGoo. Filter by category or search.';
 
   const url = `${SITE_URL}${canonicalPath(p.category, p.page)}`;
   const noindex = Boolean(p.search) || Boolean(p.sortParam);
@@ -125,15 +125,15 @@ export default async function AllFindsPage({ searchParams }: { searchParams: Pro
   if (p.page > data.pages) notFound();
 
   const { rows, total, pages } = data;
-  const heading = p.category ? p.category.name : 'All JoyaGoo finds';
+  const heading = p.category ? `JoyaGoo Spreadsheet: ${p.category.name}` : 'JoyaGoo Spreadsheet';
   const pageUrl = `${SITE_URL}${canonicalPath(p.category, p.page)}`;
   const description = p.category
-    ? `${p.category.name} finds on the JoyaGoo sheet with CNY prices and links to JoyaGoo.`
-    : 'All finds on the JoyaGoo sheet with CNY prices and links to JoyaGoo.';
+    ? `${p.category.name} on the JoyaGoo spreadsheet with CNY prices and links to JoyaGoo.`
+    : 'The JoyaGoo spreadsheet with CNY prices and links to JoyaGoo.';
 
   const breadcrumbs = [
     { name: 'Home', url: SITE_URL },
-    { name: 'All finds', url: `${SITE_URL}${BASE_PATH}` },
+    { name: 'JoyaGoo Spreadsheet', url: `${SITE_URL}${BASE_PATH}` },
     ...(p.category ? [{ name: p.category.name, url: `${SITE_URL}${BASE_PATH}?category=${p.category.slug}` }] : []),
   ];
 
@@ -184,12 +184,12 @@ export default async function AllFindsPage({ searchParams }: { searchParams: Pro
           {' / '}
           {p.category ? (
             <>
-              <Link href={BASE_PATH} className="hover:underline">All finds</Link>
+              <Link href={BASE_PATH} className="hover:underline">JoyaGoo Spreadsheet</Link>
               {' / '}
               <span className="text-gray-700">{p.category.name}</span>
             </>
           ) : (
-            <span className="text-gray-700">All finds</span>
+            <span className="text-gray-700">JoyaGoo Spreadsheet</span>
           )}
         </nav>
 
@@ -200,9 +200,13 @@ export default async function AllFindsPage({ searchParams }: { searchParams: Pro
           </h1>
           <p className="mt-2 max-w-3xl text-sm text-gray-700">
             {total.toLocaleString('en-US')} {p.search ? 'matching ' : ''}finds with the seller’s price in CNY, an approximate EUR/USD value and a link that opens the item on JoyaGoo.
-            {p.sort === 'boost' ? ' Rows marked “Sponsored” are paid placements by sellers and are shown first.' : null}
+            {p.sort === 'boost' ? ' Cards marked “Sponsored” are paid placements by sellers and are shown first.' : null}
           </p>
-          <Disclosure short className="mt-1 text-xs text-gray-500" />
+          <div className="mt-3 flex flex-col gap-3 sm:flex-row sm:items-center">
+            <AgentCta variant="button" label="Sign up on JoyaGoo" />
+            <AgentCta variant="inline" offerHeadline={activeOffers()[0]?.headline ?? null} className="text-sm text-gray-700" />
+          </div>
+          <Disclosure short className="mt-2 text-xs text-gray-500" />
         </header>
 
         <form method="get" action={BASE_PATH} role="search" className="mt-5 flex max-w-xl gap-2">
@@ -256,7 +260,7 @@ export default async function AllFindsPage({ searchParams }: { searchParams: Pro
         </div>
 
         <div className="mt-4">
-          <FindsTable rows={rows} startIndex={(p.page - 1) * PAGE_SIZE} showCategory={!p.category} caption={caption} />
+          <ProductGrid rows={rows} label={caption} />
         </div>
 
         <Pagination currentPage={p.page} totalPages={pages} basePath={BASE_PATH} params={paginationParams} />

@@ -41,7 +41,7 @@ export default function Footer() {
           <nav aria-label="Sheet">
             <h2 className={headingClass}>Sheet</h2>
             <ul className="mt-3 space-y-2">
-              <li><Link href="/joyagoo-spreadsheet" className={linkClass}>All finds</Link></li>
+              <li><Link href="/joyagoo-spreadsheet" className={linkClass}>JoyaGoo Spreadsheet</Link></li>
               {CATEGORIES.map((c) => (
                 <li key={c.slug}>
                   <Link href={`/joyagoo-spreadsheet?category=${c.slug}`} className={linkClass}>{c.label}</Link>

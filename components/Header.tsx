@@ -10,7 +10,7 @@ import { AGENT_NAME, SITE_NAME } from '@/lib/site';
 
 const navigation = [
   { name: 'Home', href: '/' },
-  { name: 'All finds', href: '/joyagoo-spreadsheet' },
+  { name: 'JoyaGoo Spreadsheet', href: '/joyagoo-spreadsheet' },
   { name: 'How to buy', href: '/articles/how-to-buy-on-joyagoo' },
   { name: `Is ${AGENT_NAME} legit?`, href: '/articles/is-joyagoo-legit' },
   { name: 'Coupons', href: '/articles/joyagoo-coupons-2026' },

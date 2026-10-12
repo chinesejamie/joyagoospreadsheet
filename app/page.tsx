@@ -6,7 +6,7 @@
 
 import Link from 'next/link';
 import type { Metadata } from 'next';
-import FindsTable from '@/components/FindsTable';
+import ProductGrid from '@/components/ProductGrid';
 import AgentCta from '@/components/AgentCta';
 import Disclosure from '@/components/Disclosure';
 import HowItWorks from '@/components/HowItWorks';
@@ -129,18 +129,25 @@ export default async function HomePage() {
     <main className="mx-auto max-w-6xl px-4 pb-16 pt-4 sm:pt-6">
       <FAQSchema faqs={faqs.map(({ question, answer }) => ({ question, answer }))} />
 
-      {/* Hero – kept short so the first table row starts high on mobile */}
-      <header>
-        <h1 className="text-2xl font-extrabold tracking-tight text-gray-900 sm:text-3xl">JoyaGoo Spreadsheet 2026</h1>
-        <p className="mt-1 text-sm text-gray-700 sm:text-base">
+      {/* Hero: headline, one line of context, the sign-up CTA */}
+      <header className="rounded-2xl bg-gradient-to-br from-primary-50 to-white px-5 py-6 sm:px-8 sm:py-8">
+        <h1 className="text-3xl font-black tracking-tight text-gray-900 sm:text-4xl">JoyaGoo Spreadsheet 2026</h1>
+        <p className="mt-2 max-w-2xl text-sm text-gray-700 sm:text-base">
           {n} finds from Taobao, Weidian and 1688 with price, category and a direct JoyaGoo link
-          {latestDate ? <> · latest find added {latestDate}</> : null}
+          {latestDate ? <> · latest find added {latestDate}</> : null}.
         </p>
-        <Disclosure short className="mt-1 text-xs text-gray-500" />
+        <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center">
+          <AgentCta variant="button" label="Sign up on JoyaGoo" className="inline-flex items-center justify-center gap-2 rounded-lg bg-primary-500 px-6 py-3 text-base font-bold text-gray-900 shadow hover:bg-primary-600 transition-colors" />
+          <p className="text-sm text-gray-700">
+            {offer ? <>New accounts get JoyaGoo&apos;s {offer.headline}. </> : null}
+            Then open any find below with &ldquo;Open on JoyaGoo&rdquo;.
+          </p>
+        </div>
+        <Disclosure short className="mt-3 text-xs text-gray-500" />
       </header>
 
       {/* Search (plain GET form, no JS) + category chips */}
-      <div className="mt-3">
+      <div className="mt-5">
         <form action="/joyagoo-spreadsheet" method="get" role="search" className="flex gap-2">
           <label htmlFor="home-search" className="sr-only">Search the JoyaGoo spreadsheet</label>
           <input
@@ -170,14 +177,14 @@ export default async function HomePage() {
       </div>
 
       {/* The sheet */}
-      <section aria-label="JoyaGoo spreadsheet" className="mt-3">
-        <FindsTable rows={rows} compact caption="JoyaGoo spreadsheet – first rows" />
-        <div className="mt-4 flex flex-col gap-4">
+      <section aria-label="JoyaGoo spreadsheet" className="mt-4">
+        <ProductGrid rows={rows} label="JoyaGoo spreadsheet – latest and sponsored finds" />
+        <div className="mt-6 flex flex-col gap-4">
           <Link
             href="/joyagoo-spreadsheet"
             className="inline-flex items-center justify-center rounded-lg border border-gray-300 bg-white px-5 py-3 text-sm font-bold text-gray-900 hover:border-primary-500 hover:bg-primary-50 sm:self-start"
           >
-            Show all {n} finds →
+            Open the full JoyaGoo Spreadsheet ({n} finds) →
           </Link>
           <AgentCta variant="box" offerHeadline={offer?.headline ?? null} />
         </div>
@@ -191,7 +198,7 @@ export default async function HomePage() {
           <p>
             A JoyaGoo spreadsheet is a list of products from Chinese marketplaces such as Taobao, Weidian and 1688, where every row has a price, a
             category and a link that opens the item directly on the shopping agent JoyaGoo. Instead of a Google Sheet, this JoyaGoo sheet is a
-            searchable table you can filter by category.
+            searchable catalogue you can filter by category.
           </p>
           <p>
             The JoyaGoo finds here come from seller and creator lists that are collected in one shared database; {creatorCount.toLocaleString('en-US')}{' '}
